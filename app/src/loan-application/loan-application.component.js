@@ -42,14 +42,35 @@
             }).$promise.then(function(template) {
                 vm.template = template;
                 vm.form.principal = vm.template.principal;
-                vm.form.submittedOnDate = $filter('date','dd MMMM yyyy')(new Date(), 'dd MMMM yyyy');
+                vm.form.loanTermFrequency = vm.template.termFrequency;
+                if (vm.template.termPeriodFrequencyType) {
+                    vm.form.loanTermFrequencyType = vm.template.termPeriodFrequencyType.id;
+                }
+                vm.form.numberOfRepayments = vm.template.numberOfRepayments;
+                vm.form.repaymentEvery = vm.template.repaymentEvery;
+                if (vm.template.repaymentFrequencyType) {
+                    vm.form.repaymentFrequencyType = vm.template.repaymentFrequencyType.id;
+                }
+                vm.form.interestRatePerPeriod = vm.template.interestRatePerPeriod;
+                if (vm.template.amortizationType) {
+                    vm.form.amortizationType = vm.template.amortizationType.id;
+                }
+                if (vm.template.interestType) {
+                    vm.form.interestType = vm.template.interestType.id;
+                }
+                if (vm.template.interestCalculationPeriodType) {
+                    vm.form.interestCalculationPeriodType = vm.template.interestCalculationPeriodType.id;
+                }
+                vm.form.submittedOnDate = $filter('date')(new Date(), 'dd MMMM yyyy');
                 vm.form.expectedDisbursementDate = $filter('date')(new Date(), 'dd MMMM yyyy');
             });
         }
 
         function clearForm() {
-            $scope.loanApplicationForm.$setPristine();
-            $scope.loanApplicationForm.$setUntouched();
+            if ($scope.loanApplicationForm) {
+                $scope.loanApplicationForm.$setPristine();
+                $scope.loanApplicationForm.$setUntouched();
+            }
             vm.template = {};
             vm.form = {
                 locale: 'en_GB',
@@ -62,15 +83,6 @@
         function submit() {
             var loanTemp = {
                 clientId: vm.clientId,
-                loanTermFrequency: vm.template.termFrequency,
-                loanTermFrequencyType: vm.template.termPeriodFrequencyType.id,
-                numberOfRepayments: vm.template.numberOfRepayments,
-                repaymentEvery: vm.template.repaymentEvery,
-                repaymentFrequencyType: vm.template.repaymentFrequencyType.id,
-                interestRatePerPeriod: vm.template.interestRatePerPeriod,
-                amortizationType: vm.template.amortizationType.id,
-                interestType: vm.template.interestType.id,
-                interestCalculationPeriodType: vm.template.interestCalculationPeriodType.id,
                 transactionProcessingStrategyId: vm.template.transactionProcessingStrategyId
             };
             var data = Object.assign({}, loanTemp, vm.form);
@@ -78,14 +90,14 @@
                 clearForm();
                 $mdToast.show(
                     $mdToast.simple()
-                        .content("Loan Application Submitted Successfully")
+                        .textContent("Loan Application Submitted Successfully")
                         .hideDelay(2000)
                         .position('top right')
                 );
             }, function(){
                 $mdToast.show(
                     $mdToast.simple()
-                        .content("Error Creating Loan Application")
+                        .textContent("Error Creating Loan Application")
                         .hideDelay(2000)
                         .position('top right')
                 );

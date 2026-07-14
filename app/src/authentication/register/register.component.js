@@ -19,8 +19,10 @@
 
 
         function clearForm() {
-            $scope.form.$setPristine();
-            $scope.form.$setUntouched();
+            if ($scope.registerForm) {
+                $scope.registerForm.$setPristine();
+                $scope.registerForm.$setUntouched();
+            }
             vm.form = {
                 "authenticationMode" :"email"
             };

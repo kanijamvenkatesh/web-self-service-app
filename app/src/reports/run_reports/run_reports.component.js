@@ -22,12 +22,8 @@
         });
 
         function isDecimal (index) {
-            if(vm.reportData.columnHeaders && vm.reportData.columnHeaders.length > 0){
-                for(var i=0; i<vm.reportData.columnHeaders.length; i++){
-                    if(vm.reportData.columnHeaders[index].columnType == 'DECIMAL'){
-                        return true;
-                    }
-                }
+            if (vm.reportData.columnHeaders && vm.reportData.columnHeaders[index]) {
+                return vm.reportData.columnHeaders[index].columnType === 'DECIMAL';
             }
             return false;
         }

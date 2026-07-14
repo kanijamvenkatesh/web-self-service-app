@@ -11,7 +11,7 @@
         vm.getDetails = getDetails;
 
         function getDetails() {
-            AboutUsService.getOrgDetails.get().$promise.then(function (data){
+            AboutUsService.getOrgDetails().get().$promise.then(function (data){
                 vm.org =data;
             })
         }

@@ -31,6 +31,59 @@
                     <label>{{ 'label.input.currency' | translate }}</label>
                     <input name="currency" value="{{ vm.template.currency.displayLabel }}" ng-disabled="true" required>
                 </md-input-container>
+                <div layout="row" ng-if="vm.form.productId">
+                    <md-input-container flex>
+                        <label>{{ 'label.input.loanTermFrequency' | translate }}</label>
+                        <input type="number" name="loanTermFrequency" ng-model="vm.form.loanTermFrequency" required>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>{{ 'label.input.loanTermFrequencyType' | translate }}</label>
+                        <md-select ng-model="vm.form.loanTermFrequencyType" required>
+                            <md-option ng-repeat="option in vm.template.termPeriodFrequencyTypeOptions" ng-value="option.id">{{ option.value }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" ng-if="vm.form.productId">
+                    <md-input-container flex>
+                        <label>{{ 'label.input.numberOfRepayments' | translate }}</label>
+                        <input type="number" name="numberOfRepayments" ng-model="vm.form.numberOfRepayments" required>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>{{ 'label.input.repaymentEvery' | translate }}</label>
+                        <input type="number" name="repaymentEvery" ng-model="vm.form.repaymentEvery" required>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>{{ 'label.input.repaymentFrequencyType' | translate }}</label>
+                        <md-select ng-model="vm.form.repaymentFrequencyType" required>
+                            <md-option ng-repeat="option in vm.template.repaymentFrequencyTypeOptions" ng-value="option.id">{{ option.value }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <md-input-container class="md-block" ng-if="vm.form.productId">
+                    <label>{{ 'label.input.interestRatePerPeriod' | translate }}</label>
+                    <input type="number" step="0.01" name="interestRatePerPeriod" ng-model="vm.form.interestRatePerPeriod" required>
+                </md-input-container>
+                <md-input-container class="md-block" ng-if="vm.form.productId">
+                    <label>{{ 'label.input.amortizationType' | translate }}</label>
+                    <md-select ng-model="vm.form.amortizationType" required>
+                        <md-option ng-repeat="option in vm.template.amortizationTypeOptions" ng-value="option.id">{{ option.value }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <br />
+                <md-input-container class="md-block" ng-if="vm.form.productId">
+                    <label>{{ 'label.input.interestType' | translate }}</label>
+                    <md-select ng-model="vm.form.interestType" required>
+                        <md-option ng-repeat="option in vm.template.interestTypeOptions" ng-value="option.id">{{ option.value }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <br />
+                <md-input-container class="md-block" ng-if="vm.form.productId">
+                    <label>{{ 'label.input.interestCalculationPeriodType' | translate }}</label>
+                    <md-select ng-model="vm.form.interestCalculationPeriodType" required>
+                        <md-option ng-repeat="option in vm.template.interestCalculationPeriodTypeOptions" ng-value="option.id">{{ option.value }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <br />
                 <md-input-container layout="row" ng-if="vm.form.productId">
                     <label>{{ 'label.input.submittedOn' | translate }}</label>
                     <span flex></span>

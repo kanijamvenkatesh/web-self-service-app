@@ -1,0 +1,78 @@
+<!-- src/authentication/twofactor/twofactor.html -->
+<div layout="column" layout-align="center center" style="min-height: 100vh; background: #f5f5f5;">
+
+    <div style="width: 100%; max-width: 420px; padding: 16px;">
+
+        <!-- Logo / Header -->
+        <div layout="column" layout-align="center center" style="margin-bottom: 32px;">
+            <img src="assets/images/logo.png"
+                 alt="Mifos Initiative"
+                 style="width: 100px; margin-bottom: 12px;"
+                 onerror="this.style.display='none'">
+            <h2 class="md-headline" style="margin: 0; color: #37474f;">
+                Two-Factor Authentication
+            </h2>
+            <p class="md-body-1" style="color: #78909c; text-align: center; margin-top: 8px;">
+                An OTP has been sent to your registered email / phone number.
+                Enter it below to complete your login.
+            </p>
+        </div>
+
+        <!-- OTP Card -->
+        <md-card>
+            <md-card-content style="padding: 24px;">
+
+                <!-- Sending indicator -->
+                <div layout="row" layout-align="center center"
+                     ng-if="vm.sending" style="margin-bottom: 16px;">
+                    <md-progress-circular md-diameter="32" md-mode="indeterminate"></md-progress-circular>
+                    <span style="margin-left: 12px; color: #78909c;">Sending OTP…</span>
+                </div>
+
+                <!-- OTP input -->
+                <md-input-container class="md-block" ng-if="!vm.sending">
+                    <label>Enter OTP</label>
+                    <input type="text"
+                           ng-model="vm.otp"
+                           maxlength="10"
+                           autocomplete="one-time-code"
+                           ng-keyup="$event.keyCode === 13 && vm.validateOTP()"
+                           placeholder="e.g. 123456">
+                </md-input-container>
+
+                <!-- Verify button -->
+                <md-button class="md-raised md-primary md-block"
+                           ng-click="vm.validateOTP()"
+                           ng-disabled="vm.verifying || vm.sending || !vm.otp"
+                           style="margin-top: 8px;">
+                    <span ng-if="!vm.verifying">Verify OTP</span>
+                    <span ng-if="vm.verifying">
+                        <md-progress-circular md-diameter="18"
+                                              md-mode="indeterminate"
+                                              style="vertical-align: middle; margin-right: 6px;">
+                        </md-progress-circular>
+                        Verifying…
+                    </span>
+                </md-button>
+
+                <!-- Resend OTP -->
+                <div layout="row" layout-align="center center" style="margin-top: 16px;">
+                    <md-button class="md-accent"
+                               ng-click="vm.requestOTP()"
+                               ng-disabled="vm.sending || vm.verifying">
+                        Resend OTP
+                    </md-button>
+                </div>
+
+            </md-card-content>
+        </md-card>
+
+        <!-- Cancel / Back to Login -->
+        <div layout="row" layout-align="center center" style="margin-top: 16px;">
+            <md-button ng-click="vm.cancel()" style="color: #78909c;">
+                ← Back to Login
+            </md-button>
+        </div>
+
+    </div>
+</div>

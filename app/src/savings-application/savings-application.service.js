@@ -9,9 +9,15 @@
      * @description
      * Service required for Savings Application
      */
-    function SavingsApplicationService() {
+    function SavingsApplicationService($resource, BASE_URL) {
 
+        this.template = function() {
+            return $resource(BASE_URL + '/self/savingsaccounts/template');
+        }
 
+        this.savings = function() {
+            return $resource(BASE_URL + '/self/savingsaccounts');
+        }
     }
 
 })();

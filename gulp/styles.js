@@ -10,7 +10,7 @@ gulp.task('styles', function () {
 
     var sassOptions = {
         style: 'expanded',
-        'sourcemap=none': true
+        'no-source-map': true
     };
 
     var injectFiles = gulp.src([

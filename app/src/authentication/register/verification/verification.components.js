@@ -8,13 +8,15 @@
     function VerificationCtrl($scope, $state, $mdToast, AuthService, $location) {
         var vm = this;
         vm.verifyData = {};
+        vm.clearForm = clearForm;
 
-      /*  function clearForm() {
-            $scope.form.$setPristine();
-            $scope.form.$setUntouched();
-            vm.verifyData={};
-
-        }*/
+        function clearForm() {
+            if ($scope.verificationForm) {
+                $scope.verificationForm.$setPristine();
+                $scope.verificationForm.$setUntouched();
+            }
+            vm.verifyData = {};
+        }
 
         $scope.submit = function() {
             AuthService.verifyUser(vm.verifyData).then(function () {
@@ -24,7 +26,7 @@
                         .position('top right')
                 );
                 $location.path('/login');
-                vm.clearForm();
+                clearForm();
             }, function (resp) {
                 var errors = '';
                 if(resp.data){

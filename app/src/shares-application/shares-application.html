@@ -24,16 +24,18 @@
                     <label>{{ 'label.input.todaysPrice' | translate }}</label>
                     <input name="todaysPrice" ng-model="vm.form.todaysPrice" required>
                 </md-input-container>
+                <!--
                 <md-input-container class="md-block" ng-if="vm.form.productId">
                     <label>{{ 'label.input.defaultSavingsAccount' | translate }}</label>
                     <md-select ng-model="" ng-change="" required>
                         <md-option ng-repeat="" ng-value="">{{ }}</md-option>
                     </md-select>
                 </md-input-container>
+                -->
                 </br>
                 <md-input-container class="md-block" ng-if="vm.form.productId">
                     <label>{{ 'label.input.currency' | translate }}</label>
-                    <input name="currency" value="{{ }}" ng-disabled="true" required>
+                    <input name="currency" value="{{ vm.template.currency.displayLabel }}" ng-disabled="true" required>
                 </md-input-container>
                 </br>
                 <md-input-container class="md-block" ng-if="vm.form.productId">
