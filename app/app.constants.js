@@ -16,6 +16,10 @@
 
 
 	.constant('USER_ROLES', {
-		user: 'USER'
+		user: 'USER',
+		buyer: 'BUYER',
+		seller: 'SELLER',
+		staff: 'STAFF'
 	});
 })();
+

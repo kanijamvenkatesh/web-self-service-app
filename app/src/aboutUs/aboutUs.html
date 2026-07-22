@@ -1,37 +1,148 @@
-<div>
-    <div ng-if="!vm.org">
-        <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-title">No details to show</span>
-                </md-card-title-text>
-            </md-card-title>
-        </md-card>
+<div style="font-family: 'Inter', sans-serif; color: #334155; padding: 24px; max-width: 1350px; margin: 0 auto;">
+    
+    <!-- Header Hero Banner -->
+    <div style="background: linear-gradient(135deg, #1b365d 0%, #0f172a 100%); color: white; padding: 48px 32px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 32px; position: relative; overflow: hidden;">
+        <div style="position: absolute; right: -50px; bottom: -50px; opacity: 0.05; font-size: 250px; font-family: 'Outfit'; font-weight: 900; pointer-events: none; letter-spacing: -5px;">TRADE</div>
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 32px; margin: 0 0 12px 0; font-weight: 700;">{{vm.org.name || 'TradeDesk Trade Finance Portal'}}</h1>
+        <p style="font-size: 16px; color: #93c5fd; margin: 0; font-weight: 500; letter-spacing: 0.5px;">Next-Generation Self-Service Trade Finance Platform</p>
     </div>
-    <div layout="column" ng-if="vm.org">
-        <div layout="row" layout-xs="column">
-            <div flex="40">
-                <md-card>
-                    <md-whiteframe class="md-whiteframe-7dp" layout layout-align="center center">
-                        <img ng-src="vm.org.logo" class="md-media-sm org-logo-height">
-                    </md-whiteframe>
-                </md-card>
-            </div>
-            <div class="org-name" flex>
-                <md-card>
-                    <md-whiteframe class="md-whiteframe-7dp" layout layout-align="center center" flex>
-                        <h2>{{vm.org.name}}</h2>
-                    </md-whiteframe>
-                </md-card>
-            </div>
-        </div>
-        <div class="org-descripion" flex>
-            <md-card>
-                <md-whiteframe class="md-whiteframe-7dp" layout="column" layout-align="center center">
-                    <h2>{{'label.heading.aboutUs' | translate}}</h2>
-                    <p class="org-description-contents">{{vm.org.description}}</p>
-                </md-whiteframe>
+
+    <!-- Main Content Layout -->
+    <div layout="row" layout-xs="column" style="display: flex; gap: 8px; width: 100%;">
+        
+        <!-- Left Column: Details -->
+        <div flex="60" layout="column" layout-gap="24px" style="flex: 60; min-width: 0;">
+            
+            <!-- Platform Description Card -->
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0 0 28px 0; border: 1px solid #e2e8f0; background: #ffffff; overflow: hidden;">
+                <md-card-content style="padding: 32px;">
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+                        <i class="fa fa-info-circle" style="color: #3b82f6; font-size: 28px;"></i>
+                        <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; margin: 0; color: #0f172a; letter-spacing: -0.5px;">TradeDesk Platform Overview</h2>
+                    </div>
+                    <p style="font-size: 14.5px; line-height: 1.8; color: #475569; margin: 0 0 24px 0; text-align: justify;">
+                        {{vm.org.description || 'TradeDesk Trade Finance Portal is an enterprise-grade web-self-service client application powered by the Mifos & Fineract core banking engine. It is designed to modernize and digitize trade finance operations, providing a seamless bridge between buyers, sellers, and bank officials.'}}
+                    </p>
+                    <p style="font-size: 14.5px; line-height: 1.8; color: #475569; margin: 0; text-align: justify;">
+                        In a real-world application, this portal operates as a secure transaction portal. When a buyer submits a Letter of Credit (LC) application, the system places an automatic lien on their collateral savings account, processes documents with AI-based OCR readers, generates SWIFT MT700 messages, and automatically posts double-entry GL journal transactions to the core ledger.
+                    </p>
+                </md-card-content>
             </md-card>
+
+            <!-- Real-Time Workflow Card -->
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0 0 28px 0; border: 1px solid #e2e8f0; background: #ffffff; overflow: hidden;">
+                <md-card-content style="padding: 32px;">
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+                        <i class="fa fa-refresh" style="color: #3b82f6; font-size: 26px;"></i>
+                        <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; margin: 0; color: #0f172a; letter-spacing: -0.5px;">Real-Time Lifecycle Workflow</h2>
+                    </div>
+                    
+                    <div style="position: relative; padding-left: 32px; border-left: 2px dashed #cbd5e1; margin-left: 12px;">
+                        
+                        <!-- Step 1 -->
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.01);">
+                            <span style="position: absolute; left: -49px; top: 16px; background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(59,130,246,0.3);">1</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h4 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">Application & Draft</h4>
+                                <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">BUYER ROLE</span>
+                            </div>
+                            <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.6;">The Buyer enters contract parameters and uploads proforma invoices. The platform verifies funds and registers a pending draft status.</p>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.01);">
+                            <span style="position: absolute; left: -49px; top: 16px; background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(59,130,246,0.3);">2</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h4 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">Fineract Collateral Lock</h4>
+                                <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">BANK STAFF</span>
+                            </div>
+                            <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.6;">Upon approval, Fineract Core Banking places an automated ledger Lien on the Buyer's savings account to secure the Letter of Credit.</p>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.01);">
+                            <span style="position: absolute; left: -49px; top: 16px; background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(59,130,246,0.3);">3</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h4 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">Doc Scrutiny & OCR</h4>
+                                <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SELLER & SYSTEM</span>
+                            </div>
+                            <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.6;">The Seller uploads the Electronic Bill of Lading (eBL). The built-in OCR processor instantly checks terms against LC parameters for discrepancies.</p>
+                        </div>
+                        
+                        <!-- Step 4 -->
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.01);">
+                            <span style="position: absolute; left: -49px; top: 16px; background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(59,130,246,0.3);">4</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <h4 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">SWIFT MT700 Settlement</h4>
+                                <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SWIFT NETWORK</span>
+                            </div>
+                            <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.6;">Once documents are verified, the Bank generates SWIFT messages, triggers final ledger double-entry settlements, and pays the Seller.</p>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+
         </div>
+
+        <!-- Right Column: Logo / Stats -->
+        <div flex="40" layout="column" layout-gap="24px" style="flex: 40; min-width: 0;">
+            
+            <!-- Quick Info card -->
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0 0 28px 0; border: 1px solid #e2e8f0; background: #ffffff; overflow: hidden;">
+                <div style="background: linear-gradient(135deg, #1b365d 0%, #0f172a 100%); padding: 36px 32px; border-bottom: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; position: relative;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(255,255,255,0.05), transparent); pointer-events: none;"></div>
+                    <i class="fa fa-shield" style="font-size: 56px; margin-bottom: 12px; color: #2dd4bf; filter: drop-shadow(0 4px 10px rgba(45,212,191,0.25));"></i>
+                    <span style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 1px;">TradeDesk</span>
+                </div>
+                <md-card-content style="padding: 32px;">
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin: 0 0 24px 0; color: #0f172a; letter-spacing: -0.5px;">Platform Specs</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 16px; font-size: 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Core Engine</span>
+                            <span style="background: #f1f5f9; color: #334155; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700;">Mifos Fineract</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">API Architecture</span>
+                            <span style="background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700;">RESTful Web Services</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Compliance</span>
+                            <span style="background: #ecfdf5; color: #047857; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700;">SWIFT / ISO 20022</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px;">
+                            <span style="color: #64748b; font-weight: 500;">Security</span>
+                            <span style="background: #fef2f2; color: #b91c1c; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700;">2FA / SSL Enforced</span>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+            <!-- Support Panel -->
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0 0 28px 0; border: 1px solid #e2e8f0; background: #ffffff; overflow: hidden;">
+                <md-card-content style="padding: 32px;">
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin: 0 0 20px 0; color: #0f172a; letter-spacing: -0.5px;">Priority Contact Desk</h3>
+                    <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 24px;">Direct hotline for global corporate transactions and Letter of Credit queries.</p>
+                    
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.01);">
+                        <i class="material-icons" style="color: #3b82f6; font-size: 24px;">email</i>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email Desk</span>
+                            <span style="font-size: 14px; color: #2563eb; font-weight: 700;">trade-support@tradedesk.com</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.01);">
+                        <i class="material-icons" style="color: #10b981; font-size: 24px;">phone</i>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Direct Line</span>
+                            <span style="font-size: 14px; color: #475569; font-weight: 700;">+1 (800) 555-TRADE</span>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+        </div>
+
     </div>
 </div>

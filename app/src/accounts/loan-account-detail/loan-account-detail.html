@@ -104,13 +104,13 @@
                 </md-content>
             </div>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="vm.makePayment()">{{ 'label.btn.makepayment' | translate }}</md-button>
+                <md-button class="md-primary md-raised account-action-button" ng-click="vm.makePayment()">{{ 'label.btn.makepayment' | translate }}</md-button>
             </md-card-actions>
 
         </md-card>
     </div>
     <div layout="row" class="md-padding" flex-xs flex-gt-md="60">
-        <md-tabs class="md-primary" md-dynamic-height md-border-bottom>
+        <md-tabs class="md-primary account-detail-tabs" md-dynamic-height md-border-bottom>
             <md-tab label="Account Details">
                 <md-content class="md-padding">
                     <div ng-if="vm.loadingvm.loanAccountDetailsInfo">

@@ -14,6 +14,10 @@
             return $resource(BASE_URL + '/self/clients/');
         };
 
+        this.getFineractClients = function () {
+            return $resource(BASE_URL + '/clients');
+        };
+
         this.getAllAccounts = function (clientId) {//@todo rename this getClientAccounts
             //@todo update this to return $resource(BASE_URL+'/self/clients/'+id+'/accounts'); and test
             return $resource(BASE_URL + '/self/clients/' + clientId + '/accounts');
@@ -47,7 +51,12 @@
         }
 
         this.getClientId = function () {
-            return storageService.getItem('client_id');
+            return storageService.getObject('client_id').then(function (val) {
+                if (val === 'null' || val === 'undefined' || val === null || val === undefined) {
+                    return null;
+                }
+                return val;
+            });
         }
 
     }

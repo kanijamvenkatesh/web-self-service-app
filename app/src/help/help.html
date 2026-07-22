@@ -1,28 +1,140 @@
-<div>
-    <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-title">FAQ</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-divider></md-divider>
-        <md-card-content>
-            <div ng-repeat="item in vm.faqData">
-                <md-card>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-title">{{item.Question}}</span>
-                            <p></p>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-card-content>
-                        <div layout="row">
-                            <i class="material-icons md-18">arrow_forward_ios</i>
-                            <span>{{item.Answer}}</span>
+<div style="font-family: 'Inter', sans-serif; color: #334155; padding: 24px; max-width: 1350px; margin: 0 auto;">
+    
+    <!-- Header Banner -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 40px 32px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+        <div>
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 28px; margin: 0 0 8px 0; font-weight: 700;">Help & Support Center</h1>
+            <p style="font-size: 14px; color: #94a3b8; margin: 0; font-weight: 500;">Search documentation, understand the workflows, and contact the trade desk.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="material-icons" style="color: #60a5fa; font-size: 24px;">contact_support</i>
+            <span style="font-family: 'Outfit', sans-serif; font-weight: 600; color: #60a5fa;">Priority Desk Active</span>
+        </div>
+    </div>
+
+    <div layout="row" layout-xs="column" style="display: flex; gap: 8px; width: 100%;">
+        
+        <!-- Left Column: FAQ Section -->
+        <div flex="60" layout="column" layout-gap="24px" style="flex: 60; min-width: 0;">
+            
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0; border: 1px solid #e2e8f0; background: #ffffff;">
+                <md-card-content style="padding: 24px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                        <i class="material-icons" style="color: #3b82f6; font-size: 26px;">question_answer</i>
+                        <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600; margin: 0; color: #0f172a;">Frequently Asked Questions</h2>
+                    </div>
+
+                    <!-- FAQ List -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        
+                        <!-- FAQ Item 1 -->
+                        <div style="padding: 16px; border: 1px solid #f1f5f9; border-radius: 8px; background: #f8fafc; transition: all 0.2s ease;">
+                            <h4 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                <i class="material-icons" style="color: #3b82f6; font-size: 16px;">help_outline</i>
+                                How do I apply for a Letter of Credit (LC)?
+                            </h4>
+                            <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.6; padding-left: 24px;">
+                                Navigate to "Trade Finance" in the sidebar navigation menu. Click on "Apply LC", fill out the beneficiary details, specify the payment amount and draft timeline, upload the Proforma Invoice, and submit.
+                            </p>
                         </div>
-                    </md-card-content>
-                </md-card>
-            </div>
-        </md-card-content>
-    </md-card>
+
+                        <!-- FAQ Item 2 -->
+                        <div style="padding: 16px; border: 1px solid #f1f5f9; border-radius: 8px; background: #f8fafc; transition: all 0.2s ease;">
+                            <h4 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                <i class="material-icons" style="color: #10b981; font-size: 16px;">verified</i>
+                                How does OCR document scrutiny work?
+                            </h4>
+                            <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.6; padding-left: 24px;">
+                                After the seller uploads the shipping documents (such as eBL, commercial invoice, certificate of origin), our automated OCR service parses the fields. It automatically checks matching values (e.g. quantity, amount, expiry date) against the issued LC terms to alert staff of any discrepancies.
+                            </p>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div style="padding: 16px; border: 1px solid #f1f5f9; border-radius: 8px; background: #f8fafc; transition: all 0.2s ease;">
+                            <h4 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                <i class="material-icons" style="color: #f59e0b; font-size: 16px;">lock</i>
+                                How are my collateral funds secured?
+                            </h4>
+                            <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.6; padding-left: 24px;">
+                                During LC approval, the bank places an automated ledger Lien lock on your linked savings account inside the Mifos Fineract core system. These funds remain locked for security and are settled directly to the seller or released upon transaction closure.
+                            </p>
+                        </div>
+
+                        <!-- FAQ Item 4 -->
+                        <div style="padding: 16px; border: 1px solid #f1f5f9; border-radius: 8px; background: #f8fafc; transition: all 0.2s ease;">
+                            <h4 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                <i class="material-icons" style="color: #6366f1; font-size: 16px;">swap_horiz</i>
+                                What is the typical settlement timeline?
+                            </h4>
+                            <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.6; padding-left: 24px;">
+                                Settlements are processed immediately upon documents auditing. Once the audit desk confirms document validity and clears OCR matches, SWIFT MT756/MT103 instructions are dispatched, and Fineract registers the GL accounting entries in real-time.
+                            </p>
+                        </div>
+
+                    </div>
+                </md-card-content>
+            </md-card>
+
+        </div>
+
+        <!-- Right Column: Support & Contact Details -->
+        <div flex="40" layout="column" layout-gap="24px" style="flex: 40; min-width: 0;">
+            
+            <!-- Contact Channels Card -->
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 0; border: 1px solid #e2e8f0; background: #ffffff;">
+                <md-card-content style="padding: 24px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <i class="material-icons" style="color: #ef4444; font-size: 24px;">headset_mic</i>
+                        <h3 style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; margin: 0; color: #0f172a;">Contact Helpdesk</h3>
+                    </div>
+                    <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 20px;">
+                        Need assistance with a live contract, Swift transfer discrepancy, or collateral lock query? Reach out directly:
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        
+                        <!-- Email -->
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div style="background: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                <i class="material-icons" style="color: #3b82f6; font-size: 18px;">mail</i>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 500;">Email Support</div>
+                                <div style="font-size: 13px; color: #1e293b; font-weight: 600;">trade-support@tradedesk.com</div>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                <i class="material-icons" style="color: #10b981; font-size: 18px;">phone</i>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 500;">Priority Hotline</div>
+                                <div style="font-size: 13px; color: #1e293b; font-weight: 600;">+1 (800) 555-TRADE (87233)</div>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <div style="background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                <i class="material-icons" style="color: #f59e0b; font-size: 18px;">place</i>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 500;">Corporate Office</div>
+                                <div style="font-size: 13px; color: #1e293b; font-weight: 600; line-height: 1.4;">
+                                    Global Trade & Transaction Desk<br/>
+                                    100 Corporate Plaza, Suite 400<br/>
+                                    New York, NY 10001
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </md-card-content>
+            </md-card>
+
+        </div>
+
+    </div>
 </div>

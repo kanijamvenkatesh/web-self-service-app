@@ -1,109 +1,76 @@
-<div id="register" class="flex-scrollable" layout="column" ms-scroll>
-    <div id="register-form-wrapper" layout="column" layout-align="center center">
-        <div id="register-form" class="md-whiteframe-8dp">
-            <div class="logo">
-                <img width="100%" src="assets/images/MifosX_logo.png">
-            </div>
-
-            <div class="title">Create an account</div>
-
-            <form name="registerForm" novalidate ng-submit="submit()">
-                <md-input-container class="md-block" md-no-float>
-                    <input name="accountNumber" ng-model="vm.form.accountNumber" placeholder="Account number"
-                           required>
-                    <div ng-messages="registerForm.accountNumber.$error" role="alert">
-                        <div ng-message="required">
-                            <span>Account Number field is required</span>
-                        </div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="md-block" md-no-float>
-                    <input name="username" ng-model="vm.form.username" placeholder="Username"
-                           required>
-                    <div ng-messages="registerForm.username.$error" role="alert">
-                        <div ng-message="required">
-                            <span>Username field is required</span>
-                        </div>
-                    </div>
-                </md-input-container>
-
-                <div layout="row">
-                    <md-input-container flex class="md-block" md-no-float>
-                        <input name="firstName" ng-model="vm.form.firstName" placeholder="First Name"
-                               required>
-                        <div ng-messages="registerForm.firstName.$error" role="alert">
-                            <div ng-message="required">
-                                <span>First Name field is required</span>
-                            </div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex class="md-block" md-no-float>
-                        <input name="lastName" ng-model="vm.form.lastName" placeholder="Last Name"
-                               required>
-                        <div ng-messages="registerForm.lastName.$error" role="alert">
-                            <div ng-message="required">
-                                <span>Last Name field is required</span>
-                            </div>
-                        </div>
-                    </md-input-container>
-                </div>
-
-                <md-input-container class="md-block" md-no-float>
-                    <input type="email" name="email" ng-model="vm.form.email" placeholder="Email"
-                           ng-pattern="/^.+@.+\..+$/" required>
-                    <div ng-messages="registerForm.email.$error" role="alert" multiple>
-                        <div ng-message="required">
-                            <span>Email field is required</span>
-                        </div>
-                        <div ng-message="pattern">
-                            <span>Email must be a valid e-mail address</span>
-                        </div>
-                    </div>
-                </md-input-container>
-
-                <md-input-container class="md-block" md-no-float>
-                    <input type="phone" name="mobile" ng-model="vm.form.mobileNumber" placeholder="Mobile">
-                </md-input-container>
-
-                <md-input-container class="md-block" md-no-float>
-                    <input type="password" name="password" ng-model="vm.form.password" placeholder="Password"
-                           required>
-                    <div ng-messages="registerForm.password.$error" role="alert">
-                        <div ng-message="required">
-                            <span>Password field is required</span>
-                        </div>
-                    </div>
-                </md-input-container>
-
-                <md-input-container class="md-block" md-no-float>
-                    <input type="password" name="passwordConfirm" ng-model="passwordConfirm"
-                           placeholder="Password (Confirm)"
-                           required>
-                    <div ng-messages="registerForm.passwordConfirm.$error" role="alert">
-                        <div ng-message="required">
-                            <span>Password (Confirm) field is required</span>
-                        </div>
-                    </div>
-                </md-input-container>
-
-                <div class="terms" layout="row" layout-align="center center">
-                    <md-checkbox name="terms" ng-model="data.cb1" aria-label="I read and accept" required></md-checkbox>
-                    <div layout="row" layout-sm="column" layout-align="start center">
-                        <span>I read and accept</span>
-                        <a href="#" class="md-accent-color">terms and conditions</a>
-                    </div>
-                </div>
-
-                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="CREATE MY ACCOUNT"
-                           ng-disabled="registerForm.$invalid || registerForm.$pristine">
-                    CREATE MY ACCOUNT
-                </md-button>
-            </form>
-
-            <div class="login" layout="row" layout-xs="column" layout-align="center center">
-                <span class="text">Already have an account?</span>
-                <a class="link" ui-sref="login">Log in</a>
-            </div>
+<div class="trade-auth-shell" layout="row" layout-align="center center" layout-fill>
+    <div class="trade-login-brand" hide-xs hide-sm>
+        <div class="trade-login-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="trade-login-brand-name">TradeDesk</div>
+    </div>
+    <div class="trade-auth-panel trade-register-panel" flex="94" flex-gt-xs="82" flex-gt-sm="64" flex-gt-md="48">
+        <div class="trade-login-heading">
+            <div class="trade-login-eyebrow">BUYER ONBOARDING</div>
+            <h1>Create buyer account</h1>
+            <p>Complete the details below to register.</p>
         </div>
+        <form name="registerForm" novalidate ng-submit="submit()">
+            <md-input-container class="md-block trade-login-input">
+                <label>Account number</label>
+                <md-icon class="material-icons">account_balance</md-icon>
+                <input name="accountNumber" ng-model="vm.form.accountNumber" required>
+                <div ng-messages="registerForm.accountNumber.$error" role="alert"><div ng-message="required">Account number is required.</div></div>
+            </md-input-container>
+            <md-input-container class="md-block trade-login-input">
+                <label>Username</label>
+                <md-icon class="material-icons">person</md-icon>
+                <input name="username" ng-model="vm.form.username" required autocomplete="username">
+                <div ng-messages="registerForm.username.$error" role="alert"><div ng-message="required">Username is required.</div></div>
+            </md-input-container>
+            <div layout="row" layout-xs="column" layout-padding>
+                <md-input-container flex class="md-block trade-login-input">
+                    <label>First name</label>
+                    <input name="firstName" ng-model="vm.form.firstName" required autocomplete="given-name">
+                    <div ng-messages="registerForm.firstName.$error" role="alert"><div ng-message="required">First name is required.</div></div>
+                </md-input-container>
+                <md-input-container flex class="md-block trade-login-input">
+                    <label>Last name</label>
+                    <input name="lastName" ng-model="vm.form.lastName" required autocomplete="family-name">
+                    <div ng-messages="registerForm.lastName.$error" role="alert"><div ng-message="required">Last name is required.</div></div>
+                </md-input-container>
+            </div>
+            <md-input-container class="md-block trade-login-input">
+                <label>Email address</label>
+                <md-icon class="material-icons">email</md-icon>
+                <input type="email" name="email" ng-model="vm.form.email" required autocomplete="email">
+                <div ng-messages="registerForm.email.$error" role="alert" multiple><div ng-message="required">Email address is required.</div><div ng-message="email">Enter a valid email address.</div></div>
+            </md-input-container>
+            <md-input-container class="md-block trade-login-input">
+                <label>Mobile number</label>
+                <md-icon class="material-icons">phone</md-icon>
+                <input type="tel" name="mobile" ng-model="vm.form.mobileNumber" autocomplete="tel">
+            </md-input-container>
+            <div class="trade-password-field" layout="row" layout-align="start center">
+                <md-input-container class="md-block trade-login-input" flex>
+                    <label>Password</label>
+                    <md-icon class="material-icons">lock</md-icon>
+                    <input type="{{vm.showPassword ? 'text' : 'password'}}" name="password" ng-model="vm.form.password" required autocomplete="new-password">
+                    <div ng-messages="registerForm.password.$error" role="alert"><div ng-message="required">Password is required.</div></div>
+                </md-input-container>
+                <md-button type="button" class="md-icon-button trade-password-toggle" ng-click="vm.showPassword = !vm.showPassword" aria-label="Toggle password visibility"><i class="material-icons">{{vm.showPassword ? 'visibility_off' : 'visibility'}}</i><md-tooltip>{{vm.showPassword ? 'Hide password' : 'Show password'}}</md-tooltip></md-button>
+            </div>
+            <div class="trade-password-field" layout="row" layout-align="start center">
+                <md-input-container class="md-block trade-login-input" flex>
+                    <label>Confirm password</label>
+                    <md-icon class="material-icons">lock</md-icon>
+                    <input type="{{vm.showPasswordConfirm ? 'text' : 'password'}}" name="passwordConfirm" ng-model="passwordConfirm" required autocomplete="new-password">
+                    <div ng-messages="registerForm.passwordConfirm.$error" role="alert"><div ng-message="required">Password confirmation is required.</div></div>
+                </md-input-container>
+                <md-button type="button" class="md-icon-button trade-password-toggle" ng-click="vm.showPasswordConfirm = !vm.showPasswordConfirm" aria-label="Toggle confirmation password visibility"><i class="material-icons">{{vm.showPasswordConfirm ? 'visibility_off' : 'visibility'}}</i><md-tooltip>{{vm.showPasswordConfirm ? 'Hide password' : 'Show password'}}</md-tooltip></md-button>
+            </div>
+            <div class="trade-terms" layout="row" layout-align="start center">
+                <md-checkbox name="terms" ng-model="data.cb1" aria-label="Accept terms" required></md-checkbox>
+                <span>I accept the <a href="#">terms and conditions</a>.</span>
+            </div>
+            <div layout="row" layout-align="center center" style="width: 100%; margin-top: 15px; margin-bottom: 10px;">
+                <md-button type="submit" class="trade-login-submit md-raised" style="min-width: 180px; padding: 4px 24px; font-weight: 600; text-transform: none; border-radius: 24px;" ng-disabled="registerForm.$invalid || registerForm.$pristine">Create account</md-button>
+            </div>
+        </form>
+        <div class="trade-auth-footer" layout="row" layout-align="center center"><span>Already registered?</span><md-button type="button" ui-sref="login">Sign in</md-button></div>
     </div>
 </div>

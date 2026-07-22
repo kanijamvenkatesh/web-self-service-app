@@ -12,23 +12,23 @@
                 <md-input-container class="md-block md-icon-float">
                     <label>{{ 'label.input.payTo' | translate }}</label>
                     <md-select ng-model="vm.transferFormData.toAccount" required>
-                        <md-option ng-repeat="toAccountOption in vm.toAccountOptions" ng-value="toAccountOption">{{ toAccountOption.accountNo }} ({{toAccountOption.clientName}})</md-option>
+                        <md-option ng-repeat="toAccountOption in vm.toAccountOptions" ng-value="toAccountOption">{{ toAccountOption.accountNo }} ({{toAccountOption.clientName}} - {{toAccountOption.currencyCode}})</md-option>
                     </md-select>
                 </md-input-container>
                 <md-input-container class="md-block md-icon-float">
                     <label>{{ 'label.input.payFrom' | translate }}</label>
                     <md-select ng-model="vm.transferFormData.fromAccount" required>
-                        <md-option ng-repeat="fromAccountOption in vm.fromAccountOptions" ng-value="fromAccountOption">{{ fromAccountOption.accountNo }} ({{fromAccountOption.accountType.value}})</md-option>
+                        <md-option ng-repeat="fromAccountOption in vm.fromAccountOptions" ng-value="fromAccountOption">{{ fromAccountOption.accountNo }} ({{fromAccountOption.accountType.value}} - {{fromAccountOption.currencyCode}})</md-option>
                     </md-select>
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{ 'label.input.amount' | translate }}</label>
                     <input type="number" step="0.01" ng-model="vm.transferFormData.amount" required>
                 </md-input-container>
-                <div layout="row">
-                    <label>{{ 'label.input.transferDate' | translate }}</label>
+                <div layout="row" style="margin-top: 18px; margin-bottom: 18px; align-items: center;">
+                    <label style="color: rgba(0,0,0,0.54); font-size: 14px;">{{ 'label.input.transferDate' | translate }}</label>
                     <span flex></span>
-                    <md-datepicker ng-model="vm.transferFormData.transferDate" disabled></md-datepicker>
+                    <span style="font-size: 15px; font-weight: 500; color: rgba(0,0,0,0.87);">{{ vm.transferFormData.transferDate | DateFormat }}</span>
                 </div>
                 <md-input-container class="md-block">
                     <label>{{ 'label.input.remark' | translate }}</label>

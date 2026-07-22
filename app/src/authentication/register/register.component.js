@@ -12,6 +12,8 @@
     function RegisterCtrl($scope, $state, $mdToast, AuthService, $location) {
         var vm = this;
         vm.clearForm = clearForm;
+        vm.showPassword = false;
+        vm.showPasswordConfirm = false;
 
         vm.form={
             "authenticationMode" :"email"

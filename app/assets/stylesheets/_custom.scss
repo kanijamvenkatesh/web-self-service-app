@@ -183,22 +183,49 @@ md-backdrop.md-sidenav-backdrop {
 md-toolbar .md-menu {
   margin: 0 !important;
 }
-// Sidenav styles
-.sidenav-header {
-  background: url('../assets/images/toolbar.png');
-  background-size: cover;
-  height: 20vh;
-  color: #ffffff;
 
-  .sidenav-title{
-    margin-top: 10px;
-    margin-bottom: 0px;
+.sidenav-header {
+  background-color: #1976d2 !important; /* Theme blue for background */
+  padding: 20px 16px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .sidenav-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 16px !important;
+    color: #ffffff !important;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin: 0 !important;
+  }
+
+  .profile-img {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
 }
+.md-sidenav-left {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  overflow: hidden !important;
 
-.sidenav-icon {
-  text-align: left;
-  display: block;
+  .sidenav-header {
+    flex-shrink: 0;
+  }
+
+  #sidebar-menu {
+    flex: 1;
+    overflow-y: auto !important;
+  }
 }
 
 // Login Styles
@@ -250,6 +277,11 @@ md-toolbar .md-menu {
 
 // Tabs style Account list
 #account-list-tabs {
+  md-card {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
   md-pagination-wrapper {
     width: 100% !important;
     display: flex;
@@ -415,6 +447,15 @@ md-toolbar .md-menu {
 
 
 #transfer {
+  md-card {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .transfer-action-button.md-button {
+    border-radius: 8px;
+  }
+
   md-select {
     margin-bottom: 18px;
   }
@@ -432,6 +473,13 @@ md-toolbar .md-menu {
 
 .summary-card {
   width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .account-action-button.md-button {
+    border-radius: 8px;
+    padding: 0 16px;
+  }
 
   .oustanding-overview {
     height: 100px;
@@ -448,6 +496,12 @@ md-toolbar .md-menu {
       text-align: right;
     }
   }
+}
+
+.account-detail-tabs {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
 }
 
 .loan-account-detail-cont {
@@ -485,6 +539,13 @@ md-toolbar .md-menu {
 .loan-total-card{
   background: #f44336;
   color: white;
+}
+
+.financial-dashboard {
+  md-card {
+    border-radius: 8px;
+    overflow: hidden;
+  }
 }
 
 .auth-status {
@@ -691,3 +752,350 @@ md-toolbar .md-menu {
   position: fixed;
 }
 
+
+// Trade portal login
+.trade-login-shell {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #edf4f5;
+  padding: 32px 20px;
+}
+
+.trade-login-shell:before,
+.trade-login-shell:after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  width: 34vw;
+  max-width: 520px;
+  height: 10px;
+}
+
+.trade-login-shell:before {
+  top: 0;
+  left: 0;
+  background: #006d77;
+}
+
+.trade-login-shell:after {
+  right: 0;
+  bottom: 0;
+  background: #f4a261;
+}
+
+.trade-login-brand {
+  position: absolute;
+  top: 34px;
+  left: 42px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  color: #12343b;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0;
+}
+
+.trade-login-mark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  padding: 5px;
+  background: #006d77;
+}
+
+.trade-login-mark span {
+  display: block;
+  width: 4px;
+  background: #ffffff;
+}
+
+.trade-login-mark span:nth-child(1) { height: 8px; }
+.trade-login-mark span:nth-child(2) { height: 13px; background: #f4a261; }
+.trade-login-mark span:nth-child(3) { height: 18px; }
+
+.trade-login-panel.login-container {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  max-width: 460px;
+  padding: 34px 36px 30px;
+  background: #ffffff;
+  border: 1px solid #d7e3e5;
+  border-top: 5px solid #006d77;
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(18, 52, 59, 0.16);
+}
+
+.trade-login-panel .login-form {
+  width: 100%;
+  margin: 0;
+}
+
+.trade-login-heading {
+  margin-bottom: 28px;
+}
+
+.trade-login-eyebrow {
+  margin-bottom: 8px;
+  color: #d65a31;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.trade-login-heading h1 {
+  margin: 0;
+  color: #12343b;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.trade-login-heading p {
+  margin: 8px 0 0;
+  color: #60787d;
+  font-size: 14px;
+}
+
+.trade-login-input md-icon {
+  color: #237a8a;
+}
+
+.trade-role-picker {
+  margin: 22px 0 26px;
+}
+
+.trade-role-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #36565c;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.trade-role-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.trade-role-option {
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid #d7e3e5;
+  border-radius: 6px;
+  background: #f9fbfb;
+}
+
+.trade-role-option .md-container {
+  top: 15px;
+}
+
+.trade-role-option .md-label {
+  display: flex;
+  align-items: center;
+  margin-left: 28px;
+}
+
+.trade-role-option .material-icons {
+  margin-right: 10px;
+  color: #237a8a;
+  font-size: 20px;
+}
+
+.trade-role-option span {
+  color: #173c43;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.trade-role-option small {
+  margin-left: 6px;
+  color: #70868b;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.trade-role-option.md-checked {
+  border-color: #237a8a;
+  background: #e5f2f3;
+}
+
+.trade-role-option.md-checked .material-icons {
+  color: #d65a31;
+}
+
+.trade-login-submit.md-button {
+  height: 44px;
+  margin: 0;
+  border-radius: 5px;
+  background: #006d77;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.trade-login-submit.md-button:not([disabled]):hover {
+  background: #005861;
+}
+
+@media (max-width: 599px) {
+  .trade-login-shell {
+    padding: 20px 14px;
+  }
+
+  .trade-login-panel.login-container {
+    padding: 28px 22px 24px;
+  }
+}
+.trade-password-field {
+  margin-bottom: 0;
+}
+
+.trade-password-field .trade-login-input {
+  margin-bottom: 0;
+}
+
+.trade-password-toggle.md-button {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0 0 13px 4px;
+  color: #237a8a;
+}
+
+.trade-password-toggle.md-button:hover {
+  background: #e5f2f3;
+}
+
+.trade-login-submit.md-button[disabled] {
+  background: #b6c8ca;
+  color: #ffffff;
+}
+
+.trade-login-links {
+  min-height: 40px;
+  margin-top: 10px;
+}
+
+.trade-login-links .md-button {
+  min-width: 0;
+  margin: 0;
+  padding: 0 4px;
+  color: #237a8a;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.trade-login-links .md-button:hover {
+  color: #d65a31;
+}
+.trade-auth-shell {
+  min-height: 100vh;
+  position: relative;
+  overflow: auto;
+  background-color: #edf4f5;
+  padding: 32px 20px;
+}
+
+.trade-auth-shell:before,
+.trade-auth-shell:after {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  width: 34vw;
+  max-width: 520px;
+  height: 10px;
+}
+
+.trade-auth-shell:before {
+  top: 0;
+  left: 0;
+  background: #006d77;
+}
+
+.trade-auth-shell:after {
+  right: 0;
+  bottom: 0;
+  background: #f4a261;
+}
+
+.trade-auth-panel {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  max-width: 460px;
+  padding: 34px 36px 30px;
+  background: #ffffff;
+  border: 1px solid #d7e3e5;
+  border-top: 5px solid #006d77;
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(18, 52, 59, 0.16);
+}
+
+.trade-register-panel {
+  max-width: 640px;
+}
+
+.trade-register-panel [layout-padding] {
+  padding: 0;
+}
+
+.trade-terms {
+  margin: 8px 0 20px;
+  color: #60787d;
+  font-size: 13px;
+}
+
+.trade-terms .md-checkbox {
+  margin: 0 8px 0 0;
+}
+
+.trade-terms a {
+  color: #237a8a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.trade-auth-footer {
+  min-height: 40px;
+  margin-top: 10px;
+  color: #60787d;
+  font-size: 12px;
+}
+
+.trade-auth-footer .md-button {
+  min-width: 0;
+  margin: 0 0 0 5px;
+  padding: 0 4px;
+  color: #237a8a;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+@media (max-width: 599px) {
+  .trade-auth-shell {
+    padding: 20px 14px;
+  }
+
+  .trade-auth-panel {
+    padding: 28px 22px 24px;
+  }
+}
+
+.selected-row {
+  background-color: rgba(13, 148, 136, 0.08) !important;
+  border-left: 4px solid #0d9488 !important;
+}

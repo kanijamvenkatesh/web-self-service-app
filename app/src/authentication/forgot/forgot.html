@@ -1,35 +1,28 @@
-<div id="forgot-password" class="flex-scrollable" layout="column">
-    <div id="forgot-password-form-wrapper" layout="column" layout-align="center center">
-        <div id="forgot-password-form" class="md-whiteframe-8dp">
-            <div class="logo">
-                <img width="100%" src="assets/images/MifosX_logo.png">
-            </div>
-
-            <div class="title">Recover your password</div>
-
-            <form name="forgotPasswordForm" novalidate>
-                <md-input-container class="md-block" md-no-float>
-                    <input type="email" name="email" ng-model="vm.form.email" placeholder="Email address"
-                           ng-pattern="/^.+@.+\..+$/" required>
-                    <div ng-messages="forgotPasswordForm.email.$error" role="alert" multiple>
-                        <div ng-message="required">
-                            <span>Email field is required</span>
-                        </div>
-                        <div ng-message="pattern">
-                            <span>Email must be a valid e-mail address</span>
-                        </div>
-                    </div>
-                </md-input-container>
-
-                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="RESET MY PASSWORD"
-                           ng-disabled="forgotPasswordForm.$invalid || forgotPasswordForm.$pristine">
-                    SEND RESET LINK
-                </md-button>
-            </form>
-
-            <div class="login" layout="row" layout-align="center center">
-                <a class="link" ui-sref="login">Go back to login</a>
-            </div>
+<div class="trade-auth-shell" layout="row" layout-align="center center" layout-fill>
+    <div class="trade-login-brand" hide-xs hide-sm>
+        <div class="trade-login-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="trade-login-brand-name">TradeDesk</div>
+    </div>
+    <div class="trade-auth-panel trade-forgot-panel" flex="90" flex-gt-xs="70" flex-gt-sm="48" flex-gt-md="34">
+        <div class="trade-login-heading">
+            <div class="trade-login-eyebrow">ACCOUNT ACCESS</div>
+            <h1>Reset password</h1>
+            <p>Enter your registered email address.</p>
+        </div>
+        <form name="forgotPasswordForm" novalidate>
+            <md-input-container class="md-block trade-login-input">
+                <label>Email address</label>
+                <md-icon class="material-icons">email</md-icon>
+                <input type="email" name="email" ng-model="vm.form.email" required autocomplete="email">
+                <div ng-messages="forgotPasswordForm.email.$error" role="alert" multiple>
+                    <div ng-message="required">Email address is required.</div>
+                    <div ng-message="email">Enter a valid email address.</div>
+                </div>
+            </md-input-container>
+            <md-button type="submit" class="trade-login-submit md-raised md-block" ng-disabled="forgotPasswordForm.$invalid || forgotPasswordForm.$pristine">Send reset link</md-button>
+        </form>
+        <div class="trade-auth-footer" layout="row" layout-align="center center">
+            <md-button type="button" ui-sref="login">Back to sign in</md-button>
         </div>
     </div>
 </div>

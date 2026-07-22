@@ -1,4 +1,4 @@
-<div class="md-padding">
+<div class="md-padding financial-dashboard">
     <div layout="row" layout-xs="column">
         <md-card flex-xs flex-gt-xs="25">
             <md-card-title>
@@ -47,16 +47,20 @@
     </div>
     <div layout="row" layout-xs="column">
         <md-card layout-gt-md="row" layout-align="center center" flex-xs flex-gt-xs class="savings-total-card md-padding">
-            <h1 class="display-1" flex>{{ 'label.heading.totalAccounts' | translate }}</h1>
+            <h1 class="display-1" flex>Total Savings</h1>
             <h1 class="card-total display-1 text-right">{{ vm.dashboardData.totalSavings }}</h1>
         </md-card>
         <md-card layout-gt-md="row" layout-align="center center" flex-xs flex-gt-xs class="loan-total-card md-padding">
-            <h1 class="display-1" flex>{{ 'label.heading.totalLoan' | translate }}</h1>
+            <h1 class="display-1" flex>Total Loan</h1>
             <h1 class="card-total display-1 text-right">{{ vm.dashboardData.totalLoan }}</h1>
+        </md-card>
+        <md-card layout-gt-md="row" layout-align="center center" flex-xs flex-gt-xs class="savings-total-card md-padding" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0); color: white;">
+            <h1 class="display-1" flex>Total Recurring</h1>
+            <h1 class="card-total display-1 text-right">{{ vm.dashboardData.totalRecurring }}</h1>
         </md-card>
     </div>
     <div layout="row" layout-xs="column">
-        <md-card flex-xs flex-gt-md="33" layout-xs="column">
+        <md-card flex-xs flex-gt-md="25" layout-xs="column">
             <md-card-title>
                 <span class="md-title">{{ 'label.heading.loanAccountOverview' | translate }}</span>
             </md-card-title>
@@ -65,7 +69,7 @@
                 <nvd3 options="vm.options" data="vm.dashboardData.loanAccountsOverview"></nvd3>
             </md-card-content>
         </md-card>
-        <md-card flex-xs flex-gt-md="33">
+        <md-card flex-xs flex-gt-md="25">
             <md-card-title>
                 <span class="md-title">{{ 'label.heading.savingsAccountOverview' | translate }}</span>
             </md-card-title>
@@ -74,13 +78,22 @@
                 <nvd3 options="vm.options" data="vm.dashboardData.savingsAccountsOverview"></nvd3>
             </md-card-content>
         </md-card>
-        <md-card flex-xs flex-gt-md="33">
+        <md-card flex-xs flex-gt-md="25">
             <md-card-title>
                 <span class="md-title">{{ 'label.heading.shareAccountOverview' | translate }}</span>
             </md-card-title>
             <md-divider></md-divider>
             <md-card-content>
                 <nvd3 options="vm.options" data="vm.dashboardData.shareAccountsOverview"></nvd3>
+            </md-card-content>
+        </md-card>
+        <md-card flex-xs flex-gt-md="25">
+            <md-card-title>
+                <span class="md-title">Recurring Account Overview</span>
+            </md-card-title>
+            <md-divider></md-divider>
+            <md-card-content>
+                <nvd3 options="vm.options" data="vm.dashboardData.recurringDepositOverview"></nvd3>
             </md-card-content>
         </md-card>
     </div>
@@ -92,34 +105,44 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-content>
-                <form name="transactionGraphForm" ng-submit="transactionGraphForm.$valid && vm.submit()">
-                    <div layout="row">
-                        <div flex-gt-md="40">
+                <form name="transactionGraphForm" ng-submit="transactionGraphForm.$valid && vm.submit(vm.paymentType)">
+                    <div layout="row" layout-xs="column" style="gap: 15px;">
+                        <!-- Step 1: Account Type Dropdown -->
+                        <div flex-gt-sm="33">
                             <md-input-container class="md-block" flex="100">
-                                <label>{{'label.input.accountno' | translate}}</label>
-                                <input name="account_no" ng-model="vm.accountno" required>
-                            </md-input-container>
-                        </div>
-                        <div flex-gt-md="40">
-                            <md-input-container class="md-block" flex="100">
-                                <label>{{'label.input.accountType' | translate}}</label>
-                                <md-select ng-model="vm.accountType" ng-change="vm.accountType" required>
-                                    <md-option ng-repeat="accountType in vm.accountTypeOptions" ng-value="accountType">{{ accountType }}</md-option>
+                                <label>Account Type</label>
+                                <md-select ng-model="vm.accountType" ng-change="vm.onAccountTypeChange()" required>
+                                    <md-option ng-repeat="type in vm.accountTypeOptions" ng-value="type">{{ type }}</md-option>
                                 </md-select>
                             </md-input-container>
                         </div>
-                        <div flex-gt-md="40" ng-if="vm.accountno && vm.accountType">
+                        
+                        <!-- Step 2: Account Number Dropdown (visible when type is selected) -->
+                        <div flex-gt-sm="33" ng-if="vm.accountType">
                             <md-input-container class="md-block" flex="100">
-                                <label>{{'label.input.transactionType' | translate}}</label>
-                                <md-select ng-model="vm.paymentType" ng-click="vm.selectPayment(vm.paymentType)" ng-change="vm.selectPayment(vm.paymentType)" required>
-                                    <md-option ng-repeat="paymentType in vm.paymentTypes" ng-value="paymentType">{{ paymentType }}</md-option>
+                                <label>Account Number</label>
+                                <md-select ng-model="vm.selectedAccountNoObject" ng-change="vm.onAccountNoChange()" required>
+                                    <md-option ng-repeat="acct in vm.filteredAccounts" ng-value="acct">
+                                        {{ acct.accountNo }} ({{ acct.productName }})
+                                    </md-option>
                                 </md-select>
                             </md-input-container>
                         </div>
 
+                        <!-- Step 3: Transaction Type Dropdown -->
+                        <div flex-gt-sm="33" ng-if="vm.accountno && vm.accountType && vm.accountType !== 'Shares'">
+                            <md-input-container class="md-block" flex="100">
+                                <label>{{'label.input.transactionType' | translate}} ({{ vm.paymentTypes.length || 0 }} found)</label>
+                                <md-select ng-model="vm.paymentType" ng-change="vm.selectPayment(vm.paymentType)" required>
+                                    <md-option ng-repeat="paymentType in vm.paymentTypes" ng-value="paymentType">{{ paymentType }}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
                     </div>
-                    <div ng-if="vm.accountno && vm.accountType">
-                        <md-button class="md-primary md-raised" ng-click="vm.submit(vm.paymentType)" ng-disabled="transactionGraphForm.$invalid">Generate Graph</md-button>
+
+                    <!-- Step 4: Submit button -->
+                    <div ng-if="vm.accountno && vm.accountType && (vm.accountType === 'Shares' || vm.paymentType)">
+                        <md-button class="md-primary md-raised" type="submit" ng-disabled="transactionGraphForm.$invalid">Generate Graph</md-button>
                     </div>
                 </form>
                 <md-card flex-xs ng-show="vm.showTransactionGraph">
@@ -127,8 +150,10 @@
                         <span class="md-title">{{vm.accountType}}</span>
                     </md-card-title>
                     <md-card-content>
-                        <nvd3  options="vm.options2" data="vm.transactionDatas"></nvd3>
-                        <h4 ng-show="vm.accountType=='Savings'">Sorry, Graphs for Shares are not available now...</h4>
+                        <div ng-if="!vm.transactionDatas.length || !vm.transactionDatas[0].values.length" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px; font-weight: 500;">
+                            No transaction history found for the selected type on this account.
+                        </div>
+                        <nvd3 ng-if="vm.transactionDatas.length && vm.transactionDatas[0].values.length" options="vm.options2" data="vm.transactionDatas"></nvd3>
                     </md-card-content>
                 </md-card>
 

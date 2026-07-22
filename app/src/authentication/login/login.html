@@ -1,39 +1,63 @@
-<div flex layout="row">
-    <div layout="col" layout-align="start center" class="cover" flex-gt-md="70" hide-xs hide-sm>
-        <div flex="60" class="cover-content">
-            <h1 class="md-display-2 cover-title">Self Service</h1>
-            <p class="md-headline">Self Service is designed by the Mifos Initiative - a global community that aims to
-                speed-up the elimination of poverty by enabling organizations to more effectively and efficiently
-                deliver responsible financial services to the world’s poor and unbanked.</p>
+<div class="trade-login-shell" layout="row" layout-align="center center" layout-fill>
+    <div class="trade-login-brand" hide-xs hide-sm>
+        <div class="trade-login-mark" aria-hidden="true">
+            <span></span><span></span><span></span>
         </div>
+        <div class="trade-login-brand-name">TradeDesk</div>
     </div>
-    <div class="login-container" flex flex-gt-md="30">
-        <div class="md-padding translate-container" layout="row" layout-align="end">
-            <translate-helper></translate-helper>
-        </div>
-        <div flex class="logo" layout-margin>
-            <img width="200px" src="assets/images/MifosX_logo.png">
-            <h1 class="md-title">{{ 'login.heading.logintoyouraccount' | translate }}</h1>
-        </div>
-        <div flex="80" class="login-form" layout-padding>
-            <form name="loginForm" ng-submit="doLogin()">
-                <md-input-container class="md-block md-icon-float">
-                    <label>Username</label>
-                    <input ng-model="loginData.username">
-                </md-input-container>
-                <md-input-container class="md-block md-icon-float">
+
+    <div class="login-container trade-login-panel" flex="90" flex-gt-xs="70" flex-gt-sm="48" flex-gt-md="34" layout="column">
+        <form name="loginForm" ng-submit="doLogin()" class="login-form" novalidate>
+            <div class="trade-login-heading">
+                <div class="trade-login-eyebrow">TRADE OPERATIONS</div>
+                <h1>Welcome back</h1>
+                <p>Sign in to continue.</p>
+            </div>
+
+            <md-input-container class="md-block trade-login-input">
+                <label>Username</label>
+                <md-icon class="material-icons">person</md-icon>
+                <input ng-model="loginData.username" required autofocus autocomplete="username">
+            </md-input-container>
+
+            <div class="trade-password-field" layout="row" layout-align="start center">
+                <md-input-container class="md-block trade-login-input" flex>
                     <label>Password</label>
-                    <input type="password" ng-model="loginData.password">
+                    <md-icon class="material-icons">lock</md-icon>
+                    <input type="{{vm.showPassword ? 'text' : 'password'}}" ng-model="loginData.password" required autocomplete="current-password">
                 </md-input-container>
+                <md-button type="button" class="md-icon-button trade-password-toggle" ng-click="vm.showPassword = !vm.showPassword" aria-label="Toggle password visibility">
+                    <i class="material-icons">{{vm.showPassword ? 'visibility_off' : 'visibility'}}</i>
+                    <md-tooltip>{{vm.showPassword ? 'Hide password' : 'Show password'}}</md-tooltip>
+                </md-button>
+            </div>
 
-                <section layout="column" layout-align="start">
-                    <md-button type="submit" class="md-primary md-raised">{{ 'login.btn.login' | translate }}
-                    </md-button>
-                    <md-button class="md-default" ui-sref="forgot">{{ 'login.btn.forgot' | translate }}</md-button>
-                    <md-button class="md-primary" ui-sref="register">{{ 'login.btn.register' | translate }}</md-button>
+            <div class="trade-role-picker">
+                <label class="trade-role-label">Access role</label>
+                <md-radio-group ng-model="loginData.role" class="trade-role-options">
+                    <md-radio-button value="BUYER" class="trade-role-option">
+                        <i class="material-icons" aria-hidden="true">account_balance</i>
+                        <span>Buyer <small>Importer</small></span>
+                    </md-radio-button>
+                    <md-radio-button value="SELLER" class="trade-role-option">
+                        <i class="material-icons" aria-hidden="true">local_shipping</i>
+                        <span>Seller <small>Exporter</small></span>
+                    </md-radio-button>
+                    <md-radio-button value="STAFF" class="trade-role-option">
+                        <i class="material-icons" aria-hidden="true">verified_user</i>
+                        <span>Bank Staff <small>Trade desk</small></span>
+                    </md-radio-button>
+                </md-radio-group>
+            </div>
 
-                </section>
-            </form>
-        </div>
+            <div layout="row" layout-align="center center" style="width: 100%; margin-top: 15px; margin-bottom: 10px;">
+                <md-button type="submit" class="trade-login-submit md-raised" style="min-width: 180px; padding: 4px 24px; font-weight: 600; text-transform: none; border-radius: 24px;" ng-disabled="loginForm.$invalid || vm.authenticating">Sign in</md-button>
+            </div>
+
+            <div class="trade-login-links" layout="row" layout-align="space-between center">
+                <md-button type="button" ui-sref="forgot">Forgot password?</md-button>
+                <md-button type="button" ui-sref="register">Register</md-button>
+            </div>
+        </form>
     </div>
 </div>

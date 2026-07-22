@@ -9,32 +9,64 @@
         storageService, BASE_URL, USER_ROLES) {
 
         var role              = '';
+        var portalRole        = '';
         var userData          = '';
         var isAuthenticated   = false;
-        var twoFactorToken    = null;   // full TFA token after OTP validation
-        var twoFactorPending  = false;  // true = login done but OTP not yet verified
+        var twoFactorToken    = null;
+        var twoFactorPending  = false;
 
-        // Restore session from storage on app load
         storageService.getObject('user_profile').then(function (data) {
             if (data) {
                 isAuthenticated  = true;
                 role             = USER_ROLES.user;
+                portalRole       = data._portalRole || USER_ROLES.buyer;
                 userData         = data;
                 twoFactorPending = data._twoFactorPending || false;
                 twoFactorToken   = data._twoFactorToken   || null;
+            } else {
+                restoreSellerSession();
             }
         });
 
-        // ── Store logged-in user (called right after /self/authentication) ──
-        this.setUser = function (res) {
+        function persistUser(res, selectedPortalRole) {
             userData         = res;
             isAuthenticated  = true;
             role             = USER_ROLES.user;
+            portalRole       = selectedPortalRole;
             twoFactorPending = res.isTwoFactorAuthenticationRequired === true;
             storageService.setObject('user_profile', angular.extend({}, res, {
+                _portalRole: portalRole,
                 _twoFactorPending: twoFactorPending,
-                _twoFactorToken:   null
+                _twoFactorToken: null
             }));
+        }
+
+        function restoreSellerSession() {
+            var sellerSession = localStorage.getItem('seller_session');
+            if (sellerSession) {
+                try {
+                    userData = JSON.parse(sellerSession);
+                    isAuthenticated = true;
+                    role = USER_ROLES.user;
+                    portalRole = USER_ROLES.seller;
+                } catch (e) {
+                    localStorage.removeItem('seller_session');
+                }
+            }
+        }
+
+        this.setUser = function (res, selectedPortalRole) {
+            persistUser(res, selectedPortalRole || USER_ROLES.buyer);
+        };
+
+        this.setSellerUser = function (sellerSession) {
+            userData = sellerSession;
+            isAuthenticated = true;
+            role = USER_ROLES.user;
+            portalRole = USER_ROLES.seller;
+            twoFactorPending = false;
+            twoFactorToken = null;
+            localStorage.setItem('seller_session', JSON.stringify(sellerSession));
         };
 
         this.getUser = function () {
@@ -49,14 +81,28 @@
             return role;
         };
 
+        this.portalRole = function () {
+            return portalRole;
+        };
+
+        this.isBuyer = function () {
+            return portalRole === USER_ROLES.buyer;
+        };
+
+        this.isSeller = function () {
+            return portalRole === USER_ROLES.seller;
+        };
+
+        this.isStaff = function () {
+            return portalRole === USER_ROLES.staff;
+        };
+
         this.isAuthorized = function (authorizedRoles) {
             if (!angular.isArray(authorizedRoles)) {
                 authorizedRoles = [authorizedRoles];
             }
             return (this.isAuthenticated() && authorizedRoles.indexOf(role) !== -1);
         };
-
-        // ── 2FA helpers ───────────────────────────────────────────────────────
 
         this.isTwoFactorPending = function () {
             return twoFactorPending;
@@ -82,11 +128,6 @@
             return twoFactorToken;
         };
 
-        /**
-         * POST /twofactor
-         * Triggers OTP delivery to the user's registered channel (email/SMS).
-         * Requires Basic auth with the restricted token — the interceptor adds it.
-         */
         this.requestOTP = function () {
             return $http({
                 method : 'POST',
@@ -94,10 +135,6 @@
             });
         };
 
-        /**
-         * POST /twofactor/validate?token=<otp>
-         * Validates the OTP. Returns the full TFA access token on success.
-         */
         this.validateOTP = function (otp) {
             var deferred = $q.defer();
             $http({
@@ -105,7 +142,6 @@
                 url    : BASE_URL + '/twofactor/validate',
                 params : { token: otp }
             }).then(function (response) {
-                // Token may be in the response header OR the response body
                 var tfaToken = response.headers('Fineract-Platform-TFA-Token')
                              || (response.data && (response.data.token || response.data));
                 if (tfaToken) {
@@ -119,18 +155,22 @@
             return deferred.promise;
         };
 
-        // ── Standard REST resource for login ──────────────────────────────────
         this.doLogin = function () {
             return $resource(BASE_URL + '/self/authentication');
         };
 
-        // ── Logout: clear everything ──────────────────────────────────────────
+        this.doStaffLogin = function () {
+            return $resource(BASE_URL + '/authentication');
+        };
+
         this.logout = function () {
             role             = '';
+            portalRole       = '';
             userData         = '';
             isAuthenticated  = false;
             twoFactorToken   = null;
             twoFactorPending = false;
+            localStorage.removeItem('seller_session');
             storageService.clear();
             $state.go('login');
         };

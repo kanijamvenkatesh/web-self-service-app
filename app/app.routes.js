@@ -81,7 +81,7 @@
                 })
                 .state('app.profile', {
                     url: '/profile',
-                    templateUrl: 'src/common/coming-soon.html',
+                    templateUrl: 'src/common/profile.html',
                     controller: 'ClientCtrl',
                     controllerAs: 'vm',
                     data: { title: 'Profile', authorizedRoles: [USER_ROLES.user] }
@@ -147,6 +147,42 @@
                     templateUrl: 'src/savings-application/savings-application.html',
                     controller: 'SavingsApplicationCtrl',
                     controllerAs: 'vm'
+                })
+                .state('app.tradefinance', {
+                    url: '/trade-finance',
+                    templateUrl: 'src/trade-finance/trade-finance.html',
+                    controller: 'TradeFinanceCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Trade Finance', authorizedRoles: [USER_ROLES.user] },
+                    params: { showApply: null }
+                })
+                .state('app.tradepending', {
+                    url: '/trade-finance/pending',
+                    templateUrl: 'src/trade-finance/pending.html',
+                    controller: 'TradeFinanceCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Pending LC Applications', authorizedRoles: [USER_ROLES.user] }
+                })
+                .state('app.tradesettle', {
+                    url: '/trade-finance/settle',
+                    templateUrl: 'src/trade-finance/settlement.html',
+                    controller: 'TradeFinanceCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Settlement Audit Desk', authorizedRoles: [USER_ROLES.user] }
+                })
+                .state('app.tradehistory', {
+                    url: '/trade-finance/history',
+                    templateUrl: 'src/trade-finance/history.html',
+                    controller: 'TradeFinanceCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Trade History Log', authorizedRoles: [USER_ROLES.user] }
+                })
+                .state('app.tradecustomers', {
+                    url: '/trade-finance/customers',
+                    templateUrl: 'src/trade-finance/customers.html',
+                    controller: 'TradeFinanceCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Onboarded Customers Directory', authorizedRoles: [USER_ROLES.user] }
                 })
                 .state('app.applyshares', {
                     url: '/shares/apply',
