@@ -1,0 +1,92 @@
+<!-- src/common/profile.html -->
+<div class="profile-page" layout="column" layout-align="center center">
+  <md-card class="profile-card">
+    <md-card-header>
+      <md-card-avatar>
+        <img ng-src="{{ vm.profileImage || 'assets/images/ic_person_black_24px.svg' }}" alt="Avatar" />
+      </md-card-avatar>
+      <md-card-header-text>
+        <span class="md-title">{{ vm.profile.displayName || vm.profile.firstname || vm.currentUser.username }}</span>
+        <span class="md-subhead">
+          <i class="fa fa-shield"></i>{{ vm.currentUser._portalRole }} Portal
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
+      <!-- View Mode -->
+      <div ng-show="!vm.editMode" class="profile-details">
+        <p><i class="fa fa-user"></i><strong>Username:</strong> {{ vm.currentUser.username }}</p>
+        <p><i class="fa fa-envelope"></i><strong>Email:</strong> {{ vm.profile.email || vm.profile.emailAddress || vm.currentUser.email }}</p>
+        <p ng-if="vm.currentUser._portalRole !== 'STAFF'"><i class="fa fa-phone"></i><strong>Phone:</strong> {{ vm.profile.mobileNo || 'N/A' }}</p>
+      </div>
+
+      <!-- Edit Form -->
+      <form name="profileForm" ng-show="vm.editMode" novalidate>
+        <!-- Username (Visible and editable for all logins) -->
+        <md-input-container class="md-block">
+          <label>Username</label>
+          <input ng-model="vm.currentUser.username" required>
+        </md-input-container>
+
+        <!-- For Staff Name -->
+        <md-input-container class="md-block" ng-if="vm.currentUser._portalRole === 'STAFF'">
+          <label>Display Name</label>
+          <input ng-model="vm.profile.displayName" required>
+        </md-input-container>
+
+        <!-- For Seller Company Name -->
+        <md-input-container class="md-block" ng-if="vm.currentUser._portalRole === 'SELLER'">
+          <label>Company Name</label>
+          <input ng-model="vm.profile.displayName" required>
+        </md-input-container>
+
+        <!-- For Buyer Name -->
+        <div layout="row" ng-if="vm.currentUser._portalRole !== 'STAFF' && vm.currentUser._portalRole !== 'SELLER'">
+          <md-input-container flex="50">
+            <label>First Name</label>
+            <input ng-model="vm.profile.firstname" required>
+          </md-input-container>
+          <md-input-container flex="50" style="margin-left: 10px;">
+            <label>Last Name</label>
+            <input ng-model="vm.profile.lastname" required>
+          </md-input-container>
+        </div>
+
+        <!-- For Staff and Sellers Email -->
+        <md-input-container class="md-block" ng-if="vm.currentUser._portalRole === 'STAFF' || vm.currentUser._portalRole === 'SELLER'">
+          <label>Email</label>
+          <input type="email" ng-model="vm.profile.email" required>
+        </md-input-container>
+
+        <!-- For Buyers (Fineract Client) Email -->
+        <md-input-container class="md-block" ng-if="vm.currentUser._portalRole !== 'STAFF' && vm.currentUser._portalRole !== 'SELLER'">
+          <label>Email</label>
+          <input type="email" ng-model="vm.profile.emailAddress" required>
+        </md-input-container>
+
+        <!-- For Clients Phone (Buyers & Sellers) -->
+        <md-input-container class="md-block" ng-if="vm.currentUser._portalRole !== 'STAFF'">
+          <label>Phone</label>
+          <input ng-model="vm.profile.mobileNo">
+        </md-input-container>
+
+        <div layout="row" layout-align="end center" class="profile-actions">
+          <md-button class="md-primary submit-btn" ng-click="vm.saveProfile()">
+            <i class="fa fa-check"></i>Save
+          </md-button>
+          <md-button class="md-warn cancel-btn" ng-click="vm.toggleEdit()">
+            <i class="fa fa-times"></i>Cancel
+          </md-button>
+        </div>
+      </form>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center" ng-hide="vm.editMode">
+      <md-button class="md-primary edit-btn" ng-click="vm.toggleEdit()">
+        <i class="fa fa-edit"></i>Edit
+      </md-button>
+      <md-button class="md-warn logout-btn" ng-click="vm.logout()">
+        <i class="fa fa-sign-out"></i>Logout
+      </md-button>
+    </md-card-actions>
+  </md-card>
+</div>
