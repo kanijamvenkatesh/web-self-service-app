@@ -44,11 +44,19 @@
                 );
             }, function (resp) {
                 var errors = '';
-                if(resp.data){
-                    errors = resp.data.errors.map(function (data) {
-                        return data.defaultUserMessage;
-                    });
-                    errors.join(' ');
+                if (resp && resp.data) {
+                    if (resp.data.errors && angular.isArray(resp.data.errors)) {
+                        errors = resp.data.errors.map(function (data) {
+                            return data.defaultUserMessage;
+                        }).join(' ');
+                    } else if (resp.data.defaultUserMessage) {
+                        errors = resp.data.defaultUserMessage;
+                    } else if (resp.data.message) {
+                        errors = resp.data.message;
+                    }
+                }
+                if (!errors) {
+                    errors = 'Unknown error occurred.';
                 }
                 $mdToast.show(
                     $mdToast.simple()

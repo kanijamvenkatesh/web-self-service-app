@@ -1,8 +1,8 @@
-<md-dialog flex="60" aria-label="Review Transfer">
+<md-dialog flex="50" flex-xs="90" flex-sm="75" aria-label="Review Transfer" style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);">
     <form ng-cloak>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Review Transfer</h2>
+        <md-toolbar style="background-color: #3f51b5; color: white;">
+            <div class="md-toolbar-tools" style="padding: 0 24px;">
+                <h2 style="font-weight: 600; font-size: 20px; margin: 0;">Review Transfer</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="vm.cancel()">
                     <md-icon md-svg-src="assets/images/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
@@ -10,32 +10,56 @@
             </div>
         </md-toolbar>
 
-        <md-dialog-content>
-            <div class="md-dialog-content">
-                <p>
-                    Transfer To: <br>
-                    Account Number: {{ vm.transferFormData.toAccount.accountNo }}
-                </p>
-                <p>
-                    Transfer From: <br>
-                    Account Number: {{ vm.transferFormData.fromAccount.accountNo }}
-                </p>
-                <p>
-                    Amount: {{ vm.transferFormData.amount }}
-                </p>
-                <p>
-                    Transfer Date: {{ vm.transferFormData.transferDate }}
-                </p>
-                <p>
-                    Remark: {{ vm.transferFormData.remark }}
-                </p>
+        <md-dialog-content style="padding: 24px; min-width: 400px; background-color: white;">
+            <div class="dialog-content-wrapper" layout="column" layout-gap="16px">
+                <div style="font-size: 15px; color: #64748b; margin-bottom: 12px; font-weight: 500;">
+                    Please confirm the transaction details below.
+                </div>
+
+                <div layout="row" style="padding: 14px 0; border-bottom: 1px solid #f1f5f9; align-items: center;">
+                    <span style="font-weight: 600; color: #475569; width: 140px; font-size: 14px;">Pay From</span>
+                    <span style="color: #0f172a; font-weight: 500; font-size: 14px;" flex>
+                        {{ vm.transferFormData.fromAccount.accountNo }} ({{ vm.transferFormData.fromAccount.accountType.value || 'Savings' }} - {{ vm.transferFormData.fromAccount.currencyCode }})
+                    </span>
+                </div>
+
+                <div layout="row" style="padding: 14px 0; border-bottom: 1px solid #f1f5f9; align-items: center;">
+                    <span style="font-weight: 600; color: #475569; width: 140px; font-size: 14px;">Pay To</span>
+                    <span style="color: #0f172a; font-weight: 500; font-size: 14px;" flex>
+                        {{ vm.transferFormData.toAccount.accountNo }}
+                        <span ng-if="vm.transferFormData.toAccount.clientName">({{ vm.transferFormData.toAccount.clientName }})</span>
+                        <span ng-if="!vm.transferFormData.toAccount.clientName">({{ vm.transferFormData.toAccount.accountType.value || 'Savings' }} - {{ vm.transferFormData.toAccount.currencyCode }})</span>
+                    </span>
+                </div>
+
+                <div layout="row" style="padding: 14px 0; border-bottom: 1px solid #f1f5f9; align-items: center;">
+                    <span style="font-weight: 600; color: #475569; width: 140px; font-size: 14px;">Amount</span>
+                    <span style="color: #2563eb; font-weight: 700; font-size: 16px;" flex>
+                        {{ vm.transferFormData.amount | number: 2 }} {{ vm.transferFormData.fromAccount.currencyCode }}
+                    </span>
+                </div>
+
+                <div layout="row" style="padding: 14px 0; border-bottom: 1px solid #f1f5f9; align-items: center;">
+                    <span style="font-weight: 600; color: #475569; width: 140px; font-size: 14px;">Transfer Date</span>
+                    <span style="color: #0f172a; font-weight: 500; font-size: 14px;" flex>
+                        {{ vm.transferFormData.transferDate | DateFormat }}
+                    </span>
+                </div>
+
+                <div layout="row" style="padding: 14px 0; align-items: center;">
+                    <span style="font-weight: 600; color: #475569; width: 140px; font-size: 14px;">Remark</span>
+                    <span style="color: #0f172a; font-style: italic; font-weight: 500; font-size: 14px;" flex>
+                        {{ vm.transferFormData.remark || 'N/A' }}
+                    </span>
+                </div>
             </div>
         </md-dialog-content>
-        <md-dialog-actions layout="row">
-            <md-button ng-click="vm.cancel()">
+
+        <md-dialog-actions layout="row" layout-align="end center" style="padding: 16px 24px; background-color: #f8fafc; border-top: 1px solid #f1f5f9;">
+            <md-button ng-click="vm.cancel()" class="md-raised" style="background-color: #ef4444 !important; color: white !important; font-weight: 600; border-radius: 6px; padding: 6px 18px; text-transform: none; font-size: 14px; margin: 0;">
                 Cancel
             </md-button>
-            <md-button ng-click="vm.transfer()">
+            <md-button ng-click="vm.transfer()" class="md-raised" style="background-color: #3b82f6 !important; color: white !important; font-weight: 600; border-radius: 6px; padding: 6px 18px; text-transform: none; font-size: 14px; margin: 0 0 0 12px;">
                 Transfer Now
             </md-button>
         </md-dialog-actions>
