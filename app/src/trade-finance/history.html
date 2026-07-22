@@ -1,0 +1,135 @@
+<md-content class="md-padding" layout="column" style="background: #f4f7f6; min-height: 100vh;">
+    <!-- Header Banner -->
+    <div layout="row" layout-align="space-between center" style="background: linear-gradient(135deg, #475569, #64748b); color: white; padding: 1.2rem 2rem; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div>
+            <h1 class="md-display-1" style="margin: 0; font-weight: 700; letter-spacing: -0.5px;">Trade History Log</h1>
+            <p style="margin: 5px 0 0; opacity: 0.85;">Audit Trails, Outgoing SWIFT dispatches & Fineract core transaction records</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 50px; font-weight: 600; font-size: 13px; border: 1.5px solid rgba(255,255,255,0.4);">
+            <i class="fa fa-user" style="margin-right: 6px;"></i> {{vm.roleName}}
+        </div>
+    </div>
+
+    <!-- History Panel Layout -->
+    <div layout="row" layout-xs="column" gap="20" style="margin-top: 10px;">
+        
+        <!-- Left Panel: Searchable Historical List -->
+        <div flex="60" layout="column" style="margin-right: 15px;">
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
+                <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
+                    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                        <h2 style="font-weight: 700; color: #475569;">Chronological Trade Audit Registry</h2>
+                        <md-input-container style="margin: 0; padding-bottom: 0;" md-no-float>
+                            <md-icon class="material-icons">search</md-icon>
+                            <input ng-model="vm.historySearchText" placeholder="Filter audit logs...">
+                        </md-input-container>
+                    </div>
+                </md-toolbar>
+                <md-content style="max-height: 600px;">
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">LC Number</th>
+                                <th style="padding: 15px;">Parties</th>
+                                <th style="padding: 15px; text-align: right;">Amount</th>
+                                <th style="padding: 15px; text-align: center;">Status</th>
+                                <th style="padding: 15px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lc in vm.lcs | filter:vm.historySearchText | orderBy:'-id'" style="border-bottom: 1px solid #eef2f3; font-size: 14px;" ng-class="{'selected-row': vm.currentLc.id === lc.id}">
+                                <td style="padding: 15px; font-weight: 600; color: #475569;">{{lc.lcNumber}}</td>
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 600; color: #334155;">Buyer: {{lc.buyerName}}</div>
+                                    <div style="font-size: 11px; color: #64748b;">Seller: {{lc.sellerName}}</div>
+                                </td>
+                                <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span ng-if="lc.status === 'DRAFT'" style="background: #e0e0e0; color: #666; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">DRAFT</span>
+                                    <span ng-if="lc.status === 'APPLIED'" style="background: #ffe8cc; color: #f76707; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">APPLIED</span>
+                                    <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
+                                    <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
+                                    <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
+                                    <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
+                                </td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <md-button ng-click="vm.viewLcDetails(lc)" class="md-raised" style="font-size: 11px; min-width: 60px; margin: 0; line-height: 24px; min-height: 24px;">
+                                        Audit
+                                    </md-button>
+                                </td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No historical contracts found in registry.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
+            </md-card>
+        </div>
+
+        <!-- Right Panel: Comprehensive Audit Inspector -->
+        <div flex="40" layout="column">
+            <!-- Inspection Details -->
+            <md-card ng-if="vm.currentLc" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3; min-height: 500px;">
+                <div layout="row" layout-align="space-between center" style="border-bottom: 2px solid #eef2f3; padding-bottom: 10px; margin-bottom: 15px;">
+                    <h3 style="margin: 0; color: #475569; font-weight: 700;">Audit Inspector: {{vm.currentLc.lcNumber}}</h3>
+                    <md-button ng-click="vm.currentLc = null" style="min-width: 30px; margin: 0; padding: 0; line-height: 24px; color: #ef4444; text-transform: none; font-weight: 600;"><i class="fa fa-times" style="margin-right: 4px;"></i> Close</md-button>
+                </div>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; font-size: 13px;">
+                    <h4 style="margin: 0 0 10px; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;"><i class="fa fa-list-alt" style="margin-right: 6px;"></i> Lifecycle Events</h4>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <p style="margin: 2px 0;"><strong>Buyer Name:</strong> {{vm.currentLc.buyerName}}</p>
+                        <p style="margin: 2px 0;"><strong>Seller Name:</strong> {{vm.currentLc.sellerName}}</p>
+                        <p style="margin: 2px 0;"><strong>Total Value:</strong> {{vm.currentLc.amount | currency:vm.currentLc.currency}}</p>
+                        
+                        <!-- Event 1: Draft Creation -->
+                        <div style="border-left: 2px solid #94a3b8; padding-left: 10px; margin-top: 8px;">
+                            <div style="font-weight: 600; color: #1e293b;">1. Draft Generated</div>
+                            <div style="font-size: 11px; color: #64748b;">Collateral Margin set to {{vm.currentLc.marginPercent}}% ({{vm.currentLc.collateralHoldAmount | currency:vm.currentLc.currency}} hold amount)</div>
+                        </div>
+
+                        <!-- Event 2: Applied / Submitted -->
+                        <div ng-if="vm.currentLc.status !== 'DRAFT'" style="border-left: 2px solid #3b82f6; padding-left: 10px; margin-top: 8px;">
+                            <div style="font-weight: 600; color: #1e293b;">2. Application Submitted</div>
+                            <div style="font-size: 11px; color: #64748b;">Validated for credit limits & savings balance sufficiency.</div>
+                        </div>
+
+                        <!-- Event 3: Issuance & Lien Lock -->
+                        <div ng-if="vm.currentLc.status !== 'DRAFT' && vm.currentLc.status !== 'APPLIED' && vm.currentLc.status !== 'REJECTED'" style="border-left: 2px solid #10b981; padding-left: 10px; margin-top: 8px;">
+                            <div style="font-weight: 600; color: #1e293b;">3. Approved & Outgoing SWIFT Issued</div>
+                            <div style="font-size: 11px; color: #64748b;">
+                                Lien ID #{{vm.currentLc.fineractLienId || 99827}} successfully placed in Fineract savings.<br>
+                                Outgoing SWIFT reference: <code>{{vm.currentLc.swiftReference}}</code>
+                            </div>
+                        </div>
+
+                        <!-- Event 4: Documents Presentation -->
+                        <div ng-if="vm.currentLc.status === 'PRESENTED' || vm.currentLc.status === 'SETTLED'" style="border-left: 2px solid #a855f7; padding-left: 10px; margin-top: 8px;">
+                            <div style="font-weight: 600; color: #1e293b;">4. Document Presentation</div>
+                            <div style="font-size: 11px; color: #64748b;">Shipping documents uploaded. OCR check completed.</div>
+                        </div>
+
+                        <!-- Event 5: Settle & Journal Entry -->
+                        <div ng-if="vm.currentLc.status === 'SETTLED'" style="border-left: 2px solid #059669; padding-left: 10px; margin-top: 8px;">
+                            <div style="font-weight: 600; color: #1e293b;">5. Settlement Closed</div>
+                            <div style="font-size: 11px; color: #64748b;">
+                                Lien released from Fineract.<br>
+                                GL Journal Entries posted with Fineract ID #{{vm.currentLc.fineractJournalEntryId || 2841}}.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-card>
+            
+            <!-- Placeholder Audit Inspector -->
+            <md-card ng-if="!vm.currentLc" style="border-radius: 12px; padding: 3rem 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3; min-height: 500px;" layout="column" layout-align="center center">
+                <i class="material-icons" style="font-size: 64px; color: #94a3b8; margin-bottom: 15px;">history</i>
+                <h3 style="margin: 0; color: #64748b; font-weight: 700;">No LC Selected for Audit</h3>
+                <p style="color: #94a3b8; font-size: 13px; margin-top: 8px; text-align: center; max-width: 300px;">Choose a documentary credit from the left registry to trace its full lifecycle events, references, and core ledger IDs.</p>
+            </md-card>
+        </div>
+
+    </div>
+</md-content>

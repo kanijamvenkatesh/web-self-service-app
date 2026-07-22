@@ -1,0 +1,120 @@
+<md-content class="md-padding" layout="column" style="background: #f4f7f6; min-height: 100vh;">
+    <!-- Header Banner -->
+    <div layout="row" layout-align="space-between center" style="background: linear-gradient(135deg, #1b365d, #0077b6); color: white; padding: 1.2rem 2rem; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div>
+            <h1 class="md-display-1" style="margin: 0; font-weight: 700; letter-spacing: -0.5px;">Onboarded Customers Directory</h1>
+            <p style="margin: 5px 0 0; opacity: 0.85;">Compliance registry segregated by Importers (Buyers) and Exporters (Sellers)</p>
+        </div>
+        <div layout="row" layout-align="center center">
+            <span style="background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 50px; font-weight: 600; font-size: 13px; text-transform: uppercase; border: 1.5px solid rgba(255,255,255,0.4);">
+                <i class="fa fa-user" style="margin-right: 6px;"></i> {{vm.roleName}}
+            </span>
+        </div>
+    </div>
+
+    <!-- Divided Registries Layout -->
+    <div layout="row" layout-xs="column" style="width: 100%; gap: 20px;">
+        
+        <!-- ========================================== -->
+        <!-- 🛒 IMPORTERS (BUYERS) REGISTRY            -->
+        <!-- ========================================== -->
+        <div flex="50" layout="column">
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3; margin: 0;">
+                <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-weight: 700; color: #1b365d;"><i class="fa fa-shopping-cart" style="margin-right: 8px;"></i> Importers (Buyers) KYC</h2>
+                    </div>
+                </md-toolbar>
+                <md-content>
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">Buyer Name</th>
+                                <th style="padding: 15px;">Fineract Account / Ref</th>
+                                <th style="padding: 15px; text-align: center;">KYC Status</th>
+                                <th style="padding: 15px; text-align: center;">Credit Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="client in vm.fineractClients" style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
+                                <td style="padding: 15px; font-weight: 600; color: #1b365d;">{{client.displayName}}</td>
+                                <td style="padding: 15px;">Savings A/C #{{client.accountNo}}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span ng-if="client.ekycStatus === 'VERIFIED'" style="color: #2b8a3e; font-weight: 700;"><i class="fa fa-check-circle"></i> VERIFIED</span>
+                                    <span ng-if="client.ekycStatus === 'FAILED' || client.ekycStatus === 'REJECTED'" style="color: #c92a2a; font-weight: 700;"><i class="fa fa-times-circle"></i> REJECTED</span>
+                                    <span ng-if="client.ekycStatus !== 'VERIFIED' && client.ekycStatus !== 'FAILED' && client.ekycStatus !== 'REJECTED'" style="color: #e67700; font-weight: 700;"><i class="fa fa-exclamation-circle"></i> PENDING</span>
+                                </td>
+                                <td style="padding: 15px; text-align: center; font-weight: 700;" ng-style="{'color': client.ekycStatus === 'VERIFIED' ? '#2b8a3e' : (client.ekycStatus === 'FAILED' || client.ekycStatus === 'REJECTED' ? '#c92a2a' : '#e67700')}">
+                                    {{client.ekycStatus === 'VERIFIED' ? 'A+ (Excellent)' : (client.ekycStatus === 'FAILED' || client.ekycStatus === 'REJECTED' ? 'F (Failed)' : 'B (Average)')}}
+                                </td>
+                            </tr>
+                            <tr ng-if="vm.fineractClients.length === 0">
+                                <td colspan="4" style="padding: 15px; text-align: center; color: #888;">No active Fineract clients found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
+            </md-card>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 📦 EXPORTERS (SELLERS) REGISTRY           -->
+        <!-- ========================================== -->
+        <div flex="50" layout="column">
+            <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3; margin: 0;">
+                <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-weight: 700; color: #1b365d;"><i class="fa fa-truck" style="margin-right: 8px;"></i> Exporters (Sellers) Compliance</h2>
+                    </div>
+                </md-toolbar>
+                <md-content>
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">Exporter Name</th>
+                                <th style="padding: 15px;">Registry ID / Ref</th>
+                                <th style="padding: 15px; text-align: center;">KYC Status</th>
+                                <th style="padding: 15px;">Settlement Bank</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
+                                <td style="padding: 15px; font-weight: 600; color: #1b365d;">GLOBAL EXPORTERS LTD</td>
+                                <td style="padding: 15px;">Registry ID #SELLER-001</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span style="color: #2b8a3e; font-weight: 700;"><i class="fa fa-check-circle"></i> VERIFIED</span>
+                                </td>
+                                <td style="padding: 15px; color: #495057;">HSBC International</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
+                                <td style="padding: 15px; font-weight: 600; color: #1b365d;">Santos Bean Exporters</td>
+                                <td style="padding: 15px;">Registry ID #SELLER-002</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span style="color: #2b8a3e; font-weight: 700;"><i class="fa fa-check-circle"></i> VERIFIED</span>
+                                </td>
+                                <td style="padding: 15px; color: #495057;">Standard Chartered Bank</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
+                                <td style="padding: 15px; font-weight: 600; color: #1b365d;">Tokyo Tech Supply</td>
+                                <td style="padding: 15px;">Registry ID #SELLER-003</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span style="color: #2b8a3e; font-weight: 700;"><i class="fa fa-check-circle"></i> VERIFIED</span>
+                                </td>
+                                <td style="padding: 15px; color: #495057;">Sumitomo Mitsui Banking</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
+                                <td style="padding: 15px; font-weight: 600; color: #1b365d;">Cairo Cotton Co</td>
+                                <td style="padding: 15px;">Registry ID #SELLER-004</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span style="color: #c92a2a; font-weight: 700;"><i class="fa fa-exclamation-circle"></i> PENDING</span>
+                                </td>
+                                <td style="padding: 15px; color: #495057;">National Bank of Egypt</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
+            </md-card>
+        </div>
+
+    </div>
+</md-content>
