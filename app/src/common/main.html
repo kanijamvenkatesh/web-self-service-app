@@ -1,4 +1,4 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 app-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
     <div layout="col" layout-align="start end" layout-padding class="sidenav-header">
         <div layout="col" flex>
             <div class="sidenav-content">
@@ -10,305 +10,143 @@
         </div>
     </div>
     <md-content id="sidebar-menu">
-        <!-- <md-button ng-click="close()" class="md-primary" hide-gt-md>
-          Close
-        </md-button> -->
-        <md-divider></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Dashboard')" ui-sref-active="md-warn" ui-sref=".dashboard"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">home</i> {{ 'nav.label.dashboard' | translate}}
-            </div>
+        <div ng-if="vm.isBuyer" class="nav-section-label">Financial overview</div>
+        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Dashboard')" ui-sref-active="md-warn" ui-sref=".dashboard" class="sidenav-icon">
+            <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">home</i>{{ 'nav.label.dashboard' | translate}}</div>
         </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <!-- Buyer-specific Trade Finance sub-module buttons (Nested under Dashboard) -->
-        <div ng-if="vm.isBuyer" style="background: #f8fafc; border-left: 3px solid #1b365d; margin-left: 10px;">
-            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance({ showApply: false })"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">dashboard</i> Trade Dashboard
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Apply for LC')" ui-sref-active="md-warn" ui-sref="app.tradefinance({ showApply: true })"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">assignment</i> Apply for LC
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Pending LCs')" ui-sref-active="md-warn" ui-sref="app.tradepending"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">pending_actions</i> Pending LCs
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Settlement Audit')" ui-sref-active="md-warn" ui-sref="app.tradesettle"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">gavel</i> Settlement Audit
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">history</i> Trade History
-                </div>
-            </md-button>
-        </div>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Accounts')" ui-sref-active="md-warn" ui-sref=".accounts"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">account_balance_wallet</i> {{ 'nav.label.accounts' | translate}}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Recent Transactions')" ui-sref-active="md-warn"
-                   ui-sref=".recenttransactions" class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">trending_up</i> {{ 'nav.label.recenttransactions' | translate}}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Charges')" ui-sref-active="md-warn" ui-sref=".charges"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">attach_money</i> {{ 'nav.label.charges' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Transfers')" ui-sref-active="md-warn" ui-sref=".transfers"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">attach_money</i> {{ 'nav.label.transfers' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('TPT Transfers')" ui-sref-active="md-warn" ui-sref=".tpt"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">attach_money</i> {{ 'nav.label.tpttransfers' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Beneficiaries')" ui-sref-active="md-warn" ui-sref=".beneficiarieslist"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">group</i> {{ 'nav.label.beneficiaries' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Reports')" ui-sref-active="md-warn" ui-sref=".reports"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">ballot</i> {{ 'nav.label.reports' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Apply Loan')" ui-sref-active="md-warn" ui-sref=".applyloan"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">assignment</i> {{ 'nav.label.applyloan' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Apply Savings')" ui-sref-active="md-warn" ui-sref=".applysavings"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">assignment</i> {{ 'nav.label.applysavings' | translate }}
-            </div>
+        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Accounts')" ui-sref-active="md-warn" ui-sref=".accounts" class="sidenav-icon">
+            <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">account_balance_wallet</i>{{ 'nav.label.accounts' | translate}}</div>
         </md-button>
 
 
-        <!-- Seller-specific Trade Finance sub-module buttons (Nested under Dashboard) -->
-        <div ng-if="vm.isSeller" style="background: #f8fafc; border-left: 3px solid #0891b2; margin-left: 10px;">
-            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">dashboard</i> Trade Dashboard
-                </div>
+        <div ng-if="vm.isBuyer" class="nav-section-label">Trade finance</div>
+        <div ng-if="vm.isBuyer" class="trade-nav-group buyer-trade-nav">
+            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance({ showApply: false })" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">dashboard</i>Trade Dashboard</div>
             </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Pending LCs')" ui-sref-active="md-warn" ui-sref="app.tradepending"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">pending_actions</i> Pending LCs
-                </div>
+            <md-button ng-click="vm.selectItem('Apply for LC')" ui-sref-active="md-warn" ui-sref="app.tradefinance({ showApply: true })" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">description</i>Apply for LC</div>
             </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Settlement Audit')" ui-sref-active="md-warn" ui-sref="app.tradesettle"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">gavel</i> Settlement Audit
-                </div>
+            <md-button ng-click="vm.selectItem('Pending LCs')" ui-sref-active="md-warn" ui-sref="app.tradepending" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">pending_actions</i>Pending LCs</div>
             </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">history</i> Trade History
-                </div>
+            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">history</i>Trade History</div>
             </md-button>
         </div>
 
-        <!-- Bank Staff separate sub-module buttons (Nested under Dashboard) -->
-        <div ng-if="vm.isStaff" style="background: #f8fafc; border-left: 3px solid #4f46e5; margin-left: 10px;">
-            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">dashboard</i> Trade Dashboard
-                </div>
+        <div ng-if="vm.isSeller" class="nav-section-label">Trade operations</div>
+        <div ng-if="vm.isSeller" class="trade-nav-group seller-trade-nav">
+            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">dashboard</i>Trade Dashboard</div>
             </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Pending LCs')" ui-sref-active="md-warn" ui-sref="app.tradepending"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">pending_actions</i> Pending LCs
-                </div>
+            <md-button ng-click="vm.selectItem('Upload eBL & Docs')" ui-sref-active="md-warn" ui-sref="app.trade_seller_uploadDocs" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">file_upload</i>Upload eBL and Documents</div>
             </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Settlement Audit')" ui-sref-active="md-warn" ui-sref="app.tradesettle"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">gavel</i> Settlement Audit
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">history</i> Trade History
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button ng-click="vm.selectItem('Customers Directory')" ui-sref-active="md-warn" ui-sref="app.tradecustomers"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #475569;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #64748b; margin-right: 8px;">people</i> Customers Directory
-                </div>
-            </md-button>
-            <md-divider></md-divider>
-            <md-button href="http://localhost:4200/#/login" target="_blank"
-                       class="sidenav-icon" style="padding-left: 20px;">
-                <div class="md-tile-content" style="font-size: 13px; color: #4f46e5; font-weight: 600;">
-                    <i hide-sm hide-md class="material-icons md-18" style="color: #4f46e5; margin-right: 8px;">launch</i> Fineract Portal
-                </div>
+            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">history</i>Trade History</div>
             </md-button>
         </div>
-        <md-divider></md-divider>
-        <md-button ng-if="vm.isBuyer" ng-click="vm.selectItem('Apply Shares')" ui-sref-active="md-warn" ui-sref=".applyshares"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">assignment</i> {{ 'nav.label.applyshares' | translate }}
-            </div>
-        </md-button>
-        <md-divider ng-if="vm.isBuyer"></md-divider>
-        <md-button ng-click="vm.selectItem('About Us')" ui-sref-active="md-warn" ui-sref=".aboutus"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">info</i> {{ 'nav.label.aboutus' | translate }}
-            </div>
-        </md-button>
-        <md-divider></md-divider>
-        <md-button ng-click="vm.selectItem('Help')" ui-sref-active="md-warn" ui-sref=".help"
-                   class="sidenav-icon">
-            <div class="md-tile-content">
-                <i hide-sm hide-md class="material-icons md-18">help</i> {{ 'nav.label.help' | translate }}
-            </div>
-        </md-button>
-        
-        <!-- Real-Time Alerts Panel inside Sidebar (Staff Only) -->
-        <div ng-if="vm.isStaff" class="sidebar-alerts-panel" style="padding: 16px; margin: 15px; background: #fafafa; border-radius: 8px; border: 1px dashed #e2e8f0; font-family: sans-serif;">
-            <div layout="row" layout-align="space-between center" style="margin-bottom: 10px;">
-                <span style="font-size: 11px; font-weight: 700; color: #1b365d; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
-                    <i class="material-icons" style="font-size: 14px; color: #f76707;">notifications_active</i> Real-time Alerts
-                </span>
-                <span class="badge" style="background: #f76707; color: white; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; line-height: 1;">{{vm.getUnreadCount()}}</span>
-            </div>
-            <div class="alerts-list" style="max-height: 150px; overflow-y: auto; font-size: 11px; color: #475569;">
-                <div ng-repeat="notif in vm.recentNotifications | filter:{read:false} | orderBy:'-timestamp'" style="padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                    <div flex style="display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-weight: 600; color: #1e293b;">{{notif.title}}</div>
-                        <div style="color: #64748b; font-size: 10px; display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
-                            <span>{{notif.message}}</span>
-                            <span style="font-size: 9px; opacity: 0.7;">• {{notif.time}}</span>
-                        </div>
-                    </div>
-                    <md-button ng-click="vm.markAsRead(notif, $event)" class="md-icon-button" style="margin: 0; width: 24px; height: 24px; min-height: 24px; padding: 0; line-height: 1; display: flex; align-items: center; justify-content: center;" aria-label="Mark read">
-                        <md-icon class="material-icons" style="font-size: 16px; color: #10b981; margin: 0;">check_circle_outline</md-icon>
-                        <md-tooltip>Mark read</md-tooltip>
-                    </md-button>
-                </div>
-                <div ng-if="vm.getUnreadCount() === 0" style="color: #94a3b8; font-style: italic; text-align: center; padding: 15px 0;">No active unread alerts.</div>
-            </div>
+
+        <div ng-if="vm.isStaff" class="nav-section-label">Trade operations</div>
+        <div ng-if="vm.isStaff" class="trade-nav-group staff-trade-nav">
+            <md-button ng-click="vm.selectItem('Trade Dashboard')" ui-sref-active="md-warn" ui-sref="app.tradefinance" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">dashboard</i>Trade Dashboard</div>
+            </md-button>
+            <md-button ng-click="vm.selectItem('Pending LCs')" ui-sref-active="md-warn" ui-sref="app.tradepending" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">pending_actions</i>Pending LCs</div>
+            </md-button>
+            <md-button ng-click="vm.selectItem('Settlement Audit')" ui-sref-active="md-warn" ui-sref="app.tradesettle" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">fact_check</i>Settlement Audit</div>
+            </md-button>
+            <md-button ng-click="vm.selectItem('OCR Scrutiny and Settlement')" ui-sref-active="md-warn" ui-sref="app.trade_staff_settlement" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">plagiarism</i>OCR Scrutiny and Settlement</div>
+            </md-button>
+            <md-button ng-click="vm.selectItem('Customers Directory')" ui-sref-active="md-warn" ui-sref="app.tradecustomers" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">groups</i>Customers Directory</div>
+            </md-button>
+            <md-button ng-click="vm.selectItem('Trade History')" ui-sref-active="md-warn" ui-sref="app.tradehistory" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">history</i>Trade History</div>
+            </md-button>
+            <md-button ng-click="vm.openFineractPortal()" class="sidenav-icon">
+                <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">open_in_new</i>Fineract Portal</div>
+            </md-button>
         </div>
+
+        <div class="nav-section-label">System</div>
+        <md-button ng-click="vm.selectItem('Notifications')" ui-sref-active="md-warn" ui-sref="app.notifications" class="sidenav-icon">
+            <div class="md-tile-content" layout="row" layout-align="space-between center" style="width: 100%; padding-right: 15px;">
+                <div><i hide-sm hide-md class="material-icons md-18">notifications</i>Notifications</div>
+                <span class="badge" ng-if="vm.getUnreadCount() > 0" style="background: #f76707; color: white; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; line-height: 1;">{{vm.getUnreadCount()}}</span>
+            </div>
+        </md-button>
+        <md-button ng-click="vm.selectItem('Reports')" ui-sref-active="md-warn" ui-sref="app.reports" class="sidenav-icon">
+            <div class="md-tile-content"><i hide-sm hide-md class="material-icons md-18">bar_chart</i>Reports</div>
+        </md-button>
+
     </md-content>
 </md-sidenav>
 
 <div layout="column" flex>
-    <md-toolbar md-theme="default" layout="row" layout-align="start center">
-        <md-button hide-gt-sm ng-click="vm.toggleItemsList()" aria-label="Menu">
+    <md-toolbar class="app-toolbar" md-theme="default" layout="row" layout-align="start center">
+        <div class="app-toolbar-context" flex hide-xs>
+            <span class="app-toolbar-product">Trade Finance Portal</span>
+            <span class="app-toolbar-role">{{vm.tradeRoleLabel}}</span>
+        </div>
+        <md-button class="app-menu-button" hide-gt-sm ng-click="vm.toggleItemsList()" aria-label="Menu">
             <i class="material-icons">menu</i>
         </md-button>
         <div flex></div>
-        <!-- Real-Time Top Notifications Menu -->
-        <md-menu md-position-mode="target-right target">
-            <md-button aria-label="Open notifications menu" class="md-icon-button" ng-click="$mdMenu.open($event)" style="position: relative; margin-right: 12px; min-width: 40px; padding: 0; overflow: visible !important;">
-                <md-icon class="material-icons" style="color: white; font-size: 22px;">{{ vm.getUnreadCount() > 0 ? 'notifications_active' : 'notifications' }}</md-icon>
-                <span ng-if="vm.getUnreadCount() > 0" style="position: absolute; top: -4px; right: -4px; background: #f03e3e; color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; border: 1.5px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.15); z-index: 10;">
-                    {{ vm.getUnreadCount() }}
-                </span>
-            </md-button>
-            <md-menu-content width="4" style="max-height: 400px; overflow-y: auto; padding: 0; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                <div layout="row" layout-align="space-between center" style="padding: 12px 16px; border-bottom: 1px solid #eef2f3; background: #f8fafc;">
-                    <span style="font-weight: 700; font-size: 13px; color: #1b365d;">Notifications</span>
-                    <md-button ng-click="vm.markAllAsRead($event)" style="font-size: 11px; margin: 0; min-height: 24px; line-height: 24px; color: #228be6; text-transform: none; font-weight: 600; padding: 0 4px;">
-                        Mark all read
-                    </md-button>
-                </div>
-                <div ng-repeat="notif in vm.recentNotifications | orderBy:'-timestamp'" layout="row" layout-align="space-between center" style="padding: 12px 16px; border-bottom: 1px solid #f1f5f9; min-width: 280px;" ng-style="{'background': notif.read ? '#ffffff' : '#f0f9ff'}">
-                    <div flex style="padding-right: 12px; display: flex; flex-direction: column; gap: 2px;">
-                        <div style="font-weight: 600; color: #1e293b; font-size: 12px; display: flex; align-items: center; gap: 6px;">
-                            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ef4444;" ng-if="!notif.read"></span>
-                            {{notif.title}}
-                        </div>
-                        <div style="color: #64748b; font-size: 11px; line-height: 1.3;">{{notif.message}}</div>
-                        <div style="color: #94a3b8; font-size: 9px; margin-top: 2px;">{{notif.time}}</div>
+        <div layout="row" layout-align="end center" style="padding-right: 8px;">
+            <!-- Real-Time Top Notifications Menu -->
+            <md-menu md-position-mode="target-right target" style="margin-right: 16px;">
+                <md-button aria-label="Open notifications menu" class="md-icon-button" ng-click="$mdMenu.open($event)" style="position: relative; margin: 0; min-width: 40px; padding: 0; overflow: visible !important;">
+                    <md-icon class="material-icons" style="color: white; font-size: 22px;">{{ vm.getUnreadCount() > 0 ? 'notifications_active' : 'notifications' }}</md-icon>
+                    <span ng-if="vm.getUnreadCount() > 0" style="position: absolute; top: -4px; right: -4px; background: #f03e3e; color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; border: 1.5px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.15); z-index: 10;">
+                        {{ vm.getUnreadCount() }}
+                    </span>
+                </md-button>
+                <md-menu-content width="4" style="max-height: 400px; overflow-y: auto; padding: 0; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div layout="row" layout-align="space-between center" style="padding: 12px 16px; border-bottom: 1px solid #eef2f3; background: #f8fafc;">
+                        <span style="font-weight: 700; font-size: 13px; color: #1b365d;">Notifications</span>
+                        <md-button ng-click="vm.markAllAsRead($event)" style="font-size: 11px; margin: 0; min-height: 24px; line-height: 24px; color: #228be6; text-transform: none; font-weight: 600; padding: 0 4px;">
+                            Mark all read
+                        </md-button>
                     </div>
-                    <md-button ng-if="!notif.read" ng-click="vm.markAsRead(notif, $event)" class="md-icon-button" style="margin: 0; width: 28px; height: 28px; min-height: 28px; padding: 0; display: flex; align-items: center; justify-content: center;" aria-label="Mark read">
-                        <md-icon class="material-icons" style="font-size: 18px; color: #10b981; margin: 0;">done</md-icon>
-                        <md-tooltip>Mark read</md-tooltip>
-                    </md-button>
-                </div>
-                <div ng-if="!vm.recentNotifications.length" style="color: #94a3b8; font-style: italic; text-align: center; padding: 25px; font-size: 12px;">
-                    No notifications yet.
-                </div>
-            </md-menu-content>
-        </md-menu>
+                    <div ng-repeat="notif in vm.recentNotifications | orderBy:'-timestamp' track by $index" layout="row" layout-align="space-between center" style="padding: 12px 16px; border-bottom: 1px solid #f1f5f9; min-width: 280px;" ng-style="{'background': notif.read ? '#ffffff' : '#f0f9ff'}">
+                        <div flex style="padding-right: 12px; display: flex; flex-direction: column; gap: 2px;">
+                            <div style="font-weight: 600; color: #1e293b; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                                <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ef4444;" ng-show="!notif.read"></span>
+                                {{notif.title}}
+                            </div>
+                            <div style="color: #64748b; font-size: 11px; line-height: 1.3;">{{notif.message}}</div>
+                            <div style="color: #94a3b8; font-size: 9px; margin-top: 2px;">{{vm.getTimeAgo(notif.timestamp)}}</div>
+                        </div>
+                        <md-button ng-show="!notif.read" ng-click="vm.markAsRead(notif, $event)" class="md-icon-button" style="margin: 0; width: 28px; height: 28px; min-height: 28px; padding: 0; display: flex; align-items: center; justify-content: center;" aria-label="Mark read">
+                            <md-icon class="material-icons" style="font-size: 18px; color: #10b981; margin: 0;">done</md-icon>
+                            <md-tooltip>Mark read</md-tooltip>
+                        </md-button>
+                    </div>
+                    <div ng-if="!vm.recentNotifications.length" style="color: #94a3b8; font-style: italic; text-align: center; padding: 25px; font-size: 12px;">
+                        No notifications yet.
+                    </div>
+                </md-menu-content>
+            </md-menu>
 
-        <md-menu md-position-mode="target-right target">
-            {{vm.userDetails.username}}
-            <md-button aria-label="Open logout menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                <md-icon md-menu-origin md-svg-src="assets/images/ic_person_white_24px.svg"></md-icon>
-            </md-button>
+            <span class="app-user-name" hide-xs style="color: white; margin-right: 16px; font-size: 14px; font-weight: 500;">{{(vm.profile && (vm.profile.displayName || vm.profile.firstname)) || (vm.currentUser && vm.currentUser.username)}}</span>
+            <md-menu md-position-mode="target-right target">
+                <md-button aria-label="Open logout menu" class="md-icon-button" ng-click="$mdMenu.open($event)" style="margin: 0; padding: 0;">
+                    <md-icon md-menu-origin class="material-icons" style="color: white; font-size: 26px;">account_circle</md-icon>
+                </md-button>
             <md-menu-content width="3">
                 <md-menu-item>
                     <md-button ng-click="vm.selectItem('Profile');" ui-sref="app.profile">
                         <div layout="row">
-                            <p flex>{{ 'nav.label.profile' | translate }}</p>
+                            <p flex>Profile</p>
                         </div>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="vm.isStaff">
-                    <md-button href="http://localhost:4200/#/login" target="_blank">
-                        <div layout="row">
-                            <p flex style="color: #4f46e5; font-weight: 600;">Fineract Portal</p>
-                        </div>
-                    </md-button>
-                </md-menu-item>
+
                 <md-menu-item>
                     <md-button ng-click="vm.logout();">
                         <div layout="row">
@@ -318,17 +156,11 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-
-        <!-- <md-button hide-sm class="toolbar-button" aria-label="Notifications">
-          <i class="material-icons">notifications</i>
-          <span class="notifications-label">7</span>
-        </md-button> -->
+        </div>
 
     </md-toolbar>
 
-    <md-content flex class="page-content">
+    <md-content flex class="page-content app-page-content">
         <div ui-view></div>
     </md-content>
 </div>
-
-

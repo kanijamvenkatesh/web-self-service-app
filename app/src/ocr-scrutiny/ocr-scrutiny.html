@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h2>OCR Scrutiny Workspace <small>LC Number: {{ vm.lcNumber }}</small></h2>
+                <a href="#/" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Banner for Resilience -->
+    <div class="alert alert-danger" ng-if="vm.errorMessage">
+        <i class="fa fa-exclamation-triangle"></i> {{ vm.errorMessage }}
+    </div>
+
+    <div class="row" ng-if="vm.ocrResult">
+        
+        <!-- Left Panel: Document Viewer -->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Uploaded Document</h3>
+                </div>
+                <div class="panel-body" style="height: 600px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc;">
+                    <div class="text-center text-muted">
+                        <i class="fa fa-file-text-o fa-5x"></i>
+                        <p style="margin-top: 15px;">Document Image/PDF Viewer</p>
+                        <p>[Mocking document rendering...]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: OCR Results & Rules -->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">OCR Engine Results</h3>
+                </div>
+                <div class="panel-body" style="height: 600px; overflow-y: auto;">
+                    
+                    <div class="alert" ng-class="{'alert-success': vm.ocrResult.is_compliant, 'alert-danger': !vm.ocrResult.is_compliant}">
+                        <strong>Status:</strong> {{ vm.ocrResult.is_compliant ? 'Compliant' : 'Discrepancies Found' }}
+                    </div>
+
+                    <div ng-if="!vm.ocrResult.is_compliant">
+                        <h4>Discrepancies:</h4>
+                        <div class="well well-sm" ng-repeat="disc in vm.ocrResult.discrepancies">
+                            <p><strong>Field:</strong> {{ disc.field }}</p>
+                            <p><strong>Expected:</strong> {{ disc.expected }}</p>
+                            <p><strong>Found:</strong> <span style="background-color: #ffeeba; padding: 2px 4px; border-radius: 3px;">{{ disc.found }}</span></p>
+                            <p><strong>Reason:</strong> {{ disc.reason }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="text-right" style="margin-top: 20px;">
+                        <!-- Premium Action Button Colors Enforced -->
+                        <button class="btn" style="background-color: red; color: white; margin-right: 10px;" 
+                                ng-click="vm.rejectDiscrepancy()" 
+                                ng-disabled="vm.isSubmitting">
+                            Reject Discrepancy
+                        </button>
+                        
+                        <button class="btn" style="background-color: blue; color: white;" 
+                                ng-click="vm.approveAndSettle()" 
+                                ng-disabled="vm.isSubmitting || !vm.ocrResult.is_compliant">
+                            Approve & Settle
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

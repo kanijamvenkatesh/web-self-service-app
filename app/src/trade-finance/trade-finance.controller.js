@@ -18,12 +18,21 @@
         vm.currentLc = null;
         vm.documents = [];
         vm.showApplyForm = ($stateParams.showApply === 'true' || $stateParams.showApply === true);
+        vm.showLcs = ($stateParams.showLcs === 'true' || $stateParams.showLcs === true);
 
         $scope.$watch(function () {
             return $stateParams.showApply;
         }, function (newVal) {
             if (newVal !== undefined && newVal !== null) {
                 vm.showApplyForm = (newVal === 'true' || newVal === true);
+            }
+        });
+
+        $scope.$watch(function () {
+            return $stateParams.showLcs;
+        }, function (newVal) {
+            if (newVal !== undefined && newVal !== null) {
+                vm.showLcs = (newVal === 'true' || newVal === true);
             }
         });
 
@@ -74,6 +83,7 @@
             if (vm.isStaff) {
                 vm.loadFineractClients();
             }
+            vm.loadCurrencies();
         });
 
         // New LC form data initialization
@@ -208,7 +218,10 @@
                     params.buyerId = 2; // Fallback to Kanijam Venkatesh (Client ID 2)
                 }
             }
-            if (vm.isSeller) params.sellerId = (vm.sellerData && vm.sellerData.userId) ? vm.sellerData.userId : 1;
+            if (vm.isSeller) {
+                // For demo purposes, we do not filter by seller ID
+                // so the user can see all LCs (including Samsung) while logged into eglobal
+            }
 
             TradeFinanceService.getLcs(params)
                 .then(function (res) {
@@ -225,13 +238,87 @@
         };
 
         vm.calculateSummaries = function () {
-            vm.totalCount = vm.lcs.length;
+            if (vm.isSeller) {
+                vm.totalCount = vm.lcs.filter(function(lc) { return lc.status !== 'DRAFT' && lc.status !== 'APPLIED' && lc.status !== 'REJECTED'; }).length;
+            } else {
+                vm.totalCount = vm.lcs.length;
+            }
             vm.activeCount = vm.lcs.filter(function(lc) { return lc.status === 'ISSUED'; }).length;
             vm.pendingApprovalCount = vm.lcs.filter(function(lc) { return lc.status === 'APPLIED'; }).length;
             vm.pendingAuditCount = vm.lcs.filter(function(lc) { return lc.status === 'PRESENTED'; }).length;
             vm.settledCount = vm.lcs.filter(function(lc) { return lc.status === 'SETTLED'; }).length;
+            vm.rejectedCount = vm.lcs.filter(function(lc) { return lc.status === 'REJECTED'; }).length;
             if (vm.isBuyer && vm.tradeCapacity) { vm.updateTradeCapacity(); }
-            if (vm.isBuyer && vm.tradeCapacity) { vm.updateTradeCapacity(); }
+
+            // Notify Staff of pending items
+            if (vm.isStaff && !vm.notifiedPendingStaff) {
+                if (vm.pendingApprovalCount > 0) {
+                    $rootScope.$broadcast('trade:notification', {
+                        title: 'Action Required: Pending Applications',
+                        message: 'You have ' + vm.pendingApprovalCount + ' new LC application(s) awaiting your review.'
+                    });
+                }
+                if (vm.pendingAuditCount > 0) {
+                    $rootScope.$broadcast('trade:notification', {
+                        title: 'Action Required: Pending Audits',
+                        message: 'You have ' + vm.pendingAuditCount + ' LC(s) awaiting settlement audit.'
+                    });
+                }
+                vm.notifiedPendingStaff = true;
+            }
+        };
+
+        vm.getFilteredLcs = function(searchText, tab) {
+            if (!vm.lcs) return 0;
+            var filtered = vm.lcs;
+            if (searchText) {
+                var lower = searchText.toLowerCase();
+                filtered = filtered.filter(function(lc) {
+                    return (lc.lcNumber && lc.lcNumber.toLowerCase().indexOf(lower) !== -1) ||
+                           (lc.sellerName && lc.sellerName.toLowerCase().indexOf(lower) !== -1) ||
+                           (lc.buyerName && lc.buyerName.toLowerCase().indexOf(lower) !== -1) ||
+                           (lc.status && lc.status.toLowerCase().indexOf(lower) !== -1);
+                });
+            }
+            if (tab && tab !== 'ALL') {
+                filtered = filtered.filter(function(lc) { return lc.status === tab; });
+            }
+            return filtered.length;
+        };
+
+        vm.currencies = [
+            { code: 'USD' },
+            { code: 'EUR' },
+            { code: 'GBP' }
+        ]; // Default fallback
+
+        vm.loadCurrencies = function() {
+            AccountService.getCurrencies().then(function(res) {
+                var data = res.data || res;
+                var currList = data.selectedCurrencyOptions || data.currencyOptions || data;
+                if (Array.isArray(currList) && currList.length > 0) {
+                    vm.currencies = currList.map(function(c) { return { code: c.code || c }; });
+                    var found = vm.currencies.filter(function(c) { return c.code === vm.newLc.currency; });
+                    if (found.length === 0) {
+                        vm.newLc.currency = vm.currencies[0].code;
+                    }
+                }
+            }).catch(function(err) {
+                console.warn('Failed to fetch currencies, using fallback', err);
+                vm.currencies = [
+                    { code: 'USD' },
+                    { code: 'EUR' },
+                    { code: 'GBP' },
+                    { code: 'INR' }
+                ];
+            });
+        };
+
+        vm.hasCurrency = function(code) {
+            if (!vm.currencies) return false;
+            return vm.currencies.some(function(c) {
+                return (c.code === code) || (c === code);
+            });
         };
 
         // Open LC detail modal / view
@@ -260,7 +347,22 @@
                 return;
             }
             vm.loading = true;
-            TradeFinanceService.createLc(vm.newLc)
+            
+            // Map frontend UI fields to backend LetterOfCreditApplicationDTO
+            var payload = {
+                sellerId: 1, // Default demo seller ID must match loadLcs sellerId
+                buyerClientId: vm.newLc.buyerClientId || 2,
+                buyerName: vm.newLc.buyerName || 'Import Corp',
+                sellerName: vm.newLc.sellerName,
+                tradeValue: vm.newLc.amount,
+                collateralMarginPercentage: vm.newLc.marginPercent,
+                portOfLoading: vm.newLc.portOfLoading,
+                portOfDischarge: vm.newLc.portOfDischarge,
+                goodsDescription: vm.newLc.goodsDescription,
+                currency: vm.newLc.currency
+            };
+            
+            TradeFinanceService.createLc(payload)
                 .then(function (res) {
                     return TradeFinanceService.submitLc(res.data.id);
                 })
@@ -306,6 +408,7 @@
         };
 
         // Seller action: Present/Upload Shipping Documents
+        
         vm.uploadMockDocument = function (lc) {
             if (!lc) return;
             
@@ -351,6 +454,37 @@
         };
 
         // Staff action: Settle & Disburse
+        vm.rejectLc = function (lc) {
+            var confirm = $mdDialog.prompt()
+                .title('Reject Letter of Credit')
+                .textContent('Please provide a reason for rejecting this application.')
+                .placeholder('Reason for Rejection')
+                .ariaLabel('Reason')
+                .initialValue('')
+                .ok('Confirm Reject')
+                .cancel('Cancel');
+
+            $mdDialog.show(confirm).then(function(reason) {
+                if (!reason || reason.trim() === '') {
+                    $mdToast.show($mdToast.simple().textContent('Rejection requires a valid reason.').position('top right'));
+                    return;
+                }
+                vm.loading = true;
+                TradeFinanceService.rejectLc(lc.id, reason)
+                    .then(function () {
+                        $mdToast.show($mdToast.simple().textContent('LC Application Rejected.').position('top right'));
+                        vm.loadLcs();
+                        vm.currentLc = null;
+                    })
+                    .catch(function () {
+                        $mdToast.show($mdToast.simple().textContent('Failed to reject LC.').position('top right'));
+                    })
+                    .finally(function () {
+                        vm.loading = false;
+                    });
+            });
+        };
+
         vm.settleLc = function (lc) {
             $mdDialog.show($mdDialog.confirm()
                 .title('Settle Letter of Credit?')

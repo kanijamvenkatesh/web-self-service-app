@@ -44,9 +44,9 @@
                                 </td>
                                 <td md-cell>{{loanAccount.accountNo}}</td>
                                 <td md-cell>{{loanAccount.productName}}</td>
-                                <td md-cell>{{loanAccount.originalLoan | number:2 }}</td>
-                                <td md-cell>{{loanAccount.loanBalance | number:2 }}</td>
-                                <td md-cell>{{loanAccount.amountPaid | number:2 }}</td>
+                                <td md-cell>{{(loanAccount.originalLoan || 0) | number:2 }}</td>
+                                <td md-cell>{{(loanAccount.loanBalance || 0) | number:2 }}</td>
+                                <td md-cell>{{(loanAccount.amountPaid || 0) | number:2 }}</td>
                                 <td md-cell>{{loanAccount.loanType.value}}</td>
                             </tr>
                             </tbody>
@@ -99,7 +99,7 @@
                                 <td md-cell>{{savingsAccount.accountNo}}</td>
                                 <td md-cell>{{savingsAccount.productName}}</td>
                                 <td md-cell>{{savingsAccount.accountType.value}}</td>
-                                <td md-cell>{{savingsAccount.accountBalance | number:2 }}</td>
+                                <td md-cell>{{(savingsAccount.accountBalance || 0) | number:2 }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -195,15 +195,15 @@
                                     <p><strong>{{loanAccount.productName}}</strong></p>
                                     <div layout="row">
                                         <h4>Original Loan:&nbsp;</h4>
-                                        <p>{{loanAccount.originalLoan | number:2 }}</p>
+                                        <p>{{(loanAccount.originalLoan || 0) | number:2 }}</p>
                                     </div>
                                     <div layout="row">
                                         <h4>Loan Balance:&nbsp;</h4>
-                                        <p>{{loanAccount.loanBalance | number:2 }}</p>
+                                        <p>{{(loanAccount.loanBalance || 0) | number:2 }}</p>
                                     </div>
                                     <div layout="row">
                                         <h4>Amount Paid:&nbsp;</h4>
-                                        <p>{{loanAccount.amountPaid | number:2 }}</p>
+                                        <p>{{(loanAccount.amountPaid || 0) | number:2 }}</p>
                                     </div>
                                     <div layout="row">
                                         <h4>Loan Type:&nbsp;</h4>
@@ -253,7 +253,7 @@
                                         <p><strong>{{savingsAccount.productName}}</strong></p>
                                         <div layout="row">
                                             <h4>Account Balance:&nbsp;</h4>
-                                            <p>{{savingsAccount.accountBalance | number:2 }}</p>
+                                            <p>{{(savingsAccount.accountBalance || 0) | number:2 }}</p>
                                         </div>
                                         <div layout="row">
                                             <h4>Account Type:&nbsp;</h4>

@@ -22,7 +22,7 @@ gulp.task('styles', function () {
         transform: function (filePath) {
             filePath = filePath.replace(paths.src + '/', '');
             filePath = filePath.replace(paths.src + '/components/', '../components/');
-            return '@import \'' + filePath + '\';';
+            return '@use \'' + filePath + '\';';
         },
         starttag: '// injector',
         endtag: '// endinjector',

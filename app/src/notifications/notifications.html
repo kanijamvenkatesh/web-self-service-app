@@ -1,0 +1,38 @@
+<md-content style="background: #f8fafc; padding: 24px; min-height: 100vh;">
+    <div layout="row" layout-align="space-between center" style="margin-bottom: 24px;">
+        <div layout="column">
+            <h1 class="md-headline" style="margin: 0; color: #1e293b; font-weight: 700; font-family: 'Inter', sans-serif;">
+                Notification Center
+            </h1>
+            <span style="color: #64748b; font-size: 14px; margin-top: 4px;">
+                You have <strong style="color: #f97316;">{{ vm.getUnreadCount() }}</strong> unread alerts.
+            </span>
+        </div>
+        <md-button class="md-raised md-primary" ng-click="vm.markAllAsRead($event)" style="background-color: #4f46e5; border-radius: 6px; text-transform: none; font-weight: 600; padding: 0 20px;">
+            <md-icon>done_all</md-icon> Mark All as Read
+        </md-button>
+    </div>
+
+    <md-card style="border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 0;">
+        <md-list class="md-dense" style="padding: 0;">
+            <md-list-item class="md-3-line" ng-repeat="notif in vm.getNotifications() | orderBy:'-timestamp' track by $index" style="border-bottom: 1px solid #f1f5f9; padding: 12px 16px; transition: background-color 0.2s ease;" ng-style="{'background-color': notif.read ? '#ffffff' : '#eff6ff'}">
+                <div class="md-list-item-text" layout="column" style="margin-right: 16px;">
+                    <h3 style="margin: 0; color: #0f172a; font-weight: 600; font-size: 15px;">{{ notif.title }}</h3>
+                    <p style="margin: 4px 0 0 0; color: #475569; font-size: 14px;">{{ notif.message }}</p>
+                    <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 12px;">{{ vm.getTimeAgo(notif.timestamp) }}</p>
+                </div>
+                <div class="md-secondary">
+                    <md-button class="md-icon-button" ng-show="!notif.read" ng-click="vm.markAsRead(notif, $event)" aria-label="Mark as read" style="color: #10b981;">
+                        <md-icon>check_circle</md-icon>
+                        <md-tooltip>Mark as read</md-tooltip>
+                    </md-button>
+                </div>
+            </md-list-item>
+            
+            <md-list-item ng-if="vm.getNotifications().length === 0" style="padding: 30px; text-align: center; display: block; color: #94a3b8;">
+                <md-icon style="font-size: 48px; width: 48px; height: 48px; color: #cbd5e1; margin-bottom: 16px;">notifications_none</md-icon>
+                <div style="font-size: 16px;">You don't have any notifications yet.</div>
+            </md-list-item>
+        </md-list>
+    </md-card>
+</md-content>

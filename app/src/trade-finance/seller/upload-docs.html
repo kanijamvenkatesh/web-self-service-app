@@ -1,0 +1,35 @@
+<md-content class="md-padding">
+    <div class="md-whiteframe-z1" style="background: white; border-radius: 4px; padding: 24px;">
+        <h2 class="md-title" style="color: #0891b2; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Upload eBL and Shipping Documents</h2>
+        
+        <form name="uploadForm" ng-submit="vm.uploadDocument()">
+            <div layout="column">
+                <md-input-container>
+                    <label>Letter of Credit ID</label>
+                    <input type="number" ng-model="vm.lcId" required>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Document Type</label>
+                    <md-select ng-model="vm.documentType" required>
+                        <md-option value="BILL_OF_LADING">Electronic Bill of Lading (eBL)</md-option>
+                        <md-option value="COMMERCIAL_INVOICE">Commercial Invoice</md-option>
+                        <md-option value="PACKING_LIST">Packing List</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="color: rgba(0,0,0,0.54); font-size: 12px; display: block; margin-bottom: 8px;">Select File (PDF, JPG, PNG)</label>
+                    <input type="file" onchange="angular.element(this).scope().vm.onFileSelect(this)" required accept=".pdf,image/*">
+                </div>
+            </div>
+
+            <div layout="row" layout-align="end center">
+                <!-- RED Cancel Button per Policy -->
+                <md-button class="md-raised premium-btn-cancel" ui-sref="app.dashboard">Cancel</md-button>
+                <!-- BLUE Submit Button per Policy -->
+                <md-button class="md-raised premium-btn-submit" type="submit" ng-disabled="uploadForm.$invalid || !vm.selectedFile">Upload Document</md-button>
+            </div>
+        </form>
+    </div>
+</md-content>

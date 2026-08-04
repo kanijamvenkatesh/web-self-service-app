@@ -42,6 +42,10 @@
                         .textContent('Transfer Completed Successfully')
                         .position('top right')
                 );
+                $rootScope.$broadcast('trade:notification', {
+                    title: 'Transfer Completed',
+                    message: 'Successfully transferred ' + vm.transferFormData.amount + ' from account ' + vm.transferFormData.fromAccount.accountNo + ' to account ' + vm.transferFormData.toAccount.accountNo + '.'
+                });
             }, function (resp) {
                 var errors = '';
                 if (resp && resp.data) {

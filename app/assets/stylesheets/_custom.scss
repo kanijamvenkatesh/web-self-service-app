@@ -1099,3 +1099,458 @@ md-toolbar .md-menu {
   background-color: rgba(13, 148, 136, 0.08) !important;
   border-left: 4px solid #0d9488 !important;
 }
+/* Application shell design system */
+$portal-ink: #173042;
+$portal-teal: #0f6a70;
+$portal-blue: #1c6ea4;
+$portal-amber: #c96a1b;
+$portal-surface: #ffffff;
+$portal-page: #f4f7fa;
+$portal-line: #dce5ea;
+$portal-muted: #667a86;
+
+body {
+  background: $portal-page;
+  color: $portal-ink;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-sidenav.md-sidenav-left {
+  width: 272px !important;
+  min-width: 272px !important;
+  max-width: 272px !important;
+  border-right: 1px solid $portal-line;
+  box-shadow: 4px 0 18px rgba(23, 48, 66, 0.08) !important;
+}
+
+.sidenav-header {
+  min-height: 128px;
+  box-sizing: border-box;
+  background: $portal-teal !important;
+  padding: 20px !important;
+
+  .sidenav-content {
+    width: 100%;
+  }
+
+  md-icon {
+    color: #ffffff;
+    opacity: 0.92;
+  }
+
+  .profile-img {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    box-shadow: none;
+  }
+
+  .sidenav-title {
+    margin: 13px 0 4px;
+    color: #ffffff !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px !important;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+}
+
+.md-sidenav-left #sidebar-menu {
+  box-sizing: border-box;
+  padding: 12px 8px 24px;
+  background: $portal-surface;
+}
+
+#sidebar-menu > md-divider,
+#sidebar-menu .trade-nav-group > md-divider {
+  display: none;
+}
+
+#sidebar-menu md-button.sidenav-icon {
+  display: block;
+  width: calc(100% - 16px);
+  min-height: 42px;
+  margin: 2px 8px;
+  padding: 0;
+  border-radius: 6px;
+  color: $portal-ink;
+  text-align: left;
+  text-transform: none;
+}
+
+#sidebar-menu md-button.sidenav-icon .md-tile-content {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 12px;
+  color: #4a5e69;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+#sidebar-menu md-button.sidenav-icon .material-icons {
+  width: 22px;
+  margin-right: 12px;
+  color: #5e7782;
+  font-size: 19px;
+}
+
+#sidebar-menu md-button.sidenav-icon:hover {
+  background: #edf6f6;
+}
+
+#sidebar-menu md-button.md-warn {
+  background: #dceff0;
+}
+
+#sidebar-menu md-button.md-warn .md-tile-content,
+#sidebar-menu md-button.md-warn .material-icons {
+  color: $portal-teal;
+}
+
+.trade-nav-group {
+  margin: 12px 8px;
+  padding: 8px 0;
+  border: 1px solid $portal-line;
+  border-left: 3px solid $portal-blue;
+  border-radius: 8px;
+  background: #f8fbfc;
+}
+
+.trade-nav-group.seller-trade-nav {
+  border-left-color: $portal-teal;
+}
+
+.trade-nav-group.staff-trade-nav {
+  border-left-color: $portal-amber;
+}
+
+.trade-nav-group md-button.sidenav-icon {
+  width: calc(100% - 12px);
+  margin: 1px 6px;
+}
+
+.sidebar-alerts-panel {
+  margin: 16px 8px !important;
+  padding: 14px !important;
+  border: 1px solid $portal-line !important;
+  border-radius: 8px !important;
+  background: #f8fbfc !important;
+}
+
+.app-toolbar {
+  min-height: 64px;
+  height: 64px;
+  padding: 0 14px;
+  background: $portal-surface !important;
+  color: $portal-ink !important;
+  border-bottom: 1px solid $portal-line;
+  box-shadow: 0 2px 10px rgba(23, 48, 66, 0.05);
+}
+
+.app-toolbar .app-toolbar-context {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding-left: 8px;
+}
+
+.app-toolbar-product {
+  color: $portal-ink;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.app-toolbar-role {
+  margin-top: 3px;
+  color: $portal-muted;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.app-toolbar .md-icon-button,
+.app-toolbar .material-icons,
+.app-toolbar md-icon {
+  color: $portal-teal !important;
+}
+
+.app-toolbar .md-icon-button:hover {
+  background: #edf6f6;
+}
+
+.app-toolbar .app-user-name {
+  max-width: 170px;
+  overflow: hidden;
+  margin-right: 4px;
+  color: #415761;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-toolbar .md-menu-content,
+md-menu-content {
+  border: 1px solid $portal-line;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(23, 48, 66, 0.14);
+}
+
+.app-page-content {
+  background: $portal-page;
+}
+
+.app-page-content > [ui-view] {
+  min-height: 100%;
+}
+
+.app-page-content md-card {
+  border: 1px solid $portal-line;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(23, 48, 66, 0.05);
+}
+
+.app-page-content md-card-title {
+  padding: 18px 20px;
+}
+
+.app-page-content .md-headline,
+.app-page-content .md-title {
+  color: $portal-ink;
+  font-weight: 700;
+}
+
+.app-page-content md-tabs {
+  overflow: hidden;
+  border: 1px solid $portal-line;
+  border-radius: 8px;
+  background: $portal-surface;
+}
+
+.app-page-content md-tabs md-tab-item {
+  min-width: 108px;
+  color: $portal-muted;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.app-page-content md-tabs md-tab-item.md-active {
+  color: $portal-teal;
+}
+
+.app-page-content md-tabs md-ink-bar {
+  background: $portal-teal;
+}
+
+.app-page-content md-table-container {
+  border: 1px solid $portal-line;
+  border-radius: 6px;
+}
+
+.app-page-content table.md-table th.md-column {
+  color: $portal-muted;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.app-page-content table.md-table tbody.md-body > tr.md-row:hover {
+  background: #f1f8f8;
+}
+
+.app-page-content .md-button.md-raised {
+  min-height: 36px;
+  border-radius: 6px;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.app-page-content .md-button.md-primary.md-raised {
+  background: $portal-teal;
+  color: #ffffff;
+}
+
+.app-page-content .md-button.md-primary.md-raised:not([disabled]):hover {
+  background: #0a565b;
+}
+
+.app-page-content md-input-container {
+  color: $portal-ink;
+}
+
+.app-page-content md-input-container .md-input {
+  border-color: #aab9c1;
+}
+
+.app-page-content .md-select-value {
+  color: $portal-ink;
+}
+
+@media (max-width: 959px) {
+  .app-sidenav.md-sidenav-left {
+    width: 272px !important;
+  }
+
+  .app-toolbar {
+    padding: 0 8px;
+  }
+
+  .app-menu-button {
+    margin: 0;
+  }
+}
+
+@media (max-width: 599px) {
+  .app-page-content .md-padding {
+    padding: 14px;
+  }
+
+  .app-page-content md-card-title {
+    padding: 16px;
+  }
+}
+#sidebar-menu .nav-section-label {
+  margin: 18px 14px 6px;
+  color: #788b95;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#sidebar-menu .nav-section-label:first-child {
+  margin-top: 6px;
+}
+/* Flat role navigation */
+#sidebar-menu .nav-section-label {
+  display: none;
+}
+
+#sidebar-menu .trade-nav-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+#sidebar-menu md-button.sidenav-icon,
+#sidebar-menu .trade-nav-group md-button.sidenav-icon {
+  display: block !important;
+  box-sizing: border-box;
+  clear: both;
+  float: none;
+  width: calc(100% - 16px);
+  min-height: 44px;
+  margin: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+}
+
+#sidebar-menu md-button.sidenav-icon .md-tile-content {
+  display: flex !important;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 13px;
+  color: #223b4c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#sidebar-menu md-button.sidenav-icon .material-icons {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  margin-right: 12px;
+}
+
+#sidebar-menu md-button.sidenav-icon:hover {
+  background: #f4f8fb;
+  border-color: #d7e6ec;
+}
+
+#sidebar-menu md-button.md-warn {
+  border-color: #b8dee0;
+  background: #dff2f1;
+}
+
+#sidebar-menu [ui-sref=".dashboard"] .material-icons,
+#sidebar-menu [ui-sref="app.tradefinance"] .material-icons,
+#sidebar-menu [ui-sref^="app.tradefinance("] .material-icons { color: #1769aa; }
+
+#sidebar-menu [ui-sref=".accounts"] .material-icons,
+#sidebar-menu [ui-sref=".applysavings"] .material-icons { color: #0d7b69; }
+
+#sidebar-menu [ui-sref=".recenttransactions"] .material-icons,
+#sidebar-menu [ui-sref=".reports"] .material-icons { color: #6d4db2; }
+
+#sidebar-menu [ui-sref=".charges"] .material-icons,
+#sidebar-menu [ui-sref=".applyloan"] .material-icons { color: #c96a1b; }
+
+#sidebar-menu [ui-sref=".transfers"] .material-icons,
+#sidebar-menu [ui-sref=".tpt"] .material-icons { color: #1682b8; }
+
+#sidebar-menu [ui-sref=".beneficiarieslist"] .material-icons,
+#sidebar-menu [ui-sref="app.tradecustomers"] .material-icons { color: #b04a7a; }
+
+#sidebar-menu [ui-sref=".applyshares"] .material-icons,
+#sidebar-menu [ui-sref="app.tradepending"] .material-icons { color: #937015; }
+
+#sidebar-menu [ui-sref="app.trade_seller_uploadDocs"] .material-icons,
+#sidebar-menu [ui-sref="app.trade_staff_settlement"] .material-icons { color: #a6473f; }
+
+#sidebar-menu [ui-sref="app.tradesettle"] .material-icons,
+#sidebar-menu [ui-sref="app.tradehistory"] .material-icons { color: #4b6a8a; }
+
+#sidebar-menu [ui-sref="app.profile"] .material-icons,
+#sidebar-menu [ui-sref=".aboutus"] .material-icons,
+#sidebar-menu [ui-sref=".help"] .material-icons { color: #4f6271; }
+
+/* Premium Action Buttons */
+.premium-btn-submit {
+    background-color: #2563eb !important;
+    color: white !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.premium-btn-submit:hover:not([disabled]) {
+    background-color: #1d4ed8 !important;
+    box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.6);
+    transform: translateY(-1px);
+}
+.premium-btn-submit[disabled] {
+    background-color: #93c5fd !important;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.premium-btn-cancel {
+    background-color: #ef4444 !important;
+    color: white !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.premium-btn-cancel:hover {
+    background-color: #dc2626 !important;
+    box-shadow: 0 6px 12px -2px rgba(239, 68, 68, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Sidebar Icon Spacing */
+.md-tile-content i.material-icons {
+    margin-right: 12px;
+}

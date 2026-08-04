@@ -2,9 +2,9 @@
     'use strict';
     //@todo Move this service to the common folder
     angular.module('selfService')
-        .service('AccountService', ['$http', '$resource', 'BASE_URL', 'storageService', AccountService]);
+        .service('AccountService', ['$http', '$resource', 'BASE_URL', 'storageService', '$q', AccountService]);
 
-    function AccountService($http, $resource, BASE_URL, storageService) {
+    function AccountService($http, $resource, BASE_URL, storageService, $q) {
 
         /**
          * Get the clients associated with the current user's account.
@@ -12,6 +12,10 @@
          */
         this.getClients = function () {
             return $resource(BASE_URL + '/self/clients/');
+        };
+
+        this.getCurrencies = function () {
+            return $q.resolve(['USD', 'EUR', 'GBP', 'INR']);
         };
 
         this.getFineractClients = function () {

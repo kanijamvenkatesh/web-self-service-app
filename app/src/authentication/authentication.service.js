@@ -15,8 +15,10 @@
         var twoFactorToken    = null;
         var twoFactorPending  = false;
 
-        storageService.getObject('user_profile').then(function (data) {
-            if (data) {
+        try {
+            var rawData = window.localStorage.getItem('user_profile');
+            if (rawData) {
+                var data = JSON.parse(rawData);
                 isAuthenticated  = true;
                 role             = USER_ROLES.user;
                 portalRole       = data._portalRole || USER_ROLES.buyer;
@@ -26,7 +28,9 @@
             } else {
                 restoreSellerSession();
             }
-        });
+        } catch(e) {
+            restoreSellerSession();
+        }
 
         function persistUser(res, selectedPortalRole) {
             userData         = res;
@@ -170,8 +174,11 @@
             isAuthenticated  = false;
             twoFactorToken   = null;
             twoFactorPending = false;
+            
             localStorage.removeItem('seller_session');
-            storageService.clear();
+            localStorage.removeItem('user_profile');
+            localStorage.removeItem('client_id');
+            
             $state.go('login');
         };
 

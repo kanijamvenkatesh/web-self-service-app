@@ -51,56 +51,61 @@
 
         function getDashboardData() {
             AccountService.getClientId().then(function (clientId) {
-                AccountService.getAllAccounts(clientId).get().$promise.then(function(data) {
-                    var allSavings = data.savingsAccounts || [];
-                    vm.dashboardData.loanAccounts = data.loanAccounts || [];
-                    vm.dashboardData.shareAccounts = data.shareAccounts || [];
-                    
-                    // Filter savings vs recurring deposits dynamically using Fineract depositType field
-                    vm.dashboardData.savingsAccounts = allSavings.filter(function (acct) {
-                        return !acct.depositType || acct.depositType.value === 'Savings';
-                    });
-                    vm.dashboardData.recurringDepositAccounts = allSavings.filter(function (acct) {
-                        return acct.depositType && (acct.depositType.value === 'Recurring Deposit' || acct.depositType.code === 'depositAccountType.recurringDeposit');
-                    });
-                    
-                    vm.dashboardData.totalAccounts = vm.dashboardData.loanAccounts.length + vm.dashboardData.savingsAccounts.length + vm.dashboardData.shareAccounts.length + vm.dashboardData.recurringDepositAccounts.length;
-                    vm.dashboardData.totalSavings = vm.dashboardData.savingsAccounts.reduce(getTotalSavings, 0).toFixed(2);
-                    vm.dashboardData.totalLoan = vm.dashboardData.loanAccounts.reduce(getTotalLoan, 0).toFixed(2);
-                    vm.dashboardData.totalRecurring = vm.dashboardData.recurringDepositAccounts.reduce(getTotalSavings, 0).toFixed(2);
-                    
-                    vm.dashboardData.loanAccountsOverview = getChartData(data.loanAccounts);
-                    vm.dashboardData.savingsAccountsOverview = getChartData(vm.dashboardData.savingsAccounts);
-                    vm.dashboardData.shareAccountsOverview = getChartData(data.shareAccounts);
-                    vm.dashboardData.recurringDepositOverview = getChartData(vm.dashboardData.recurringDepositAccounts);
- 
-                    // Map accounts to a selectable dropdown list
-                    vm.allSelectableAccounts = [];
-                    vm.dashboardData.savingsAccounts.forEach(function (acct) {
-                        vm.allSelectableAccounts.push({
-                            id: acct.id,
-                            accountNo: acct.accountNo,
-                            displayName: 'Savings - ' + acct.accountNo + ' (' + acct.productName + ')',
-                            type: 'Savings'
+                if (clientId) {
+                    AccountService.getAllAccounts(clientId).get().$promise.then(function(data) {
+                        var allSavings = data.savingsAccounts || [];
+                        vm.dashboardData.loanAccounts = data.loanAccounts || [];
+                        vm.dashboardData.shareAccounts = data.shareAccounts || [];
+                        
+                        // Filter savings vs recurring deposits dynamically using Fineract depositType field
+                        vm.dashboardData.savingsAccounts = allSavings.filter(function (acct) {
+                            return !acct.depositType || acct.depositType.value === 'Savings';
+                        });
+                        vm.dashboardData.recurringDepositAccounts = allSavings.filter(function (acct) {
+                            return acct.depositType && (acct.depositType.value === 'Recurring Deposit' || acct.depositType.code === 'depositAccountType.recurringDeposit');
+                        });
+                        
+                        vm.dashboardData.totalAccounts = vm.dashboardData.loanAccounts.length + vm.dashboardData.savingsAccounts.length + vm.dashboardData.shareAccounts.length + vm.dashboardData.recurringDepositAccounts.length;
+                        vm.dashboardData.totalSavings = vm.dashboardData.savingsAccounts.reduce(getTotalSavings, 0).toFixed(2);
+                        vm.dashboardData.totalLoan = vm.dashboardData.loanAccounts.reduce(getTotalLoan, 0).toFixed(2);
+                        vm.dashboardData.totalRecurring = vm.dashboardData.recurringDepositAccounts.reduce(getTotalSavings, 0).toFixed(2);
+                        
+                        vm.dashboardData.loanAccountsOverview = getChartData(data.loanAccounts);
+                        vm.dashboardData.savingsAccountsOverview = getChartData(vm.dashboardData.savingsAccounts);
+                        vm.dashboardData.shareAccountsOverview = getChartData(data.shareAccounts);
+                        vm.dashboardData.recurringDepositOverview = getChartData(vm.dashboardData.recurringDepositAccounts);
+     
+                        // Map accounts to a selectable dropdown list
+                        vm.allSelectableAccounts = [];
+                        vm.dashboardData.savingsAccounts.forEach(function (acct) {
+                            vm.allSelectableAccounts.push({
+                                id: acct.id,
+                                accountNo: acct.accountNo,
+                                displayName: 'Savings - ' + acct.accountNo + ' (' + acct.productName + ')',
+                                type: 'Savings'
+                            });
+                        });
+                        vm.dashboardData.loanAccounts.forEach(function (acct) {
+                            vm.allSelectableAccounts.push({
+                                id: acct.id,
+                                accountNo: acct.accountNo,
+                                displayName: 'Loan - ' + acct.accountNo + ' (' + acct.productName + ')',
+                                type: 'Loan'
+                            });
+                        });
+                        vm.dashboardData.recurringDepositAccounts.forEach(function (acct) {
+                            vm.allSelectableAccounts.push({
+                                id: acct.id,
+                                accountNo: acct.accountNo,
+                                displayName: 'Recurring - ' + acct.accountNo + ' (' + acct.productName + ')',
+                                type: 'Recurring Deposit'
+                            });
                         });
                     });
-                    vm.dashboardData.loanAccounts.forEach(function (acct) {
-                        vm.allSelectableAccounts.push({
-                            id: acct.id,
-                            accountNo: acct.accountNo,
-                            displayName: 'Loan - ' + acct.accountNo + ' (' + acct.productName + ')',
-                            type: 'Loan'
-                        });
-                    });
-                    vm.dashboardData.recurringDepositAccounts.forEach(function (acct) {
-                        vm.allSelectableAccounts.push({
-                            id: acct.id,
-                            accountNo: acct.accountNo,
-                            displayName: 'Recurring - ' + acct.accountNo + ' (' + acct.productName + ')',
-                            type: 'Recurring Deposit'
-                        });
-                    });
-                });
+                } else {
+                    console.warn('Dashboard data fetch skipped: clientId is null. User may not be logged in or session expired.');
+                    // Optional: $location.path('/login');
+                }
             })
         }
 

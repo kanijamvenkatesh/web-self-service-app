@@ -153,8 +153,18 @@
                 console.log('User role resolved to:', role);
 
                 if (role === 'STAFF') {
-                    vm.profile = userProfile;
-                    console.log('Staff profile loaded:', vm.profile);
+                    // Fetch full staff user details from backend to get email, firstname, etc.
+                    $http.get(BASE_URL + '/users/' + userProfile.userId).then(function(resp) {
+                        var fullUser = angular.extend({}, userProfile, resp.data);
+                        fullUser.displayName = fullUser.firstname ? (fullUser.firstname + ' ' + (fullUser.lastname || '')) : fullUser.username;
+                        vm.profile = fullUser;
+                        vm.currentUser = fullUser;
+                        storageService.setObject('user_profile', fullUser);
+                        console.log('Staff full profile loaded:', vm.profile);
+                    }).catch(function(err) {
+                        console.warn('Failed to load full staff profile', err);
+                        vm.profile = userProfile;
+                    });
                 } else if (vm.clientId) {
                     loadClientDetails(vm.clientId);
                 } else {

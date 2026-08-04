@@ -20,6 +20,18 @@
                     <md-select ng-model="vm.transferFormData.fromAccount" ng-disabled="vm.disabledfromAccount" required>
                         <md-option ng-repeat="fromAccountOption in vm.fromAccountOptions" ng-value="fromAccountOption">{{ fromAccountOption.accountNo }} ({{fromAccountOption.accountType.value}} - {{fromAccountOption.currencyCode}})</md-option>
                     </md-select>
+                    <div ng-if="vm.isTransferInvalid() === 'same_account'" style="color: rgb(221,44,0); font-size: 12px; margin-top: 5px;">
+                        Pay From and Pay To accounts cannot be the same.
+                    </div>
+                    <div ng-if="vm.isTransferInvalid() === 'cross_currency'" style="color: rgb(221,44,0); font-size: 12px; margin-top: 5px;">
+                        Cross-currency transfers are not supported.
+                    </div>
+                    <div ng-if="vm.isTransferInvalid() === 'invalid_source'" style="color: rgb(221,44,0); font-size: 12px; margin-top: 5px;">
+                        Withdrawals from Fixed or Recurring Deposit accounts are not allowed.
+                    </div>
+                    <div ng-if="vm.isTransferInvalid() === 'invalid_destination'" style="color: rgb(221,44,0); font-size: 12px; margin-top: 5px;">
+                        Direct ad-hoc deposits into Fixed or Recurring Deposit accounts are not allowed.
+                    </div>
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{ 'label.input.amount' | translate }}</label>
@@ -35,8 +47,8 @@
                     <input name="remark" ng-model="vm.transferFormData.remark" required>
                 </md-input-container>
                 <div layout="row" flex>
-                    <md-button flex class="md-raised md-danger transfer-action-button" ng-click="vm.clearForm()">{{ 'label.btn.cancel' | translate }}</md-button>
-                    <md-button type="submit" flex class="md-raised md-primary transfer-action-button" ng-disabled="transferForm.$invalid">{{ 'label.btn.reviewTransfer' | translate }}</md-button>
+                    <div flex><md-button class="md-raised md-danger transfer-action-button" style="width: 100%; margin: 0;" ng-click="vm.clearForm()">{{ 'label.btn.cancel' | translate }}</md-button></div>
+                    <div flex style="margin-left: 10px;"><md-button type="submit" class="md-raised md-primary transfer-action-button" style="width: 100%; margin: 0;" ng-disabled="transferForm.$invalid || vm.isTransferInvalid()">{{ 'label.btn.reviewTransfer' | translate }}</md-button></div>
                 </div>
 
             </form>

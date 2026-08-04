@@ -30,6 +30,13 @@
                     controllerAs: 'vm',
                     data: { title: 'Dashboard', authorizedRoles: [USER_ROLES.user] }
                 })
+                .state('app.notifications', {
+                    url: '/notifications',
+                    templateUrl: 'src/notifications/notifications.html',
+                    controller: 'NotificationsCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Notification Center', authorizedRoles: [USER_ROLES.user] }
+                })
                 .state('app.accounts', {
                     url: '/accounts',
                     templateUrl: 'src/accounts/account-list/account-list.html',
@@ -154,7 +161,28 @@
                     controller: 'TradeFinanceCtrl',
                     controllerAs: 'vm',
                     data: { title: 'Trade Finance', authorizedRoles: [USER_ROLES.user] },
-                    params: { showApply: null }
+                    params: { showApply: null, showLcs: null }
+                })
+                .state('app.trade_buyer_applyLc', {
+                    url: '/trade-finance/buyer/apply',
+                    templateUrl: 'src/trade-finance/buyer/apply-lc.html',
+                    controller: 'TradeFinanceBuyerCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Apply for Letter of Credit', authorizedRoles: ['BUYER'] }
+                })
+                .state('app.trade_seller_uploadDocs', {
+                    url: '/trade-finance/seller/upload?lcId',
+                    templateUrl: 'src/trade-finance/seller/upload-docs.html',
+                    controller: 'TradeFinanceSellerCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'Upload eBL and Documents', authorizedRoles: ['SELLER'] }
+                })
+                .state('app.trade_staff_settlement', {
+                    url: '/trade-finance/staff/settlement',
+                    templateUrl: 'src/trade-finance/staff/settlement.html',
+                    controller: 'TradeFinanceStaffCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'OCR Scrutiny & Settlement', authorizedRoles: ['BANK_STAFF'] }
                 })
                 .state('app.tradepending', {
                     url: '/trade-finance/pending',
@@ -189,6 +217,35 @@
                     templateUrl: 'src/shares-application/shares-application.html',
                     controller: 'SharesApplicationCtrl',
                     controllerAs: 'vm'
+                })
+                .state('app.ocrscrutiny', {
+                    url: '/ocr-scrutiny/:lcNumber',
+                    templateUrl: 'src/ocr-scrutiny/ocr-scrutiny.html',
+                    controller: 'OcrScrutinyCtrl',
+                    controllerAs: 'vm',
+                    data: { title: 'OCR Scrutiny', authorizedRoles: [USER_ROLES.user] },
+                    resolve: {
+                        ocrResult: function($q, $timeout, $stateParams) {
+                            var deferred = $q.defer();
+                            $timeout(function() {
+                                deferred.resolve({
+                                    data: {
+                                        lcNumber: $stateParams.lcNumber,
+                                        is_compliant: false,
+                                        discrepancies: [
+                                            {
+                                                field: 'Port_of_Loading',
+                                                expected: 'Port of Shanghai',
+                                                found: 'Shanghai (Missing "Port of")',
+                                                reason: 'Mismatch in exact port naming conventions.'
+                                            }
+                                        ]
+                                    }
+                                });
+                            }, 500); // 500ms artificial delay
+                            return deferred.promise;
+                        }
+                    }
                 })
 
                 // ── Public / auth states ────────────────────────────────────

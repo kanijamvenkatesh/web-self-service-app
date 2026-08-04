@@ -24,7 +24,8 @@
                 <md-input-container class="md-block trade-login-input" flex>
                     <label>Password</label>
                     <md-icon class="material-icons">lock</md-icon>
-                    <input type="{{vm.showPassword ? 'text' : 'password'}}" ng-model="loginData.password" required autocomplete="current-password">
+                    <input type="password" ng-model="loginData.password" required autocomplete="current-password" ng-if="!vm.showPassword">
+                    <input type="text" ng-model="loginData.password" required autocomplete="current-password" ng-if="vm.showPassword">
                 </md-input-container>
                 <md-button type="button" class="md-icon-button trade-password-toggle" ng-click="vm.showPassword = !vm.showPassword" aria-label="Toggle password visibility">
                     <i class="material-icons">{{vm.showPassword ? 'visibility_off' : 'visibility'}}</i>

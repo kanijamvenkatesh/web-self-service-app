@@ -1,4 +1,4 @@
-<md-content class="md-padding" layout="column" style="background: #f4f7f6; min-height: 100vh;">
+<md-content class="md-padding" layout="column" style="background: #f4f7f6; min-height: 100vh;" ng-init="vm.historyTab = 'ALL'">
     <!-- Header Banner -->
     <div layout="row" layout-align="space-between center" style="background: linear-gradient(135deg, #475569, #64748b); color: white; padding: 1.2rem 2rem; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
         <div>
@@ -16,12 +16,23 @@
         <!-- Left Panel: Searchable Historical List -->
         <div flex="60" layout="column" style="margin-right: 15px;">
             <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
-                <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
+                <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3; padding: 0 16px;">
                     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-                        <h2 style="font-weight: 700; color: #475569;">Chronological Trade Audit Registry</h2>
-                        <md-input-container style="margin: 0; padding-bottom: 0;" md-no-float>
-                            <md-icon class="material-icons">search</md-icon>
-                            <input ng-model="vm.historySearchText" placeholder="Filter audit logs...">
+                        <h2 style="font-weight: 700; color: #475569; margin: 0;">Chronological Trade Audit Registry</h2>
+                        
+                        <!-- Segmented Control Tabs -->
+                        <div layout="row" hide-sm hide-xs style="background: #f1f5f9; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 0 15px;">
+                            <md-button class="{{vm.historyTab === 'ALL' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'ALL'" style="margin: 0; min-width: 50px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'ALL' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">All</md-button>
+                            <md-button ng-if="!vm.isSeller" class="{{vm.historyTab === 'APPLIED' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'APPLIED'" style="margin: 0; min-width: 60px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'APPLIED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Applied</md-button>
+                            <md-button class="{{vm.historyTab === 'ISSUED' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'ISSUED'" style="margin: 0; min-width: 60px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'ISSUED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Issued</md-button>
+                            <md-button class="{{vm.historyTab === 'PRESENTED' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'PRESENTED'" style="margin: 0; min-width: 70px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'PRESENTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Presented</md-button>
+                            <md-button class="{{vm.historyTab === 'SETTLED' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'SETTLED'" style="margin: 0; min-width: 60px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'SETTLED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Settled</md-button>
+                            <md-button ng-if="!vm.isSeller" class="{{vm.historyTab === 'REJECTED' ? 'md-raised' : ''}}" ng-click="vm.historyTab = 'REJECTED'" style="margin: 0; min-width: 60px; min-height: 28px; line-height: 28px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="vm.historyTab === 'REJECTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Rejected</md-button>
+                        </div>
+
+                        <md-input-container style="margin: 0; padding-bottom: 0; width: 180px;" md-no-float>
+                            <md-icon class="material-icons" style="color: #64748b;">search</md-icon>
+                            <input ng-model="vm.historySearchText" placeholder="Filter" style="border-bottom-color: #cbd5e1;">
                         </md-input-container>
                     </div>
                 </md-toolbar>
@@ -37,7 +48,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="lc in vm.lcs | filter:vm.historySearchText | orderBy:'-id'" style="border-bottom: 1px solid #eef2f3; font-size: 14px;" ng-class="{'selected-row': vm.currentLc.id === lc.id}">
+                            <tr ng-repeat="lc in vm.lcs | filter:vm.historySearchText | orderBy:'-id'" 
+                                ng-if="(vm.historyTab === 'ALL' || lc.status === vm.historyTab) && (!vm.isSeller || (lc.status !== 'DRAFT' && lc.status !== 'APPLIED' && lc.status !== 'REJECTED'))"
+                                style="border-bottom: 1px solid #eef2f3; font-size: 14px;" ng-class="{'selected-row': vm.currentLc.id === lc.id}">
                                 <td style="padding: 15px; font-weight: 600; color: #475569;">{{lc.lcNumber}}</td>
                                 <td style="padding: 15px;">
                                     <div style="font-weight: 600; color: #334155;">Buyer: {{lc.buyerName}}</div>

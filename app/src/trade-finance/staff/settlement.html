@@ -1,0 +1,81 @@
+<md-content class="md-padding">
+    
+    <!-- Pending LCs List -->
+    <div class="md-whiteframe-z1" style="background: white; border-radius: 4px; padding: 24px; margin-bottom: 24px;">
+        <h2 class="md-title" style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Pending LCs Awaiting Scrutiny</h2>
+        
+        <div ng-if="vm.pendingLcs.length === 0" style="padding: 16px; color: #64748b;">
+            No LCs pending scrutiny at this time.
+        </div>
+
+        <md-list ng-if="vm.pendingLcs.length > 0">
+            <md-list-item class="md-2-line" ng-repeat="lc in vm.pendingLcs" ng-click="vm.selectLc(lc)" style="border-bottom: 1px solid #f1f5f9; cursor: pointer;" ng-style="{'background-color': vm.lcId === lc.id ? '#e0e7ff' : 'transparent'}">
+                <div class="md-list-item-text">
+                    <h3>LC-{{lc.id}} | {{lc.currency}} {{lc.amount}}</h3>
+                    <p>Buyer ID: {{lc.buyerClientId}} | Seller ID: {{lc.sellerId}} | Status: {{lc.status}}</p>
+                </div>
+                <md-button class="md-secondary" style="color: #4f46e5;">Select</md-button>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <!-- LC Documents List -->
+    <div class="md-whiteframe-z1" ng-if="vm.lcId" style="background: white; border-radius: 4px; padding: 24px; margin-bottom: 24px;">
+        <h2 class="md-title" style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Documents for LC-{{vm.lcId}}</h2>
+        
+        <div ng-if="vm.selectedLcDocuments.length === 0" style="padding: 16px; color: #64748b;">
+            No documents uploaded yet.
+        </div>
+
+        <md-list ng-if="vm.selectedLcDocuments.length > 0">
+            <md-list-item class="md-2-line" ng-repeat="doc in vm.selectedLcDocuments" ng-click="vm.selectDocument(doc)" style="border-bottom: 1px solid #f1f5f9; cursor: pointer;" ng-style="{'background-color': vm.documentId === doc.id ? '#e0e7ff' : 'transparent'}">
+                <div class="md-list-item-text">
+                    <h3>{{doc.documentType}} | {{doc.fileName}}</h3>
+                    <p>Scrutiny Status: {{doc.scrutinyStatus || 'PENDING'}}</p>
+                </div>
+                <md-button class="md-secondary" style="color: #4f46e5;">Select</md-button>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <!-- OCR Scrutiny Action -->
+    <div class="md-whiteframe-z1" style="background: white; border-radius: 4px; padding: 24px; margin-bottom: 24px;">
+        <h2 class="md-title" style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">OCR Document Scrutiny</h2>
+        
+        <form name="scrutinyForm" ng-submit="vm.runScrutiny()">
+            <div layout="row" layout-align="start center">
+                <md-input-container flex="50">
+                    <label>Selected Document ID</label>
+                    <input type="number" ng-model="vm.documentId" required readonly>
+                </md-input-container>
+                <md-button class="md-raised premium-btn-submit" style="margin-left: 16px;" type="submit" ng-disabled="!vm.documentId">Run OCR Engine</md-button>
+            </div>
+        </form>
+
+        <div ng-if="vm.ocrResult" style="background: #f1f5f9; padding: 16px; border-radius: 4px; border-left: 4px solid #4f46e5; margin-top: 16px;">
+            <h4>Scrutiny Status: <span ng-style="{'color': vm.ocrResult.scrutinyStatus === 'PASSED' ? 'green' : 'red'}">{{vm.ocrResult.scrutinyStatus}}</span></h4>
+            <pre style="font-size: 13px; color: #334155;">{{vm.ocrResult.scrutinyNotes}}</pre>
+        </div>
+    </div>
+
+    <!-- Settlement Action -->
+    <div class="md-whiteframe-z1" style="background: white; border-radius: 4px; padding: 24px;">
+        <h2 class="md-title" style="color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Final Settlement & General Ledger Posting</h2>
+        
+        <form name="settleForm" ng-submit="vm.verifyAndSettle()">
+            <div layout="row" layout-align="start center">
+                <md-input-container flex="50">
+                    <label>Selected Letter of Credit ID</label>
+                    <input type="number" ng-model="vm.lcId" required readonly>
+                </md-input-container>
+                
+                <span flex></span>
+                
+                <!-- RED Cancel Button per Policy -->
+                <md-button class="md-raised premium-btn-cancel" ui-sref="app.dashboard">Cancel</md-button>
+                <!-- BLUE Submit Button per Policy -->
+                <md-button class="md-raised premium-btn-submit" type="submit" ng-disabled="!vm.lcId || (vm.ocrResult && vm.ocrResult.scrutinyStatus !== 'PASSED')">Verify & Settle</md-button>
+            </div>
+        </form>
+    </div>
+</md-content>

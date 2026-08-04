@@ -1,6 +1,6 @@
 <md-content class="md-padding" layout="column" style="background: #f4f7f6; min-height: 100vh;">
-    <!-- â”€â”€ Header Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-    <div ng-if="!vm.showApplyForm" layout="row" layout-align="space-between center" style="background: linear-gradient(135deg, #1b365d, #0077b6); color: white; padding: 1.2rem 2rem; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <!-- ── Header Banner ────────────────────────────────────────────────── -->
+    <div ng-if="!vm.showApplyForm && !vm.showLcs" layout="row" layout-align="space-between center" style="background: linear-gradient(135deg, #1b365d, #0077b6); color: white; padding: 1.2rem 2rem; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
         <div>
             <h1 class="md-display-1" style="margin: 0; font-weight: 700; letter-spacing: -0.5px;">Trade Finance Operations</h1>
             <p style="margin: 5px 0 0; opacity: 0.85;">Production-grade Letter of Credit & eBL Workflow</p>
@@ -9,92 +9,132 @@
             <span style="background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 50px; font-weight: 600; font-size: 13px; text-transform: uppercase; border: 1.5px solid rgba(255,255,255,0.4);">
                 <i class="fa fa-user" style="margin-right: 6px;"></i> {{vm.roleName}}
             </span>
-            <md-button ng-if="vm.isSeller" ng-click="vm.sellerLogout()" class="md-raised md-warn" style="margin-left: 15px; border-radius: 20px;">
-                Logout
-            </md-button>
+
         </div>
     </div>
 
-    <!-- â”€â”€ KPI Summary Cards â”€â”€ -->
-    <div ng-if="!vm.showApplyForm" layout="row" layout-xs="column" layout-align="space-between center" style="margin-bottom: 20px; gap: 15px; width: 100%;">
-        <div flex style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-left: 4px solid #1b365d; display: flex; flex-direction: column;">
-            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Total LCs</span>
-            <strong style="font-size: 24px; color: #1e293b; margin-top: 5px;">{{vm.totalCount || 0}}</strong>
+    <!-- ── KPI Summary Cards ── -->
+    <div ng-if="!vm.showApplyForm && !vm.showLcs" layout="row" layout-xs="column" layout-align="space-between center" style="margin-bottom: 25px; gap: 20px; width: 100%;">
+        <div flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #1b365d; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-style="hover1 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-pie-chart" style="font-size: 28px; color: #1b365d; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Total LCs</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.totalCount || 0}}</strong>
         </div>
-        <div flex style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-left: 4px solid #f76707; display: flex; flex-direction: column;">
-            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Pending Approval</span>
-            <strong style="font-size: 24px; color: #1e293b; margin-top: 5px;">{{vm.pendingApprovalCount || 0}}</strong>
+        
+        <div ng-if="!vm.isSeller" flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #f76707; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-style="hover2 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-clock-o" style="font-size: 28px; color: #f76707; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Pending Approval</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.pendingApprovalCount || 0}}</strong>
         </div>
-        <div flex style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-left: 4px solid #228be6; display: flex; flex-direction: column;">
-            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Active / Issued</span>
-            <strong style="font-size: 24px; color: #1e293b; margin-top: 5px;">{{vm.activeCount || 0}}</strong>
+        
+        <div flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #228be6; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-style="hover3 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-rocket" style="font-size: 28px; color: #228be6; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Active / Issued</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.activeCount || 0}}</strong>
         </div>
-        <div flex style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-left: 4px solid #ae3ec9; display: flex; flex-direction: column;">
-            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Awaiting Audit</span>
-            <strong style="font-size: 24px; color: #1e293b; margin-top: 5px;">{{vm.pendingAuditCount || 0}}</strong>
+        
+        <div ng-if="!vm.isSeller" flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #ae3ec9; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-style="hover4 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-shield" style="font-size: 28px; color: #ae3ec9; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Awaiting Audit</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.pendingAuditCount || 0}}</strong>
         </div>
-        <div flex style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border-left: 4px solid #2b8a3e; display: flex; flex-direction: column;">
-            <span style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Completed / Settled</span>
-            <strong style="font-size: 24px; color: #1e293b; margin-top: 5px;">{{vm.settledCount || 0}}</strong>
+        
+        <div flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #2b8a3e; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-style="hover5 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-check-circle" style="font-size: 28px; color: #2b8a3e; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Settled / Paid</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.settledCount || 0}}</strong>
+        </div>
+
+        <div ng-if="!vm.isSeller" flex style="background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eef2f3; border-top: 4px solid #ef4444; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s;" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-style="hover6 && {'transform': 'translateY(-4px)', 'box-shadow': '0 12px 25px rgba(0,0,0,0.08)'}">
+            <i class="fa fa-times-circle" style="font-size: 28px; color: #ef4444; margin-bottom: 12px; opacity: 0.85;"></i>
+            <span style="font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Rejected</span>
+            <strong style="font-size: 38px; color: #1e293b; margin-top: 5px; font-weight: 800;">{{vm.rejectedCount || 0}}</strong>
         </div>
     </div>
 
-    <!-- â”€â”€ Decoupled Dashboards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- ── Decoupled Dashboards ──────────────────────────────────────── -->
     <div layout="row" layout-xs="column" gap="20" style="margin-top: 10px;">
         
         <!-- ================================================================= -->
-        <!-- ðŸ‘¤ ROLE: BUYER (IMPORTER) VIEW                                    -->
+        <!-- 👤 ROLE: BUYER (IMPORTER) VIEW                                    -->
         <!-- ================================================================= -->
         <div ng-if="vm.isBuyer" flex layout="row" layout-xs="column" style="width: 100%;">
-            <!-- Left Panel: My Applications -->
-            <div ng-if="!vm.showApplyForm" flex="55" layout="column" style="margin-right: 15px;">
-                <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
-                    <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
-                        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-                            <h2 style="font-weight: 700; color: #1b365d;">My LC Applications</h2>
-                            <md-button ng-click="vm.showApplyForm = true; vm.currentLc = null;" class="md-raised md-primary" style="background: #0077b6; border-radius: 20px;">
-                                + Apply for LC
-                            </md-button>
-                        </div>
-                    </md-toolbar>
-                    <md-content style="max-height: 500px;">
-                        <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
-                                    <th style="padding: 15px;">LC Number</th>
-                                    <th style="padding: 15px;">Exporter / Beneficiary</th>
-                                    <th style="padding: 15px; text-align: right;">Amount</th>
-                                    <th style="padding: 15px; text-align: center;">Status</th>
-                                    <th style="padding: 15px; text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lc in vm.lcs" style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
-                                    <td style="padding: 15px; font-weight: 600; color: #1b365d;">{{lc.lcNumber}}</td>
-                                    <td style="padding: 15px;">{{lc.sellerName}}</td>
-                                    <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <span ng-if="lc.status === 'DRAFT'" style="background: #e0e0e0; color: #666; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">DRAFT</span>
-                                        <span ng-if="lc.status === 'APPLIED'" style="background: #ffe8cc; color: #f76707; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">APPLIED</span>
-                                        <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
-                                        <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
-                                        <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
-                                        <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
-                                    </td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <md-button ng-click="vm.viewLcDetails(lc)" class="md-raised" style="font-size: 12px; min-width: 60px;">
-                                            Track
-                                        </md-button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-content>
-                </md-card>
+            <!-- Left Panel: Buyer LCs Overview -->
+            <div ng-if="!vm.showApplyForm" flex="{{vm.currentLc ? '55' : '100'}}" layout="column" ng-style="vm.currentLc ? {'margin-right': '15px'} : {'margin-right': '0'}" style="transition: all 0.3s ease;">
+                <div layout="row" layout-align="space-between center" style="margin-bottom: 15px;" ng-init="buyerTab = 'ALL'">
+                    <h2 style="font-weight: 700; color: #1b365d; margin: 0; min-width: 180px;">My LC Applications</h2>
+                    
+                    <!-- Segmented Control Tabs -->
+                    <div layout="row" style="background: #f1f5f9; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0;" hide-xs>
+                        <md-button class="{{buyerTab === 'ALL' ? 'md-raised' : ''}}" ng-click="buyerTab = 'ALL'" style="margin: 0; min-width: 50px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'ALL' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">All</md-button>
+                        <md-button class="{{buyerTab === 'APPLIED' ? 'md-raised' : ''}}" ng-click="buyerTab = 'APPLIED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'APPLIED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Applied</md-button>
+                        <md-button class="{{buyerTab === 'ISSUED' ? 'md-raised' : ''}}" ng-click="buyerTab = 'ISSUED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'ISSUED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Issued</md-button>
+                        <md-button class="{{buyerTab === 'PRESENTED' ? 'md-raised' : ''}}" ng-click="buyerTab = 'PRESENTED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'PRESENTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Presented</md-button>
+                        <md-button class="{{buyerTab === 'SETTLED' ? 'md-raised' : ''}}" ng-click="buyerTab = 'SETTLED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'SETTLED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Settled</md-button>
+                        <md-button class="{{buyerTab === 'REJECTED' ? 'md-raised' : ''}}" ng-click="buyerTab = 'REJECTED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="buyerTab === 'REJECTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Rejected</md-button>
+                    </div>
+
+                    <div layout="row" layout-align="end center">
+                        <md-input-container style="margin: 0 15px 0 0; padding-bottom: 0; width: 150px;" md-no-float hide-xs hide-sm>
+                            <md-icon class="material-icons" style="color: #64748b;">search</md-icon>
+                            <input ng-model="vm.buyerSearchText" placeholder="Filter" style="border-bottom-color: #cbd5e1;">
+                        </md-input-container>
+                        <md-button ng-click="vm.showApplyForm = true; vm.currentLc = null;" class="md-raised md-primary" style="background: #0077b6; border-radius: 20px; font-weight: 600; padding: 0 16px; margin: 0;">
+                            + Apply New LC
+                        </md-button>
+                    </div>
+                </div>
+                
+                <md-content style="background: transparent; max-height: 650px; overflow-y: auto; padding-right: 8px;">
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">LC Number</th>
+                                <th style="padding: 15px;">Parties</th>
+                                <th style="padding: 15px; text-align: right;">Amount</th>
+                                <th style="padding: 15px; text-align: center;">Status</th>
+                                <th style="padding: 15px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lc in vm.lcs | filter:vm.buyerSearchText | orderBy:'-id'" 
+                                ng-if="buyerTab === 'ALL' || lc.status === buyerTab"
+                                style="border-bottom: 1px solid #eef2f3; font-size: 14px; cursor: pointer;" 
+                                ng-class="{'selected-row': vm.currentLc.id === lc.id}"
+                                ng-click="vm.viewLcDetails(lc)">
+                                <td style="padding: 15px; font-weight: 600; color: #475569;">{{lc.lcNumber}}</td>
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 600; color: #334155;">Buyer: You</div>
+                                    <div style="font-size: 11px; color: #64748b;">Seller: {{lc.sellerName}}</div>
+                                </td>
+                                <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span ng-if="lc.status === 'DRAFT'" style="background: #e0e0e0; color: #666; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">DRAFT</span>
+                                    <span ng-if="lc.status === 'APPLIED'" style="background: #ffe8cc; color: #f76707; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">APPLIED</span>
+                                    <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
+                                    <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
+                                    <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
+                                    <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
+                                </td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <md-button class="md-raised" style="font-size: 11px; min-width: 60px; margin: 0; line-height: 24px; min-height: 24px;">
+                                        View
+                                    </md-button>
+                                </td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length > 0 && vm.getFilteredLcs(vm.buyerSearchText, buyerTab) === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No LC applications found in this category.</td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">You haven't applied for any LCs yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
             </div>
 
             <!-- Right Panel: Buyer Form or Track View -->
-            <div flex="{{vm.showApplyForm ? '100' : '45'}}" layout="column">
+            <div ng-if="vm.showApplyForm || vm.currentLc" flex="{{vm.showApplyForm ? '100' : '45'}}" layout="column">
                 <!-- Apply Form -->
                 <md-card ng-if="vm.showApplyForm" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
                     <h3 style="margin-top: 0; color: #1b365d; font-weight: 700; border-bottom: 2px solid #eef2f3; padding-bottom: 10px;">Apply for Letter of Credit</h3>
@@ -110,7 +150,12 @@
                             </md-input-container>
                             <md-input-container flex="40">
                                 <label>Currency</label>
-                                <input required ng-model="vm.newLc.currency" readonly>
+                                <md-select ng-model="vm.newLc.currency" required>
+                                    <md-option value="USD">USD</md-option>
+                                    <md-option value="EUR">EUR</md-option>
+                                    <md-option value="GBP">GBP</md-option>
+                                    <md-option value="INR">INR</md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
                         <div layout="row">
@@ -120,7 +165,7 @@
                             </md-input-container>
                             <md-input-container flex="50">
                                 <label>Lien Hold Amount</label>
-                                <input readonly value="{{(vm.newLc.amount * vm.newLc.marginPercent / 100) | currency:'$'}}">
+                                <input readonly value="{{(vm.newLc.amount * vm.newLc.marginPercent / 100) | currency:(vm.newLc.currency + ' ')}}">
                             </md-input-container>
                         </div>
                         <md-input-container class="md-block">
@@ -170,184 +215,109 @@
                             <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #2b8a3e; position: absolute; left: -17px; top: 4px;"></span>
                             <strong>Application Submitted</strong>
                         </div>
-                        <div style="margin-bottom: 10px; position: relative;">
+                        <div ng-if="vm.currentLc.status === 'REJECTED'" style="margin-bottom: 10px; position: relative;">
+                            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444; position: absolute; left: -17px; top: 4px;"></span>
+                            <strong style="color: #ef4444;">Application Rejected</strong>
+                        </div>
+                        <div ng-if="vm.currentLc.status !== 'REJECTED'" style="margin-bottom: 10px; position: relative;">
                             <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; position: absolute; left: -17px; top: 4px;" ng-style="{'background': (vm.currentLc.status !== 'DRAFT' && vm.currentLc.status !== 'APPLIED' && vm.currentLc.status !== 'REJECTED') ? '#2b8a3e' : '#ced4da'}"></span>
                             <strong>Approved & Issued by Bank</strong>
                         </div>
-                        <div style="margin-bottom: 10px; position: relative;">
+                        <div ng-if="vm.currentLc.status !== 'REJECTED'" style="margin-bottom: 10px; position: relative;">
                             <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; position: absolute; left: -17px; top: 4px;" ng-style="{'background': (vm.currentLc.status === 'PRESENTED' || vm.currentLc.status === 'SETTLED') ? '#2b8a3e' : '#ced4da'}"></span>
                             <strong>Shipping Documents Presented</strong>
                         </div>
-                        <div style="position: relative;">
+                        <div ng-if="vm.currentLc.status !== 'REJECTED'" style="position: relative;">
                             <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; position: absolute; left: -17px; top: 4px;" ng-style="{'background': (vm.currentLc.status === 'SETTLED') ? '#2b8a3e' : '#ced4da'}"></span>
                             <strong>Payment Settled & Closed</strong>
                         </div>
                     </div>
                 </md-card>
 
-                <!-- Default Buyer Overview: Account Balances & Transaction Graph -->
-                <div ng-if="!vm.showApplyForm && !vm.currentLc" layout="column">
-                    <!-- Core Accounts Card -->
-                    <md-card ng-if="false" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin: 0 0 20px 0; border: 1px solid #eef2f3;">
-                        <h3 style="margin-top: 0; color: #1b365d; font-weight: 700; border-bottom: 2px solid #eef2f3; padding-bottom: 10px;">🏦 Fineract Account Details</h3>
-                        <div ng-if="vm.tradeCapacity.loading" layout="row" layout-align="center center" style="padding: 20px 0;">
-                            <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                        </div>
-                        <div ng-if="!vm.tradeCapacity.loading">
-                            <!-- Savings Accounts -->
-                            <div style="margin-bottom: 15px;">
-                                <h4 style="margin: 0 0 10px; color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Savings / Deposit Accounts</h4>
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 8px;" ng-repeat="acct in vm.savingsAccountsList">
-                                    <div layout="row" layout-align="space-between center">
-                                        <div>
-                                            <strong style="color: #1e293b; font-size: 15px;">{{acct.accountNo}}</strong>
-                                            <div style="color: #64748b; font-size: 12px; margin-top: 2px;">{{acct.productName}} ({{acct.accountType.value || 'Savings'}})</div>
-                                        </div>
-                                        <span style="font-size: 16px; font-weight: 700; color: #2b8a3e;">{{acct.accountBalance | currency:(acct.currency.code || 'USD')}}</span>
-                                    </div>
-                                </div>
-                                <div ng-if="!vm.savingsAccountsList.length" style="color: #94a3b8; font-size: 13px; font-style: italic; padding: 5px;">No active savings accounts found.</div>
-                            </div>
-                            
-                            <!-- Loan Accounts -->
-                            <div>
-                                <h4 style="margin: 0 0 10px; color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Financing & Loan Accounts</h4>
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 8px;" ng-repeat="acct in vm.loanAccountsList">
-                                    <div layout="row" layout-align="space-between center">
-                                        <div>
-                                            <strong style="color: #1e293b; font-size: 15px;">{{acct.accountNo}}</strong>
-                                            <div style="color: #64748b; font-size: 12px; margin-top: 2px;">{{acct.productName}} ({{acct.loanType.value || 'Loan'}})</div>
-                                        </div>
-                                        <span style="font-size: 16px; font-weight: 700; color: #f03e3e;">{{acct.loanBalance | currency:(acct.currency.code || 'USD')}}</span>
-                                    </div>
-                                </div>
-                                <div ng-if="!vm.loanAccountsList.length" style="color: #94a3b8; font-size: 13px; font-style: italic; padding: 5px;">No active loan accounts found.</div>
-                            </div>
-                        </div>
-                    </md-card>
 
-                    <!-- Trade Volume Graph (SVG-based Premium Bar Chart) -->
-                    <md-card style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin: 0; border: 1px solid #eef2f3;">
-                        <h3 style="margin-top: 0; color: #1b365d; font-weight: 700; border-bottom: 2px solid #eef2f3; padding-bottom: 10px;"><i class="fa fa-bar-chart" style="margin-right: 6px;"></i> Trade Volume History (Last 6 Months)</h3>
-                        <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 15px;">
-                            <svg width="100%" height="200" viewBox="0 0 400 200" style="background: #ffffff; overflow: visible;">
-                                <!-- Grid Lines -->
-                                <line x1="40" y1="30" x2="380" y2="30" stroke="#f1f5f9" stroke-width="1" />
-                                <line x1="40" y1="70" x2="380" y2="70" stroke="#f1f5f9" stroke-width="1" />
-                                <line x1="40" y1="110" x2="380" y2="110" stroke="#f1f5f9" stroke-width="1" />
-                                <line x1="40" y1="150" x2="380" y2="150" stroke="#cbd5e1" stroke-width="1.5" />
-                                
-                                <!-- Y Axis Labels -->
-                                <text x="32" y="34" font-size="9" fill="#94a3b8" text-anchor="end">$150k</text>
-                                <text x="32" y="74" font-size="9" fill="#94a3b8" text-anchor="end">$100k</text>
-                                <text x="32" y="114" font-size="9" fill="#94a3b8" text-anchor="end">$50k</text>
-                                <text x="32" y="154" font-size="9" fill="#94a3b8" text-anchor="end">$0</text>
-                                
-                                <!-- Bars (Heights derived from dynamic trade volume or mock historical data) -->
-                                <!-- Bar 1: Dec -->
-                                <rect x="65" y="110" width="30" height="40" rx="3" fill="url(#barGradBlue)" />
-                                <text x="80" y="170" font-size="10" fill="#64748b" text-anchor="middle">Dec</text>
-                                <text x="80" y="102" font-size="9" fill="#1e293b" font-weight="600" text-anchor="middle">$50k</text>
-
-                                <!-- Bar 2: Jan -->
-                                <rect x="120" y="70" width="30" height="80" rx="3" fill="url(#barGradBlue)" />
-                                <text x="135" y="170" font-size="10" fill="#64748b" text-anchor="middle">Jan</text>
-                                <text x="135" y="62" font-size="9" fill="#1e293b" font-weight="600" text-anchor="middle">$100k</text>
-
-                                <!-- Bar 3: Feb -->
-                                <rect x="175" y="90" width="30" height="60" rx="3" fill="url(#barGradBlue)" />
-                                <text x="190" y="170" font-size="10" fill="#64748b" text-anchor="middle">Feb</text>
-                                <text x="190" y="82" font-size="9" fill="#1e293b" font-weight="600" text-anchor="middle">$75k</text>
-
-                                <!-- Bar 4: Mar -->
-                                <rect x="230" y="50" width="30" height="100" rx="3" fill="url(#barGradBlue)" />
-                                <text x="245" y="170" font-size="10" fill="#64748b" text-anchor="middle">Mar</text>
-                                <text x="245" y="42" font-size="9" fill="#1e293b" font-weight="600" text-anchor="middle">$125k</text>
-
-                                <!-- Bar 5: Apr -->
-                                <rect x="285" y="118" width="30" height="32" rx="3" fill="url(#barGradBlue)" />
-                                <text x="300" y="170" font-size="10" fill="#64748b" text-anchor="middle">Apr</text>
-                                <text x="300" y="110" font-size="9" fill="#1e293b" font-weight="600" text-anchor="middle">$40k</text>
-
-                                <!-- Bar 6: May (Dynamic based on current LCs total amount) -->
-                                <rect x="340" ng-attr-y="{{vm.mayBarY}}" width="30" ng-attr-height="{{vm.mayBarHeight}}" rx="3" fill="url(#barGradCyan)" />
-                                <text x="355" y="170" font-size="10" fill="#64748b" text-anchor="middle">May</text>
-                                <text x="355" ng-attr-y="{{vm.mayTextY}}" font-size="9" fill="#0077b6" font-weight="600" text-anchor="middle">{{vm.mayVolumeLabel}}</text>
-
-                                <!-- Gradients definition -->
-                                <defs>
-                                    <linearGradient id="barGradBlue" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stop-color="#1b365d" />
-                                        <stop offset="100%" stop-color="#0077b6" />
-                                    </linearGradient>
-                                    <linearGradient id="barGradCyan" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stop-color="#0077b6" />
-                                        <stop offset="100%" stop-color="#90e0ef" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                    </md-card>
-                </div>
             </div>
         </div>
 
         <!-- ================================================================= -->
-        <!-- ðŸš¢ ROLE: SELLER (EXPORTER) VIEW                                   -->
+        <!-- 🚢 ROLE: SELLER (EXPORTER) VIEW                                   -->
         <!-- ================================================================= -->
         <div ng-if="vm.isSeller" flex layout="row" layout-xs="column" style="width: 100%;">
             <!-- Left Panel: LCs in My favor -->
-            <div flex="55" layout="column" style="margin-right: 15px;">
-                <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
-                    <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
-                        <div class="md-toolbar-tools">
-                            <h2 style="font-weight: 700; color: #1b365d;">LCs In My Favor</h2>
-                        </div>
-                    </md-toolbar>
-                    <md-content style="max-height: 500px;">
-                        <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
-                                    <th style="padding: 15px;">LC Number</th>
-                                    <th style="padding: 15px;">Importer / Buyer</th>
-                                    <th style="padding: 15px; text-align: right;">Amount</th>
-                                    <th style="padding: 15px; text-align: center;">Status</th>
-                                    <th style="padding: 15px; text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lc in vm.lcs" ng-if="lc.status !== 'DRAFT' && lc.status !== 'APPLIED'" style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
-                                    <td style="padding: 15px; font-weight: 600; color: #1b365d;">{{lc.lcNumber}}</td>
-                                    <td style="padding: 15px;">{{lc.buyerName}}</td>
-                                    <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
-                                        <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
-                                        <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
-                                    </td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <md-button ng-click="vm.viewLcDetails(lc)" class="md-raised" style="font-size: 12px; min-width: 60px;">
-                                            Process
-                                        </md-button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-content>
-                </md-card>
+            <div flex="{{vm.currentLc ? '55' : '100'}}" layout="column" ng-style="vm.currentLc ? {'margin-right': '15px'} : {'margin-right': '0'}" style="transition: all 0.3s ease;">
+                <div layout="row" layout-align="space-between center" style="margin-bottom: 15px;" ng-init="sellerTab = 'ALL'">
+                    <h2 style="font-weight: 700; color: #1b365d; margin: 0; min-width: 180px;">Trade Contracts (Export)</h2>
+                    
+                    <!-- Segmented Control Tabs -->
+                    <div layout="row" style="background: #f1f5f9; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0;" hide-xs hide-sm>
+                        <md-button class="{{sellerTab === 'ALL' ? 'md-raised' : ''}}" ng-click="sellerTab = 'ALL'" style="margin: 0; padding: 0 10px; min-width: auto; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="sellerTab === 'ALL' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">All</md-button>
+                        <md-button class="{{sellerTab === 'ISSUED' ? 'md-raised' : ''}}" ng-click="sellerTab = 'ISSUED'" style="margin: 0; padding: 0 10px; min-width: auto; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="sellerTab === 'ISSUED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Issued</md-button>
+                        <md-button class="{{sellerTab === 'PRESENTED' ? 'md-raised' : ''}}" ng-click="sellerTab = 'PRESENTED'" style="margin: 0; padding: 0 10px; min-width: auto; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="sellerTab === 'PRESENTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Presented</md-button>
+                        <md-button class="{{sellerTab === 'SETTLED' ? 'md-raised' : ''}}" ng-click="sellerTab = 'SETTLED'" style="margin: 0; padding: 0 10px; min-width: auto; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="sellerTab === 'SETTLED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Settled</md-button>
+                    </div>
+
+                    <md-input-container style="margin: 0 15px 0 0; padding-bottom: 0; width: 150px;" md-no-float hide-xs>
+                        <md-icon class="material-icons" style="color: #64748b;">search</md-icon>
+                        <input ng-model="vm.sellerSearchText" placeholder="Filter" style="border-bottom-color: #cbd5e1;">
+                    </md-input-container>
+                </div>
+                
+                <md-content style="background: transparent; max-height: 650px; overflow-y: auto; padding-right: 8px;">
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">LC Number</th>
+                                <th style="padding: 15px;">Parties</th>
+                                <th style="padding: 15px; text-align: right;">Amount</th>
+                                <th style="padding: 15px; text-align: center;">Status</th>
+                                <th style="padding: 15px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lc in vm.lcs | filter:vm.sellerSearchText | orderBy:'-id'" 
+                                ng-if="(lc.status !== 'DRAFT' && lc.status !== 'APPLIED' && lc.status !== 'REJECTED') && (sellerTab === 'ALL' || lc.status === sellerTab)"
+                                style="border-bottom: 1px solid #eef2f3; font-size: 14px; cursor: pointer;" 
+                                ng-class="{'selected-row': vm.currentLc.id === lc.id}"
+                                ng-click="vm.viewLcDetails(lc)">
+                                <td style="padding: 15px; font-weight: 600; color: #475569;">{{lc.lcNumber}}</td>
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 600; color: #334155;">Buyer: {{lc.buyerName}}</div>
+                                    <div style="font-size: 11px; color: #64748b;">Seller: You</div>
+                                </td>
+                                <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #1864ab; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
+                                    <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
+                                    <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
+                                    <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
+                                </td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <md-button class="md-raised" style="font-size: 11px; min-width: 60px; margin: 0; line-height: 24px; min-height: 24px;">
+                                        View
+                                    </md-button>
+                                </td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length > 0 && vm.getFilteredLcs(vm.sellerSearchText, sellerTab) === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No LCs found in this category.</td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No active LCs in your favor.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-content>
             </div>
 
             <!-- Right Panel: Seller shipping document upload & eBL -->
-            <div flex="45" layout="column">
-                <md-card ng-if="vm.currentLc" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+            <div ng-if="vm.currentLc" flex="45" layout="column">
+                <md-card style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
                     <h3 style="margin-top: 0; color: #1b365d; font-weight: 700; border-bottom: 2px solid #eef2f3; padding-bottom: 10px;">Shipment & Documents</h3>
                     
                     <!-- Upload Shipping Docs -->
-                    <div ng-if="vm.currentLc.status === 'ISSUED'" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <div ng-if="vm.currentLc.status === 'ISSUED' && vm.isSeller" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                         <h4 style="margin: 0 0 10px; color: #1b365d; font-weight: 700;">Upload Shipping Documents</h4>
                         <div layout="row" layout-align="space-between center" style="margin-bottom: 10px;">
                             <span style="font-size: 13px; color: #666;">Bill of Lading, Invoice, or packing lists</span>
-                            <md-button ng-click="vm.uploadMockDocument(vm.currentLc)" class="md-raised md-primary" style="background: #0077b6; font-size: 12px; margin: 0; min-height: 28px; line-height: 28px;">
+                            <md-button ui-sref="app.trade_seller_uploadDocs({ lcId: vm.currentLc.id })" class="md-raised md-primary" style="background: #0077b6; font-size: 12px; margin: 0; min-height: 28px; line-height: 28px;">
                                 Upload Document
                             </md-button>
                         </div>
@@ -381,62 +351,78 @@
         <!-- ================================================================= -->
         <div ng-if="vm.isStaff" flex layout="row" layout-xs="column" style="width: 100%;">
             <!-- Left Panel: All LCs Overview -->
-            <div flex="60" layout="column" style="margin-right: 15px;">
-                <md-card style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
-                    <md-toolbar class="md-table-toolbar md-default" style="background: white; color: #333; border-radius: 12px 12px 0 0; border-bottom: 1px solid #eef2f3;">
-                        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-                            <h2 style="font-weight: 700; color: #1b365d;">Active Trade Contracts Registry</h2>
-                            <md-input-container style="margin: 0; padding-bottom: 0;" md-no-float>
-                                <md-icon class="material-icons">search</md-icon>
-                                <input ng-model="vm.searchText" placeholder="Search LCs...">
-                            </md-input-container>
-                        </div>
-                    </md-toolbar>
-                    <md-content style="max-height: 500px;">
-                        <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
-                                    <th style="padding: 15px;">LC Number</th>
-                                    <th style="padding: 15px;">Buyer & Seller</th>
-                                    <th style="padding: 15px; text-align: right;">Amount</th>
-                                    <th style="padding: 15px; text-align: center;">Status</th>
-                                    <th style="padding: 15px; text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lc in vm.lcs | filter:vm.searchText" style="border-bottom: 1px solid #eef2f3; font-size: 14px;">
-                                    <td style="padding: 15px; font-weight: 600; color: #1b365d;">{{lc.lcNumber}}</td>
-                                    <td style="padding: 15px;">
-                                        <div style="font-weight: 600; color: #334155;">{{lc.buyerName}}</div>
-                                        <div style="font-size: 11px; color: #64748b;">➔ Exporter: {{lc.sellerName}}</div>
-                                    </td>
-                                    <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <span ng-if="lc.status === 'DRAFT'" style="background: #e0e0e0; color: #666; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">DRAFT</span>
-                                        <span ng-if="lc.status === 'APPLIED'" style="background: #ffe8cc; color: #f76707; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">APPLIED</span>
-                                        <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
-                                        <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
-                                        <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
-                                        <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
-                                    </td>
-                                    <td style="padding: 15px; text-align: center;">
-                                        <md-button ng-click="vm.viewLcDetails(lc)" class="md-raised" style="font-size: 11px; min-width: 60px; margin: 0; line-height: 24px; min-height: 24px;">
-                                            Inspect
-                                        </md-button>
-                                    </td>
-                                </tr>
-                                <tr ng-if="vm.lcs.length === 0">
-                                    <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No trade contracts found.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-content>
+            <div flex="{{vm.currentLc ? '60' : '100'}}" layout="column" ng-style="vm.currentLc ? {'margin-right': '15px'} : {'margin-right': '0'}" style="transition: all 0.3s ease;">
+                <div layout="row" layout-align="space-between center" style="margin-bottom: 15px;" ng-init="staffTab = 'ALL'">
+                    <h2 style="font-weight: 700; color: #1b365d; margin: 0; min-width: 250px;">Trade Contracts Registry</h2>
+                    
+                    <!-- Segmented Control Tabs -->
+                    <div layout="row" style="background: #f1f5f9; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0;" hide-xs>
+                        <md-button class="{{staffTab === 'ALL' ? 'md-raised' : ''}}" ng-click="staffTab = 'ALL'" style="margin: 0; min-width: 50px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'ALL' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">All</md-button>
+                        <md-button class="{{staffTab === 'APPLIED' ? 'md-raised' : ''}}" ng-click="staffTab = 'APPLIED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'APPLIED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Applied</md-button>
+                        <md-button class="{{staffTab === 'ISSUED' ? 'md-raised' : ''}}" ng-click="staffTab = 'ISSUED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'ISSUED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Issued</md-button>
+                        <md-button class="{{staffTab === 'PRESENTED' ? 'md-raised' : ''}}" ng-click="staffTab = 'PRESENTED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'PRESENTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Presented</md-button>
+                        <md-button class="{{staffTab === 'SETTLED' ? 'md-raised' : ''}}" ng-click="staffTab = 'SETTLED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'SETTLED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Settled</md-button>
+                        <md-button class="{{staffTab === 'REJECTED' ? 'md-raised' : ''}}" ng-click="staffTab = 'REJECTED'" style="margin: 0; min-width: 70px; min-height: 32px; line-height: 32px; font-size: 12px; font-weight: 600; border-radius: 6px; text-transform: none; box-shadow: none;" ng-style="staffTab === 'REJECTED' ? {'background': 'white', 'color': '#1e293b', 'box-shadow': '0 2px 5px rgba(0,0,0,0.05)'} : {'color': '#64748b'}">Rejected</md-button>
+                    </div>
+
+                    <md-input-container style="margin: 0; padding-bottom: 0; width: 200px;" md-no-float>
+                        <md-icon class="material-icons" style="color: #64748b;">search</md-icon>
+                        <input ng-model="vm.searchText" placeholder="Filter" style="border-bottom-color: #cbd5e1;">
+                    </md-input-container>
+                </div>
+                <md-content style="background: transparent; max-height: 650px; overflow-y: auto; padding-right: 8px;">
+                    <table class="md-data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #eef2f3; background: #fcfdfe; color: #666; font-size: 13px; font-weight: 600;">
+                                <th style="padding: 15px;">LC Number</th>
+                                <th style="padding: 15px;">Parties</th>
+                                <th style="padding: 15px; text-align: right;">Amount</th>
+                                <th style="padding: 15px; text-align: center;">Status</th>
+                                <th style="padding: 15px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lc in vm.lcs | filter:vm.searchText | orderBy:'-id'" 
+                                ng-if="staffTab === 'ALL' || lc.status === staffTab"
+                                style="border-bottom: 1px solid #eef2f3; font-size: 14px; cursor: pointer;" 
+                                ng-class="{'selected-row': vm.currentLc.id === lc.id}"
+                                ng-click="vm.viewLcDetails(lc)">
+                                <td style="padding: 15px; font-weight: 600; color: #475569;">{{lc.lcNumber}}</td>
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 600; color: #334155;">Buyer: {{lc.buyerName}}</div>
+                                    <div style="font-size: 11px; color: #64748b;">Seller: {{lc.sellerName}}</div>
+                                </td>
+                                <td style="padding: 15px; text-align: right; font-weight: 600;">{{lc.amount | currency:lc.currency}}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <span ng-if="lc.status === 'DRAFT'" style="background: #e0e0e0; color: #666; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">DRAFT</span>
+                                    <span ng-if="lc.status === 'APPLIED'" style="background: #ffe8cc; color: #f76707; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">APPLIED</span>
+                                    <span ng-if="lc.status === 'ISSUED'" style="background: #d0ebff; color: #228be6; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">ISSUED</span>
+                                    <span ng-if="lc.status === 'PRESENTED'" style="background: #eebefa; color: #ae3ec9; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">PRESENTED</span>
+                                    <span ng-if="lc.status === 'SETTLED'" style="background: #d3f9d8; color: #2b8a3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">SETTLED</span>
+                                    <span ng-if="lc.status === 'REJECTED'" style="background: #ffe3e3; color: #f03e3e; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">REJECTED</span>
+                                </td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <md-button class="md-raised" style="font-size: 11px; min-width: 60px; margin: 0; line-height: 24px; min-height: 24px;">
+                                        View
+                                    </md-button>
+                                </td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length > 0 && vm.getFilteredLcs(vm.searchText, staffTab) === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No trade contracts found in this category.</td>
+                            </tr>
+                            <tr ng-if="vm.lcs.length === 0">
+                                <td colspan="5" style="padding: 30px; text-align: center; color: #888;">No trade contracts exist yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </md-content>
             </div>
  
             <!-- Right Panel: Info Inspector / Quick Actions Dashboard -->
-            <div flex="40" layout="column">
+            <div ng-if="vm.currentLc" flex="40" layout="column">
                 <!-- Inspection Details -->
-                <md-card ng-if="vm.currentLc" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
+                <md-card style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3;">
                     <div layout="row" layout-align="space-between center" style="border-bottom: 2px solid #eef2f3; padding-bottom: 10px; margin-bottom: 15px;">
                         <h3 style="margin: 0; color: #1b365d; font-weight: 700;">Contract Overview</h3>
                         <md-button ng-click="vm.currentLc = null" style="min-width: 30px; margin: 0; padding: 0; line-height: 24px; color: #f03e3e; text-transform: none; font-weight: 600;">❌ Close</md-button>
@@ -455,34 +441,12 @@
                     </div>
                     
                     <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
-                        <md-button ng-if="vm.currentLc.status === 'APPLIED'" ui-sref="app.tradepending" class="md-raised md-primary" style="background: #1b365d; margin: 0;">
+                        <md-button ng-if="vm.currentLc.status === 'APPLIED' && vm.isStaff" ui-sref="app.tradepending" class="md-raised md-primary" style="background: #1b365d; margin: 0;">
                             Go to Pending Approval Queue
                         </md-button>
-                        <md-button ng-if="vm.currentLc.status === 'PRESENTED'" ui-sref="app.tradesettle" class="md-raised md-primary" style="background: #2b8a3e; margin: 0; color: white;">
+                        <md-button ng-if="vm.currentLc.status === 'PRESENTED' && vm.isStaff" ui-sref="app.tradesettle" class="md-raised md-primary" style="background: #2b8a3e; margin: 0; color: white;">
                             Go to Settlement Audit Desk
                         </md-button>
-                    </div>
-                </md-card>
-                
-                <!-- Quick Tasks Summary Card -->
-                <md-card ng-if="!vm.currentLc" style="border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eef2f3; margin: 0;">
-                    <h3 style="margin-top: 0; color: #1b365d; font-weight: 700; border-bottom: 2px solid #eef2f3; padding-bottom: 10px;">📋 Action Queue Summary</h3>
-                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-                        <div layout="row" layout-align="space-between center" style="background: #fffbeb; border: 1px solid #fef3c7; padding: 12px; border-radius: 8px;">
-                            <div>
-                                <strong style="color: #b45309; font-size: 14px;">{{vm.pendingApprovalCount || 0}} Awaiting Approval</strong>
-                                <div style="font-size: 11px; color: #d97706; margin-top: 2px;">Review applications and lock collateral.</div>
-                            </div>
-                            <md-button ui-sref="app.tradepending" class="md-raised md-warn" style="margin: 0; font-size: 11px; min-height: 28px; line-height: 28px;">Go</md-button>
-                        </div>
-                        
-                        <div layout="row" layout-align="space-between center" style="background: #f0fdf4; border: 1px solid #dcfce7; padding: 12px; border-radius: 8px;">
-                            <div>
-                                <strong style="color: #15803d; font-size: 14px;">{{vm.pendingAuditCount || 0}} Awaiting Audit</strong>
-                                <div style="font-size: 11px; color: #16a34a; margin-top: 2px;">Audit shipping docs and disburse payments.</div>
-                            </div>
-                            <md-button ui-sref="app.tradesettle" class="md-raised md-primary" style="margin: 0; font-size: 11px; min-height: 28px; line-height: 28px; background: #2b8a3e; color: white;">Go</md-button>
-                        </div>
                     </div>
                 </md-card>
             </div>

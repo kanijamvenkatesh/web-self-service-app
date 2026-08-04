@@ -23,11 +23,43 @@
         vm.getTransferTemplate = getTransferTemplate();
         vm.clearForm = clearForm;
         vm.submit = submit;
+        vm.isTransferInvalid = isTransferInvalid;
 
         // FORMAT THE DATE FOR THE DATEPICKER
         $mdDateLocale.formatDate = function (date) {
             return $filter('date')(date, "dd-MM-yyyy");
         };
+
+        function isTransferInvalid() {
+            if (vm.transferFormData.fromAccount) {
+                var fromType = vm.transferFormData.fromAccount.accountType ? vm.transferFormData.fromAccount.accountType.value : '';
+                if (fromType === 'Fixed Deposit' || fromType === 'Recurring Deposit') {
+                    return 'invalid_source';
+                }
+            }
+
+            if (vm.transferFormData.toAccount) {
+                var toType = vm.transferFormData.toAccount.accountType ? vm.transferFormData.toAccount.accountType.value : '';
+                if (toType === 'Fixed Deposit' || toType === 'Recurring Deposit') {
+                    return 'invalid_destination';
+                }
+            }
+
+            if (!vm.transferFormData.fromAccount || !vm.transferFormData.toAccount) return false;
+            
+            if (vm.transferFormData.fromAccount.accountId === vm.transferFormData.toAccount.accountId) {
+                return 'same_account';
+            }
+            
+            var fromCurrency = vm.transferFormData.fromAccount.currencyCode || (vm.transferFormData.fromAccount.currency ? vm.transferFormData.fromAccount.currency.code : null);
+            var toCurrency = vm.transferFormData.toAccount.currencyCode || (vm.transferFormData.toAccount.currency ? vm.transferFormData.toAccount.currency.code : null);
+            
+            if (fromCurrency && toCurrency && fromCurrency !== toCurrency) {
+                return 'cross_currency';
+            }
+            
+            return false;
+        }
 
         function getTransferFormDataObj() {
             return {
@@ -37,27 +69,36 @@
 
         function getTransferTemplate() {
             AccountTransferService.getTransferTemplate().get(function (data) {
-                vm.fromAccountOptions = data.fromAccountOptions;
-                vm.toAccountOptions = data.toAccountOptions;
+                vm.fromAccountOptions = data.fromAccountOptions || [];
+                vm.toAccountOptions = data.toAccountOptions || [];
 
                 if($stateParams.toAccount) {
-                    var i = 0;
-                    for(i=0; i < vm.toAccountOptions.length; i++) {
-                        if(vm.toAccountOptions[i].accountNo == $stateParams.toAccount.accountNo) {
+                    var foundTo = false;
+                    for(var i=0; i < vm.toAccountOptions.length; i++) {
+                        if(vm.toAccountOptions[i].accountNo == $stateParams.toAccount.accountNo || vm.toAccountOptions[i].accountId == $stateParams.toAccount.id) {
                             vm.transferFormData.toAccount = vm.toAccountOptions[i];
                             vm.disabledToAccount = true;
+                            foundTo = true;
                             break;
                         }
+                    }
+                    if (!foundTo) {
+                        $mdToast.show($mdToast.simple().textContent('Transfers to this specific account type are not supported by the backend.').position('top right').hideDelay(4000));
                     }
                 }
 
                 if($stateParams.fromAccount) {
-                    for(i=0; i < vm.fromAccountOptions.length; i++) {
-                        if(vm.fromAccountOptions[i].accountNo == $stateParams.fromAccount.accountNo) {
-                            vm.transferFormData.fromAccount = vm.fromAccountOptions[i];
+                    var foundFrom = false;
+                    for(var j=0; j < vm.fromAccountOptions.length; j++) {
+                        if(vm.fromAccountOptions[j].accountNo == $stateParams.fromAccount.accountNo || vm.fromAccountOptions[j].accountId == $stateParams.fromAccount.id) {
+                            vm.transferFormData.fromAccount = vm.fromAccountOptions[j];
                             vm.disabledfromAccount = true;
+                            foundFrom = true;
                             break;
                         }
+                    }
+                    if (!foundFrom) {
+                        $mdToast.show($mdToast.simple().textContent('Transfers from this specific account type are not supported by the backend.').position('top right').hideDelay(4000));
                     }
                 }
 
@@ -66,8 +107,12 @@
 
         function clearForm() {
             vm.transferFormData = getTransferFormDataObj();
-            $scope.transferForm.$setPristine();
-            $scope.transferForm.$setUntouched();
+            if ($scope.transferForm) {
+                $scope.transferForm.$setPristine();
+                $scope.transferForm.$setUntouched();
+            }
+            vm.disabledToAccount = false;
+            vm.disabledfromAccount = false;
         }
 
         function submit(ev) {

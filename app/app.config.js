@@ -3,7 +3,7 @@
 
     angular.module('selfService')
         .config(function ($mdThemingProvider, $mdIconProvider, $httpProvider,
-            $translateProvider, TENANT_IDENTIFIER) {
+            $translateProvider, $locationProvider, TENANT_IDENTIFIER) {
 
             $mdThemingProvider
                 .theme('default')
@@ -61,6 +61,8 @@
                 .useSanitizeValueStrategy('escape')
                 .preferredLanguage(defaultLocale)
                 .fallbackLanguage(defaultLocale);
+
+            $locationProvider.hashPrefix('');
         })
 
         .run(['$rootScope', '$location', 'AuthService',
@@ -73,7 +75,7 @@
                 // Pages that don't need a fully authenticated session
                 var publicPages = ['/login', '/forgot', '/register', '/verify', '/twofactor'];
 
-                var isPublicPage  = $.inArray(path, publicPages) !== -1;
+                var isPublicPage  = publicPages.indexOf(path) !== -1;
                 var loggedIn      = AuthService.isAuthenticated();
                 var twoFAPending  = AuthService.isTwoFactorPending();
 
@@ -93,6 +95,7 @@
                     // Public page — redirect away if already fully authenticated
                     if (loggedIn && !twoFAPending && path !== '/twofactor') {
                         event.preventDefault();
+                        $location.path('/'); // redirect to dashboard
                     }
                 }
             });
